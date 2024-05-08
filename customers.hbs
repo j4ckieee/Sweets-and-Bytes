@@ -1,0 +1,73 @@
+<!-- customers.hbs -->
+<h2>Customer Information</h2>
+<p>Click on the delete button to remove a customer from the database.</p>
+
+{{!-- Create a table --}}
+<table id="customer-table">
+    {{!-- Header section --}}
+    <thead>
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>delete</th>
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+        {{#each data}}
+        <tr>
+            <td>{{this.customer_id}}</td>
+            <td>{{this.first_name}}</td>
+            <td>{{this.last_name}}</td>
+            <td>{{this.email}}</td>
+            <td>{{this.phone_number}}</td>
+            <td><button onclick="deleteCustomer({{this.id}})">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<script src="./js/delete_customer.js"></script>
+
+<!-- /views/index.hbs -->
+
+{{!-- Form to add a record to the table  --}}
+<h2>Add New Customer Data:</h2>
+<p>To add a new customer, please enter their information below and click 'Submit'!</p>
+<form id="add-customer-form-ajax">
+    <label for="input-first_name">First Name: </label>
+    <input type="text" name="input-first_name" id="input-first_name">
+    
+    <label for="input-last_name">Last Name: </label>
+    <input type="text" name="input-last_name" id="input-last_name">
+
+    <label for="input-email">Email: </label>
+    <input type="text" name="input-email" id="input-email">
+
+    <label for="input-phone_number">Phone Number: </label>
+    <input type="text" name="input-phone_number" id="input-phone_number">
+
+    <input type="submit">
+</form>
+
+{{!-- <h2>Search Using an HTML Form</h2>
+<p>Search by last name using the field below. Partial last names are OK too!</p>
+<form id="search-person-html" method='GET' action='/'>
+    <label for="input-last_name">Search by Last Name: </label>
+    <input type="text" name="last_name" id="input-last_name-html-search">
+    
+    <input type="submit">
+    <a href='/'><button>Reset</button></a>
+</form> --}}
+
+
+
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+<script src="./js/add_customer.js"></script>
