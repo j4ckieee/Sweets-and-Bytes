@@ -1,0 +1,73 @@
+<!-- Products.hbs -->
+<body>
+
+{{!-- Create a table --}}
+<h2>Potential Page Plans:</h2>
+<p>
+    <ul>
+        <li>Create product</li>
+        <li>Update product</li>
+        <li>Delete product</li>
+        
+    </ul>
+</p>
+
+<h2>Products</h2>
+<p>Displays all products availible in the bakery and it's current inventory</p>
+<table id="products-table">
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            <th>Product ID</th>
+            <th>Product</th>
+            <th>Description</th>
+            <th>Price per Item</th>
+            <th>Inventory</th>
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+        {{#each data}}
+        <tr>
+            <td>{{this.product_id}}</td>
+            <td>{{this.product_name}}</td>
+            <td>{{this.product_description}}</td>
+            <td>{{this.product_price}}</td>
+            <td>{{this.product_inventory}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<!-- /views/index.hbs -->
+
+{{!-- Form to add a record to the table  --}}
+<h2>Adding New Product</h2>
+<p>To add a new product, please fill in the form below and click 'Submit'.</p>
+<form id="add-product-form" method="POST" action="/add-product-form">
+    <label for="input-product_name">Product Name: </label>
+    <input type="text" name="input-product_name" id="input-product_name">
+    
+    <label for="input-product_description">Product Description:</label>
+    <input type="text" name="input-product_description" id="input-product_description">
+
+    <label for="input-product_price">Product Price</label>
+    <input type="number" name="input-product_price" id="input-product_price">
+
+    <label for="input-product_inventory">Product Inventory</label>
+    <input type="number" name="input-product_inventory" id="input-product_inventory">
+
+    <input type="submit">
+</form>
+
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+<script src="./js/add_product.js"></script>
+
+</body>
