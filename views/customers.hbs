@@ -1,0 +1,75 @@
+<!-- customers.hbs -->
+<body>
+
+{{!-- Create a table --}}
+<h2>Potential Page Plans:</h2>
+<p>
+    <ul>
+        <li>Display number of orders active for each customer?</li>
+        <li>Create customer</li>
+        <li>Update customer</li>
+        <li>Delete customer</li>
+    </ul>
+</p>
+
+<h2>Customer Information</h2>
+<p>Displays all customer information.</p>
+<table id="customer-table">
+    {{!-- Header section --}}
+    <thead>
+        {{!-- <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+        </tr> --}}
+
+        <tr>
+            <th>Customer ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+        {{#each data}}
+        <tr>
+            <td>{{this.customer_id}}</td>
+            <td>{{this.first_name}}</td>
+            <td>{{this.last_name}}</td>
+            <td>{{this.email}}</td>
+            <td>{{this.phone_number}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<!-- /views/index.hbs -->
+
+{{!-- Form to add a record to the table  --}}
+<h2>Add New Customer</h2>
+<p>To add a new customer, please enter their information in the form below and click 'Submit'.</p>
+<form id="add-customer-form" method="POST" action="/add-customer-form">
+    <label for="input-first_name">First Name:</label>
+    <input type="text" name="input-first_name" id="input-first_name">
+    
+    <label for="input-last_name">Last Name:</label>
+    <input type="text" name="input-last_name" id="input-last_name">
+
+    <label for="input-email">Email:</label>
+    <input type="text" name="input-email" id="input-email">
+
+    <label for="input-age">Phone Number: </label>
+    <input type="text" name="input-phone_number" id="input-phone_number">
+
+    <input type="submit">
+</form>
+
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+<script src="./js/add_customer.js"></script>
