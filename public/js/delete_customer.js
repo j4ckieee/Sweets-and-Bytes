@@ -1,38 +1,7 @@
-// // PART A - USING jQuery
-
-// function deleteCustomer(customer_id) {
-//     let link = '/delete-customer-ajax/';
-//     let data = {
-//       id: customer_id
-//     };
-  
-//     $.ajax({
-//       url: link,
-//       type: 'DELETE',
-//       data: JSON.stringify(data),
-//       contentType: "application/json; charset=utf-8",
-//       success: function(result) {
-//         deleteRow(customer_id);
-//       }
-//     });
-//   }
-  
-//   function deleteRow(customer_id){
-//       let table = document.getElementById("customer-table");
-//       for (let i = 0, row; row = table.rows[i]; i++) {
-//          if (table.rows[i].getAttribute("data-value") == customer_id) {
-//               table.deleteRow(i);
-//               break;
-//          }
-//       }
-//   }
-
-  // PART B
-
-  function deleteCustomer(customer_id) {
+function deleteCustomer(customer_id) {
     // Put our data we want to send in a javascript object
     let data = {
-        id: customer_id
+        customer_id: customer_id
     };
 
     // Setup our AJAX request
@@ -44,8 +13,9 @@
     xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 204) {
 
-            // Add the new data to the table
-            deleteRow(customer_id);
+            // Add the new data to the table 
+            // PERSON ID IS WRONG BUT IT STOPS WORKING IF I CHANGE IT???????
+            deleteRow(personID);
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 204) {
@@ -57,15 +27,27 @@
 }
 
 
+// Deletes row from data table if customer is removed
 function deleteRow(customer_id){
 
     let table = document.getElementById("customer-table");
     for (let i = 0, row; row = table.rows[i]; i++) {
-       //iterate through rows
-       //rows would be accessed using the "row" variable assigned in the for loop
        if (table.rows[i].getAttribute("data-value") == customer_id) {
             table.deleteRow(i);
             break;
        }
     }
 }
+
+
+// Deletes names from drop down menu if customer is removed from database
+function deleteDropDownMenu(customer_id){
+    let selectMenu = document.getElementById("mySelect");
+    for (let i = 0; i < selectMenu.length; i++){
+      if (Number(selectMenu.options[i].value) === Number(customer_id)){
+        selectMenu[i].remove();
+        break;
+      } 
+  
+    }
+  }

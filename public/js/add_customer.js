@@ -1,3 +1,4 @@
+
 // Get the objects we need to modify
 let addCustomerForm = document.getElementById('add-customer-form-ajax');
 
@@ -78,6 +79,8 @@ addRowToTable = (data) => {
     let emailCell = document.createElement("TD");
     let phoneNumberCell = document.createElement("TD");
 
+    let deleteCell = document.createElement("TD");
+
     // Fill the cells with correct data
     //idCell.innerText = newRow.id;
     firstNameCell.innerText = newRow.first_name;
@@ -85,13 +88,33 @@ addRowToTable = (data) => {
     emailCell.innerText = newRow.email;
     phoneNumberCell.innerText = newRow.phone_number;
 
+    deleteCell = document.createElement("button");
+    deleteCell.innerHTML = "Delete";
+    deleteCell.onclick = function(){
+        deleteCustomer(newRow.customer_id);
+    };
+
     // Add the cells to the row 
     //row.appendChild(idCell);
     row.appendChild(firstNameCell);
     row.appendChild(lastNameCell);
     row.appendChild(emailCell);
     row.appendChild(phoneNumberCell);
+    row.appendChild(deleteCell);
+
+    // Add a custom row attribute so the deleteRow function can find a newly added row
+    row.setAttribute('data-value', newRow.customer_id);
+
     
     // Add the row to the table
     currentTable.appendChild(row);
+
+    // Find drop down menu, create a new option, fill data in the option (full name, id),
+    // then append option to drop down menu so newly created rows via ajax will be found in it without needing a refresh
+    let selectMenu = document.getElementById("mySelect");
+    let option = document.createElement("option");
+    option.text = newRow.first_name + ' ' +  newRow.last_name;
+    option.value = newRow.customer_id;
+    selectMenu.add(option);
+    // End of new step 8 code.
 }

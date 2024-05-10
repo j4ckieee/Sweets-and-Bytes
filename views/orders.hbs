@@ -1,44 +1,175 @@
 <!-- orders.hbs -->
 <body>
 
-<h2>Potential Page Plans:</h2>
-<p>
-    <ul>
-        <li>Display customer name in place of customer ID</li>
-        <li>Change order date to correct format</li>
-        <li>Order pickup date?</li>
-        <li>Create order</li>
-        <li>Update order</li>
-        <li>Delete order</li>
-    </ul>
-</p>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+<!--                   Orders Section                       -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
 
-{{!-- Create a table --}}
-<h2>Orders Information</h2>
-<p>Displays all orders.</p>
-<table id="orders-table">
+
+
+{{! ========== Display Order Data ===========}}
+
+<h2>Orders</h2>
+<p>Displays all bakery orders.</p>
+
+{{!---- Create a table ----}}
+<table id="order-table">
     {{!-- Header section --}}
-    <thead>
+    <thead> 
         <tr>
             <th>Order ID</th>
             <th>Customer ID</th>
             <th>Order Date</th>
-            <th>Order Total</th>
+            <th>Subtotal</th>
+            <th>Delete</th>
         </tr>
     </thead>
     
-    {{!-- Body section --}}
+    {{!-- Body section - prints row data --}}
     <tbody>
-        {{!-- For each row, print the order_id, customer_id, order_date, and total_price in order--}}
         {{#each data}}
-        <tr>
+        <tr data-value={{this.order_id}}>
             <td>{{this.order_id}}</td>
             <td>{{this.customer_id}}</td>
             <td>{{this.order_date}}</td>
             <td>{{this.total_price}}</td>
+            <td><button onclick="deleteOrder({{this.order_id}})">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<script src="./js/delete_order.js"></script> {{! -- Delete not working yet -- }}
+
+{{! ========== Add Order Form - Method 2 ===========}}
+{{! ======= Not working - just for draft submission ========}}
+
+<h2>Add an Order</h2>
+<p>To add a new order, please fill in the form below and click 'Submit'!</p>
+
+{{!-- Form to add a record to the table  --}}
+<form id="add-order-form" method="POST" action="/add-order-form">
+    <label for="input-customer_id">Customer ID:</label>
+    <select name="input-customer_id" id="mySelect">
+        <option value="test">Select a Customer</option>
+        {{#each data}}
+        <option value="{{this.customer_id}}">{{this.customer_id}}</option>
+        {{/each}}
+    </select>
+    
+    <label for="input-order_date">Order Date:</label>
+    <input type="date" name="input-order_date" id="input-order_date">
+
+    <input type="submit">
+</form>
+<script src="./js/orders.js"></script>
+
+
+
+{{! ========== Update Order Form  ===========}}
+
+
+
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+<!--               Ordered Products Section                 -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+
+<p>--------------------------------------------------------------------------------------------------------</p>
+
+{{! ========== Display Ordered Products  ===========}}
+
+<h2>Order Information</h2>
+<p>Displays order contents</p>
+
+{{!-- Create a table --}}
+<table>
+    {{!-- Header section --}}
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Product ID</th>
+            <th>Quantity</th>
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+        {{#each data}}
+        <tr>
+            <td>{{this.order_id}}</td>
+            <td>{{this.product_id}}</td>
+            <td>{{this.product_ordered_qt}}</td>
         </tr>
         {{/each}}
     </tbody>
 </table>
 
+
+{{! ========== Add Product to Order Form  ===========}}
+{{! ==== Not working - just for draft submission ====}}
+
+<h2>Add Product to Order</h2>
+
+<form id="add-product-form" method="POST" action="/add-product">
+    <label for="input-order_id">Order ID:</label>
+    <select name="input-order_id" id="mySelect">
+        <option value="test">Select an Order</option>
+        {{#each data}}
+        <option value="{{this.order_id}}">{{this.order_id}}</option>
+        {{/each}}
+    </select>
+    
+    <label for="input-test">Product Name:</label>
+    <select name="input-test" id="test">
+        <option value="test">Select a Product</option>
+        {{#each data}}
+        <option value="{{this.test}}">{{this.test}}</option>
+        {{/each}}
+    </select>
+
+     <label for="input-test">Quantity</label>
+    <input type="number" name="input-test" id="input-test">
+
+    <input type="submit">
+</form>
+<script src="./js/product.js"></script>
+
+
+
+{{! ========== Update Product in Order Form  ===========}}
+{{! ===== Not working - just for draft submission  =====}}
+
+<h2>Update Product Order Quantity</h2>
+<form id="update-product-form" method="POST" action="/update-product">
+    <label for="input-order_id">Order ID:</label>
+    <select name="input-order_id" id="mySelect">
+        <option value="test">Select an Order</option>
+        {{#each data}}
+        <option value="{{this.order_id}}">{{this.order_id}}</option>
+        {{/each}}
+    </select>
+    
+    <label for="input-test">Product Name:</label>
+    <select name="input-test" id="test">
+        <option value="test">Select a Product</option>
+        {{#each data}}
+        <option value="{{this.test}}">{{this.test}}</option>
+        {{/each}}
+    </select>
+
+     <label for="input-test">Quantity</label>
+    <input type="number" name="input-test" id="input-test">
+
+    <input type="submit">
+</form>
+<script src="./js/product.js"></script>
+
+
+
+
+
+
+
+<!-- end body - update above! -->
 </body>

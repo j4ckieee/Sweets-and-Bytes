@@ -1,55 +1,44 @@
 <!-- Products.hbs -->
 <body>
 
-{{!-- Create a table --}}
-<h2>Potential Page Plans:</h2>
-<p>
-    <ul>
-        <li>Create product</li>
-        <li>Update product</li>
-        <li>Delete product</li>
-        
-    </ul>
-</p>
-
+{{! ========== Display Product Data ===========}}
 <h2>Products</h2>
 <p>Displays all products availible in the bakery and it's current inventory</p>
-<table id="products-table">
 
+{{!---- Create a table ----}}
+<table id="products-table">
     {{!-- Header section --}}
     <thead>
-
-        {{!-- For just the first row, we print each key of the row object as a header cell so we
-        know what each column means when the page renders --}}
         <tr>
             <th>Product ID</th>
             <th>Product</th>
             <th>Description</th>
-            <th>Price per Item</th>
+            <th>Unit Price</th>
             <th>Inventory</th>
+            <th>Delete</th>
         </tr>
     </thead>
 
-    {{!-- Body section --}}
+    {{!-- Body section - prints row data --}}
     <tbody>
-
-        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
         {{#each data}}
-        <tr>
+        <tr data-value={{this.product_id}}>
             <td>{{this.product_id}}</td>
             <td>{{this.product_name}}</td>
             <td>{{this.product_description}}</td>
             <td>{{this.product_price}}</td>
             <td>{{this.product_inventory}}</td>
+            <td><button onclick="deleteProduct({{this.product_id}})">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
+<script src="./js/delete_product.js"></script>
 
-<!-- /views/index.hbs -->
 
-{{!-- Form to add a record to the table  --}}
-<h2>Adding New Product</h2>
+{{! ========== Add Product Form - Method 2 ===========}}
+
+<h2>Add New Product</h2>
 <p>To add a new product, please fill in the form below and click 'Submit'.</p>
 <form id="add-product-form" method="POST" action="/add-product-form">
     <label for="input-product_name">Product Name: </label>
@@ -66,8 +55,32 @@
 
     <input type="submit">
 </form>
-
-{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
 <script src="./js/add_product.js"></script>
 
+
+{{! ========== Update Product in Inventory Form  ===========}}
+{{! ======= Not working - just for draft submission ========}}
+
+<h2>Update Product Inventory</h2>
+<p>To update a product, select the item from the drop-down list and enter the product's current inventory count. Then, click 'Submit'.</p>
+<form id="update-product-form">
+
+    <label for="input-product_id-update">Product:</label>
+    <select name="input-product_id-update" id="productSelect">
+        <option value="test">Select a Product</option>
+        {{#each data}}
+        <option value="{{this.product_name}}">{{this.product_name}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-product_inventory-update">Inventory Count: </label>
+    <input type="number" name="input-product_inventory-update" id="input-product_inventory-update">
+
+    <input type="submit">
+
+</form>
+<script src="./js/products"></script> 
+
+
+<!-- end body - update above! -->
 </body>
