@@ -60,7 +60,7 @@ first_name as 'First Name',
 last_name as 'Last Name',
 -- CONCAT(Customers.first_name, ' ', `Customers`.last_name) as 'Customer',
 Orders.order_date as 'Order Date',
-(sum((`Order_Products`.product_ordered_qt) * (Products.product_price))) as 'Subtotal'
+(sum((`Order_Products`.product_ordered_qt) * (Products.product_price))) as 'subtotal'
 FROM `Orders`
 LEFT JOIN `Order_Products` ON Orders.order_id = `Order_Products`.order_id
 INNER JOIN `Customers` ON `Orders`.customer_id = `Customers`.customer_id
