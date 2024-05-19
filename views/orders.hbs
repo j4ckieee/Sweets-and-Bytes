@@ -5,11 +5,9 @@
 <!--                   Orders Section                       -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
 
-
-
 {{! ========== Display Order Data ===========}}
 
-<h2>Orders and Order Details</h2>
+<h2>Orders</h2>
 <p>Displays all bakery orders.</p>
 
 {{!---- Create a table ----}}
@@ -66,58 +64,8 @@
 <script src="./js/orders.js"></script>
 
 
-
-{{! ========== Update Order Form  ===========}}
-
-
-
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
-<!--               Ordered Products Section                 -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
-
-<p>--------------------------------------------------------------------------------------------------------</p>
-
-{{! ========== Display Ordered Products  ===========}}
-
-<h2>Order Details</h2>
-<p>Displays order contents</p>
-
-{{!-- Create a table --}}
-<table>
-    <thead>
-        <tr>
-            <th>Order ID</th>
-            <th>Product Name</th>
-            <th>Quantity</th>
-            <th>Unit Price</th>
-            <th>Total</th>
-            <th>Delete</th>
-
-        </tr>
-    </thead>
-    <tbody>
-        {{#each orderDetails}}
-        <tr>
-            <td>{{this.order_id}}</td>
-            <td>{{this.product_name}}</td>
-            <td>{{this.product_ordered_qt}}</td>
-            <td>{{this.product_price}}</td>
-            <td>{{this.total}}</td>
-            <td><button onclick="deleteOrderProducts({{this.order_product_id}})">Delete</button></td>
-
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
-
-{{! ========== Add Product to Order Form  ===========}}
-{{! ==== Not working - just for draft submission ====}}
-
-<h2>Add Product to Order</h2>
-
-<form id="add-product-form" method="POST" action="/add-product">
+<h2>Update the Customer on an Order</h2>
+<form id="update-order-form" method="POST" action="/update-order-form">
     <label for="input-order_id">Order ID:</label>
     <select name="input-order_id" id="mySelect">
         <option value="test">Select an Order</option>
@@ -126,54 +74,17 @@
         {{/each}}
     </select>
     
-    <label for="input-test">Product Name:</label>
+    <label for="input-test">Customer ID:</label>
     <select name="input-test" id="test">
-        <option value="test">Select a Product</option>
+        <option value="test">Customer ID</option>
         {{#each data}}
-        <option value="{{this.test}}">{{this.test}}</option>
+        <option value="{{this.customer_id}}">{{this.customer_id}}</option>
         {{/each}}
     </select>
-
-     <label for="input-test">Quantity</label>
-    <input type="number" name="input-test" id="input-test">
 
     <input type="submit">
 </form>
-<script src="./js/product.js"></script>
-
-
-
-{{! ========== Update Product in Order Form  ===========}}
-{{! ===== Not working - just for draft submission  =====}}
-
-<h2>Update Product Order Quantity</h2>
-<form id="update-product-form" method="POST" action="/update-product">
-    <label for="input-order_id">Order ID:</label>
-    <select name="input-order_id" id="mySelect">
-        <option value="test">Select an Order</option>
-        {{#each data}}
-        <option value="{{this.order_id}}">{{this.order_id}}</option>
-        {{/each}}
-    </select>
-    
-    <label for="input-test">Product Name:</label>
-    <select name="input-test" id="test">
-        <option value="test">Select a Product</option>
-        {{#each data}}
-        <option value="{{this.test}}">{{this.test}}</option>
-        {{/each}}
-    </select>
-
-     <label for="input-test">Quantity</label>
-    <input type="number" name="input-test" id="input-test">
-
-    <input type="submit">
-</form>
-<script src="./js/product.js"></script>
-
-
-
-
+<script src="./js/order.js"></script>
 
 
 
