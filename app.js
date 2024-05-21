@@ -167,8 +167,8 @@ app.post('/add-customer-form', function(req, res){
     let data = req.body;
 
     // Capture NULL values
-    let email = parseInt(data['input-email']);
-    if (isNaN(email))
+    let email = data['input-email'];
+    if (!!email)
     {
         email = 'NULL'
     }
@@ -267,7 +267,32 @@ app.delete('/delete-product-ajax/', function(req,res,next){
 // PUT // - Update data 
 ////////
 
-
+app.put('/put-customer-ajax', function(req,res,next){
+    let data = req.body;
+  
+    let homeworld = parseInt(data.homeworld);
+    let person = parseInt(data.fullname);
+    let email = data.email;
+    let phoneNumber = data.phoneNumber;
+  
+    // let queryUpdateWorld = `UPDATE bsg_people SET homeworld = ? WHERE bsg_people.id = ?`;
+    // let selectWorld = `SELECT * FROM bsg_planets WHERE id = ?`
+  
+    let queryUpdateCustomer = `UPDATE Customers SET phone_number = ?, email = ? WHERE customer_id = ?`;
+    // let selectCustomer = `SELECT * FROM Customers WHERE id = ?`
+          // Run the 1st query
+          db.pool.query(queryUpdateCustomer, [phoneNumber, email, person], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(400);
+              }
+              else {
+                res.send(rows);
+            }
+  
+  })});
 
 
 

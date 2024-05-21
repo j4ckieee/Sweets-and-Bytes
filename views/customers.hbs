@@ -26,8 +26,8 @@
             <td>{{this.customer_id}}</td>
             <td>{{this.first_name}}</td>
             <td>{{this.last_name}}</td>
-            <td>{{this.email}}</td>
-            <td>{{this.phone_number}}</td>
+            <td id = "email_td">{{this.email}}</td>
+            <td id = "phone_td" >{{this.phone_number}}</td>
             <td><button onclick="deleteCustomer({{this.customer_id}})">Delete</button></td>
         </tr>
         {{/each}}
@@ -42,16 +42,16 @@
 <p>To add a new customer, please enter their information in the form below.</p>
 <form id="add-customer-form" method="POST" action="/add-customer-form">
     <label for="input-first_name">First Name:</label>
-    <input type="text" name="input-first_name" id="input-first_name">
+    <input type="text" name="input-first_name" id="input-first_name" required>
     
     <label for="input-last_name">Last Name:</label>
-    <input type="text" name="input-last_name" id="input-last_name">
+    <input type="text" name="input-last_name" id="input-last_name" required>
 
     <label for="input-email">Email:</label>
-    <input type="text" name="input-email" id="input-email">
+    <input type="text" name="input-email" id="input-email" required>
 
     <label for="input-age">Phone Number: </label>
-    <input type="text" name="input-phone_number" id="input-phone_number">
+    <input type="text" name="input-phone_number" id="input-phone_number" required>
 
     <input type="submit">
 </form>
@@ -66,7 +66,8 @@
 
 <h2>Update Customer Information</h2>
 <p>To update a customers information, select their name from the drop-down menu on the left and fill out the form.</p>
-<form id="update-customer-form">
+<p>Has to refresh the page after submitting. Auto update does not work yet</p>
+<form id="update-customer-form-ajax">
 
     <label for="input-fullname">Full name: </label>
     <select name="input-fullname" id="mySelect">
@@ -77,15 +78,15 @@
     </select>
 
     <label for="input-phone_number-update">Email: </label>
-    <input type="text" name="input-email-update" id="input-email-update">
+    <input type="text" name="input-email-update" id="input-email-update" required>
 
     <label for="input-phone_number-update">Phone Number: </label>
-    <input type="text" name="input-phone_number-update" id="input-phone_number-update">
+    <input type="text" name="input-phone_number-update" id="input-phone_number-update" required>
 
     <input type="submit">
 
 </form>
-<script src="./js/customers.js"></script>
+<script src="./js/update_customer.js"></script>
 
 
 <!-- end body - update above! -->
