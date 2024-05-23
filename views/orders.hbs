@@ -26,9 +26,9 @@
     
     {{!-- Body section - prints row data --}}
     <tbody>
-        {{#each ordersData}}
+        {{#each data}}
         <tr data-value={{this.order_id}}>
-            <td>{{this.order_id}}</td>
+            <td>{{this.orderID}}</td>
             <td>{{this.first_name}}</td>
             <td>{{this.last_name}}</td>
             <td>{{this.order_date}}</td>
@@ -61,7 +61,7 @@
 
     <input type="submit">
 </form>
-<script src="./js/orders.js"></script>
+<script src="./js/add_order.js"></script>
 
 
 <h2>Update the Customer on an Order</h2>

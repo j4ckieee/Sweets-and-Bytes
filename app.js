@@ -53,107 +53,141 @@ app.get('/products', function(req, res)
 
             res.render('products', {data: rows});                  
         })                                                      
-    });    
+    }); 
 
+app.get('/order_products', function(req, res)
+{         
+    let query1 = `SELECT
+    *,
+    ((Order_Products.product_ordered_qt) * (Products.product_price)) as 'total'
+    from Orders
+    INNER JOIN Order_Products ON Orders.order_id = Order_Products.order_id
+    INNER JOIN Products ON Order_Products.product_id = Products.product_id
+    ORDER BY Orders.order_id ASC;
+    `;  
+    db.pool.query(query1, function(error, rows, fields){    
+
+        res.render('order_products', {data: rows});                 
+    })                                                      
+});  
+
+app.get('/orders', function(req, res)
+    {  
+        let query1 = `SELECT *,
+        Orders.order_id as 'orderID',
+        COALESCE(sum((Order_Products.product_ordered_qt) * (Products.product_price)), 0) as 'subtotal'
+        FROM Orders
+        LEFT JOIN Order_Products ON Orders.order_id = Order_Products.order_id
+        INNER JOIN Customers ON Orders.customer_id = Customers.customer_id
+        LEFT JOIN Products ON Order_Products.product_id = Products.product_id
+        GROUP BY Order_Products.order_id
+        ORDER BY Orders.order_id ASC;`;   
+
+        db.pool.query(query1, function(error, rows, fields){    
+
+            res.render('orders', {data: rows});                  
+        })                                                      
+    }); 
+
+   
 // ------------ JUST FOR FINAL SUBMISSION ------
 
-app.get('/order_products', function(req, res) {
-    async.parallel({
-        ordersData: function(callback) {
-            let query1 = `SELECT Orders.order_id,
-                first_name,
-                last_name,
-                Orders.order_date,
-                (sum((Order_Products.product_ordered_qt) * (Products.product_price))) as 'subtotal'
-                FROM Orders
-                LEFT JOIN Order_Products ON Orders.order_id = Order_Products.order_id
-                INNER JOIN Customers ON Orders.customer_id = Customers.customer_id
-                LEFT JOIN Products ON Order_Products.product_id = Products.product_id
-                GROUP BY Order_Products.order_id
-                ORDER BY Orders.order_id ASC;`;
+// app.get('/order_products', function(req, res) {
+//     async.parallel({
+//         ordersData: function(callback) {
+//             let query1 = `SELECT Orders.order_id,
+//                 first_name,
+//                 last_name,
+//                 Orders.order_date,
+//                 (sum((Order_Products.product_ordered_qt) * (Products.product_price))) as 'subtotal'
+//                 FROM Orders
+//                 LEFT JOIN Order_Products ON Orders.order_id = Order_Products.order_id
+//                 INNER JOIN Customers ON Orders.customer_id = Customers.customer_id
+//                 LEFT JOIN Products ON Order_Products.product_id = Products.product_id
+//                 GROUP BY Order_Products.order_id
+//                 ORDER BY Orders.order_id ASC;`;
 
-            db.pool.query(query1, function(error, rows, fields) {
-                callback(error, rows);
-            });
-        },
-        orderDetails: function(callback) {
-            let query2 = `SELECT
-            Orders.order_id,
-            Products.product_name,
-            Order_Products.product_ordered_qt,
-            Products.product_price,
-            ((Order_Products.product_ordered_qt) * (Products.product_price)) as 'total'
-            from Orders
-            INNER JOIN Order_Products ON Orders.order_id = Order_Products.order_id
-            INNER JOIN Products ON Order_Products.product_id = Products.product_id
-            ORDER BY Orders.order_id ASC;
-            `;
+//             db.pool.query(query1, function(error, rows, fields) {
+//                 callback(error, rows);
+//             });
+//         },
+//         orderDetails: function(callback) {
+//             let query2 = `SELECT
+//             Orders.order_id,
+//             Products.product_name,
+//             Order_Products.product_ordered_qt,
+//             Products.product_price,
+//             ((Order_Products.product_ordered_qt) * (Products.product_price)) as 'total'
+//             from Orders
+//             INNER JOIN Order_Products ON Orders.order_id = Order_Products.order_id
+//             INNER JOIN Products ON Order_Products.product_id = Products.product_id
+//             ORDER BY Orders.order_id ASC;
+//             `;
 
-            db.pool.query(query2, function(error, rows, fields) {
-                callback(error, rows);
-            });
-        }
-    }, function(err, results) {
-        if (err) {
-            // Handle error
-            console.error(err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
+//             db.pool.query(query2, function(error, rows, fields) {
+//                 callback(error, rows);
+//             });
+//         }
+//     }, function(err, results) {
+//         if (err) {
+//             // Handle error
+//             console.error(err);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
 
-        res.render('order_products', { ordersData: results.ordersData, orderDetails: results.orderDetails });
-    });
-});          
-// -------------
+//         res.render('order_products', { ordersData: results.ordersData, orderDetails: results.orderDetails });
+//     });
+// });          
 
-const async = require('async');
-app.get('/orders', function(req, res) {
-    async.parallel({
-        ordersData: function(callback) {
-            let query1 = `SELECT Orders.order_id,
-                first_name,
-                last_name,
-                Orders.order_date,
-                (sum((Order_Products.product_ordered_qt) * (Products.product_price))) as 'subtotal'
-                FROM Orders
-                LEFT JOIN Order_Products ON Orders.order_id = Order_Products.order_id
-                INNER JOIN Customers ON Orders.customer_id = Customers.customer_id
-                LEFT JOIN Products ON Order_Products.product_id = Products.product_id
-                GROUP BY Order_Products.order_id
-                ORDER BY Orders.order_id ASC;`;
+// const async = require('async');
+// app.get('/orders', function(req, res) {
+//     async.parallel({
+//         ordersData: function(callback) {
+//             let query1 = `SELECT Orders.order_id,
+//                 first_name,
+//                 last_name,
+//                 Orders.order_date,
+//                 (sum((Order_Products.product_ordered_qt) * (Products.product_price))) as 'subtotal'
+//                 FROM Orders
+//                 LEFT JOIN Order_Products ON Orders.order_id = Order_Products.order_id
+//                 INNER JOIN Customers ON Orders.customer_id = Customers.customer_id
+//                 LEFT JOIN Products ON Order_Products.product_id = Products.product_id
+//                 GROUP BY Order_Products.order_id
+//                 ORDER BY Orders.order_id ASC;`;
 
-            db.pool.query(query1, function(error, rows, fields) {
-                callback(error, rows);
-            });
-        },
-        orderDetails: function(callback) {
-            let query2 = `SELECT
-            Orders.order_id,
-            Products.product_name,
-            Order_Products.product_ordered_qt,
-            Products.product_price,
-            ((Order_Products.product_ordered_qt) * (Products.product_price)) as 'total'
-            from Orders
-            INNER JOIN Order_Products ON Orders.order_id = Order_Products.order_id
-            INNER JOIN Products ON Order_Products.product_id = Products.product_id
-            ORDER BY Orders.order_id ASC;
-            `;
+//             db.pool.query(query1, function(error, rows, fields) {
+//                 callback(error, rows);
+//             });
+//         },
+//         orderDetails: function(callback) {
+//             let query2 = `SELECT
+//             Orders.order_id,
+//             Products.product_name,
+//             Order_Products.product_ordered_qt,
+//             Products.product_price,
+//             ((Order_Products.product_ordered_qt) * (Products.product_price)) as 'total'
+//             from Orders
+//             INNER JOIN Order_Products ON Orders.order_id = Order_Products.order_id
+//             INNER JOIN Products ON Order_Products.product_id = Products.product_id
+//             ORDER BY Orders.order_id ASC;
+//             `;
 
-            db.pool.query(query2, function(error, rows, fields) {
-                callback(error, rows);
-            });
-        }
-    }, function(err, results) {
-        if (err) {
-            // Handle error
-            console.error(err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
+//             db.pool.query(query2, function(error, rows, fields) {
+//                 callback(error, rows);
+//             });
+//         }
+//     }, function(err, results) {
+//         if (err) {
+//             // Handle error
+//             console.error(err);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
 
-        res.render('orders', { ordersData: results.ordersData, orderDetails: results.orderDetails });
-    });
-});
+//         res.render('orders', { ordersData: results.ordersData, orderDetails: results.orderDetails });
+//     });
+// });
 
                                                      
 
@@ -262,6 +296,17 @@ app.delete('/delete-product-ajax/', function(req,res,next){
             }
 })});
 
+app.delete('/delete-order-product-ajax/', function(req,res,next){
+    let data = req.body;
+    let order_product_id = parseInt(data.order_product_id);
+    let deleteOrderProduct = `DELETE FROM Order_Products WHERE order_product_id = ?`;
+  
+          db.pool.query(deleteOrderProduct, [order_product_id], function(error, rows, fields){
+            if (error) {
+            console.log(error);
+            res.sendStatus(400);
+            }
+})});
 
 /////////
 // PUT // - Update data 

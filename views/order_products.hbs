@@ -3,14 +3,15 @@
 
 {{! ========== Display Ordered Products  ===========}}
 
-<h2>Order Details</h2>
-<p>Displays order contents</p>
-
+<h2>Order Product Details</h2>
+<p>Displays order product contents</p>
+<p>Refresh page after Delete to see changes</p>
 {{!-- Create a table --}}
 <table id="order_products-table">
     <thead>
         <tr>
             <th>Order ID</th>
+            <th>Order Product ID</th>
             <th>Product Name</th>
             <th>Quantity</th>
             <th>Unit Price</th>
@@ -20,19 +21,21 @@
         </tr>
     </thead>
     <tbody>
-        {{#each orderDetails}}
+        {{#each data}}
         <tr>
             <td>{{this.order_id}}</td>
+            <td>{{this.order_product_id}}</td>
             <td>{{this.product_name}}</td>
             <td>{{this.product_ordered_qt}}</td>
             <td>{{this.product_price}}</td>
             <td>{{this.total}}</td>
             <td><button onclick="deleteOrderProducts({{this.order_product_id}})">Delete</button></td>
-
         </tr>
         {{/each}}
     </tbody>
 </table>
+
+<script src="./js/delete_order_product.js"></script>
 
 {{! ========== Add Product to Order Form  ===========}}
 {{! ==== Not working - just for draft submission ====}}
@@ -61,7 +64,7 @@
 
     <input type="submit">
 </form>
-<script src="./js/order_products.js"></script>
+<script src="./js/add_order_product.js"></script>
 
 
 

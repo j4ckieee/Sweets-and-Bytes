@@ -104,6 +104,6 @@ WHERE product_id = (SELECT product_id FROM `Products` WHERE product_name = :inpu
 DELETE FROM `Order_Products` WHERE order_id = :input-order_id and product_id = (SELECT product_id FROM `Products` WHERE product_name = :input-product_name);
 
 -- Update the quantity in an existing order_product line item in an order
-Update `Order_Products` SET product_ordered_qt = :input-product_ordered_qt
+Update Order_Products SET product_ordered_qt = :input-product_ordered_qt
 WHERE order_id = :input-order_id and product_id = (SELECT product_id FROM `Products` WHERE product_name = :input-product_name);
 
