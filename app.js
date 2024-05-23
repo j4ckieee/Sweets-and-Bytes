@@ -248,6 +248,53 @@ app.post('/add-product-form', function(req, res){
     })
 });
 
+
+app.post('/add-order-product-ajax', function(req, res) 
+{
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // Create the query and run it on the database
+    query1 = `INSERT INTO Order_Products (order_id, product_id, product_ordered_qt) VALUES('${data.order_id}', '${data.product_id}', '${data.quantity}')`;
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else
+        {
+            // If there was no error, perform a SELECT * on bsg_people
+            query2 = `SELECT
+            *,
+            ((Order_Products.product_ordered_qt) * (Products.product_price)) as 'total'
+            from Orders
+            INNER JOIN Order_Products ON Orders.order_id = Order_Products.order_id
+            INNER JOIN Products ON Order_Products.product_id = Products.product_id
+            ORDER BY Orders.order_id ASC;
+            `;
+            db.pool.query(query2, function(error, rows, fields){
+
+                // If there was an error on the second query, send a 400
+                if (error) {
+                    
+                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                // If all went well, send the results of the query back.
+                else
+                {
+                    res.send(rows);
+                }
+            })
+        }
+    })
+});
+
 ////////////
 // DELETE // - Delete data
 ///////////

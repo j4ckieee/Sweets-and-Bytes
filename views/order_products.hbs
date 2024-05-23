@@ -41,8 +41,8 @@
 {{! ==== Not working - just for draft submission ====}}
 
 <h2>Add Product to Order</h2>
-
-<form id="add-order_products-form" method="POST" action="/add-order_products-form">
+<p>Refresh page to see changes. Drop down selection still need to be fixed</p>
+<form id="add-order-product-form" method="POST" action="/add-order-product-form">
     <label for="input-order-id">Order ID:</label>
     <select name="input-order-id" id="orderSelect">
         <option value="test">Select an Order</option>
@@ -51,16 +51,16 @@
         {{/each}}
     </select>
     
-    <label for="input-test">Product Name:</label>
-    <select name="input-test" id="test">
+    <label for="input-product-id">Product Name:</label>
+    <select name="input-product-id" id="productSelect">
         <option value="test">Select a Product</option>
         {{#each data}}
-        <option value="{{this.product_id}}">{{this.product_id}}</option>
+        <option value="{{this.product_id}}">{{this.product_name}}</option>
         {{/each}}
     </select>
 
-     <label for="input-test">Quantity</label>
-    <input type="number" name="input-test" id="input-test">
+     <label for="input-quantity">Quantity</label>
+    <input type="number" name="input-quantity" id="input-quantity" required>
 
     <input type="submit">
 </form>
@@ -81,11 +81,11 @@
         {{/each}}
     </select>
     
-    <label for="input-test">Product Name:</label>
-    <select name="input-test" id="test">
+    <label for="input-product-id">Product Name:</label>
+    <select name="input-product-id" id="productSelect">
         <option value="test">Select a Product</option>
         {{#each data}}
-        <option value="{{this.test}}">{{this.test}}</option>
+        <option value="{{this.product_id}}">{{this.product_name}}</option>
         {{/each}}
     </select>
 
