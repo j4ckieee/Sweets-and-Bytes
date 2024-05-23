@@ -21,7 +21,7 @@
         </tr>
     </thead>
     <tbody>
-        {{#each data}}
+        {{#each orderProducts}}
         <tr>
             <td>{{this.order_id}}</td>
             <td>{{this.order_product_id}}</td>
@@ -46,7 +46,7 @@
     <label for="input-order-id">Order ID:</label>
     <select name="input-order-id" id="orderSelect">
         <option value="test">Select an Order</option>
-        {{#each data}}
+        {{#each orders}}
         <option value="{{this.order_id}}">{{this.order_id}}</option>
         {{/each}}
     </select>
@@ -54,7 +54,7 @@
     <label for="input-product-id">Product Name:</label>
     <select name="input-product-id" id="productSelect">
         <option value="test">Select a Product</option>
-        {{#each data}}
+        {{#each products}}
         <option value="{{this.product_id}}">{{this.product_name}}</option>
         {{/each}}
     </select>
@@ -76,7 +76,7 @@
     <label for="input-order_id">Order ID:</label>
     <select name="input-order_id" id="mySelect">
         <option value="test">Select an Order</option>
-        {{#each data}}
+        {{#each orders}}
         <option value="{{this.order_id}}">{{this.order_id}}</option>
         {{/each}}
     </select>
@@ -84,7 +84,7 @@
     <label for="input-product-id">Product Name:</label>
     <select name="input-product-id" id="productSelect">
         <option value="test">Select a Product</option>
-        {{#each data}}
+        {{#each products}}
         <option value="{{this.product_id}}">{{this.product_name}}</option>
         {{/each}}
     </select>

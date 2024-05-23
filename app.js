@@ -55,6 +55,7 @@ app.get('/products', function(req, res)
         })                                                      
     }); 
 
+
 app.get('/order_products', function(req, res)
 {         
     let query1 = `SELECT
@@ -64,12 +65,33 @@ app.get('/order_products', function(req, res)
     INNER JOIN Order_Products ON Orders.order_id = Order_Products.order_id
     INNER JOIN Products ON Order_Products.product_id = Products.product_id
     ORDER BY Orders.order_id ASC;
-    `;  
-    db.pool.query(query1, function(error, rows, fields){    
+    `;
+    let query2 = "SELECT * FROM Products;";
+    let query3 = "SELECT * FROM Orders;";
 
-        res.render('order_products', {data: rows});                 
-    })                                                      
-});  
+    db.pool.query(query1, function(error, rows, fields){
+    
+        // Save the people
+        let orderProducts = rows;
+        
+        // Run the 2nd query
+        db.pool.query(query2, (error, rows, fields) => {
+            
+            // Save the planets
+            let products = rows;
+    
+            // Run the 3rd query
+            db.pool.query(query3, (error, rows, fields) => {
+                
+                // Save the ships
+                let orders = rows;
+    
+                // Render the data to the index view
+                return res.render('order_products', {orderProducts: orderProducts, products: products, orders: orders});
+            });
+        });
+    })});
+
 
 app.get('/orders', function(req, res)
     {  
@@ -385,7 +407,6 @@ app.put('/put-customer-ajax', function(req,res,next){
             }
   
   })});
-
 
 
 /* ----------------------------------*/
