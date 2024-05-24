@@ -1,3 +1,7 @@
+// Citation for the following function:
+// Date: 05-23-24
+// Adapted from: nodejs-starter-app
+// Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main
 
 // Get the objects we need to modify
 let addOrderProductForm = document.getElementById('add-order-product-form');
@@ -47,7 +51,7 @@ addOrderProductForm.addEventListener("submit", function (e) {
             console.log("There was an error with the input.")
         }
     }
-
+console.log(data)
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));
 

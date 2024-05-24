@@ -1,3 +1,7 @@
+// Citation for the following function:
+// Date: 05-23-24
+// Adapted from: nodejs-starter-app
+// Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main
 
 // Get the objects we need to modify
 let updateCustomerForm = document.getElementById('update-customer-form-ajax');
@@ -10,14 +14,12 @@ updateCustomerForm.addEventListener("submit", function (e) {
 
     // Get form fields we need to get data from
     let inputFullName = document.getElementById("mySelect");
-    // let inputHomeworld = document.getElementById("input-homeworld-update");
     let inputEmail = document.getElementById("input-email-update");
     let inputPhoneNumber = document.getElementById("input-phone_number-update");
 
 
     // Get the values from the form fields
     let fullNameValue = inputFullName.value;
-    // let homeworldValue = inputHomeworld.value;
     let emailValue = inputEmail.value;
     let phoneNumberValue = inputPhoneNumber.value;
     
@@ -33,7 +35,6 @@ updateCustomerForm.addEventListener("submit", function (e) {
     // Put our data we want to send in a javascript object
     let data = {
         fullname: fullNameValue,
-        // homeworld: homeworldValue,
         email: emailValue,
         phoneNumber: phoneNumberValue,
     }

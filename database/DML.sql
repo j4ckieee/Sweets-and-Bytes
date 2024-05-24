@@ -63,9 +63,9 @@ Orders.order_date as 'Order Date',
 (sum((`Order_Products`.product_ordered_qt) * (Products.product_price))) as 'subtotal'
 FROM `Orders`
 LEFT JOIN `Order_Products` ON Orders.order_id = `Order_Products`.order_id
-INNER JOIN `Customers` ON `Orders`.customer_id = `Customers`.customer_id
+LEFT JOIN `Customers` ON `Orders`.customer_id = `Customers`.customer_id
 LEFT JOIN `Products` ON Order_Products.product_id = Products.product_id
-GROUP BY `Order_Products`.order_id
+GROUP BY Orders.order_id
 ORDER BY `Orders`.order_id ASC;
 
 -- Add a new order

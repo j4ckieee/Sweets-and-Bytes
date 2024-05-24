@@ -1,3 +1,8 @@
+{{!-- Citation for the following function:
+Date: 05-23-24
+Adapted from: nodejs-starter-app
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --}}
+
 <!-- order_products.hbs -->
 <body>
 
@@ -22,7 +27,7 @@
     </thead>
     <tbody>
         {{#each orderProducts}}
-        <tr>
+        <tr data-value={{this.order_id}}-{{this.product_id}}>
             <td>{{this.order_id}}</td>
             <td>{{this.order_product_id}}</td>
             <td>{{this.product_name}}</td>
@@ -38,10 +43,9 @@
 <script src="./js/delete_order_product.js"></script>
 
 {{! ========== Add Product to Order Form  ===========}}
-{{! ==== Not working - just for draft submission ====}}
 
 <h2>Add Product to Order</h2>
-<p>Refresh page to see changes. Drop down selection still need to be fixed</p>
+<p>Refresh page to see changes.</p>
 <form id="add-order-product-form" method="POST" action="/add-order-product-form">
     <label for="input-order-id">Order ID:</label>
     <select name="input-order-id" id="orderSelect">
@@ -69,12 +73,12 @@
 
 
 {{! ========== Update Product in Order Form  ===========}}
-{{! ===== Not working - just for draft submission  =====}}
 
 <h2>Update Product Order Quantity</h2>
-<form id="update-product-form" method="POST" action="/update-product">
+<p>Refresh page to see changes.</p>
+<form id="update-order-product-form">
     <label for="input-order_id">Order ID:</label>
-    <select name="input-order_id" id="mySelect">
+    <select name="input-order_id" id="orderSelectUpdate">
         <option value="test">Select an Order</option>
         {{#each orders}}
         <option value="{{this.order_id}}">{{this.order_id}}</option>
@@ -82,23 +86,19 @@
     </select>
     
     <label for="input-product-id">Product Name:</label>
-    <select name="input-product-id" id="productSelect">
+    <select name="input-product-id" id="productSelectUpdate">
         <option value="test">Select a Product</option>
         {{#each products}}
         <option value="{{this.product_id}}">{{this.product_name}}</option>
         {{/each}}
     </select>
 
-     <label for="input-test">Quantity</label>
-    <input type="number" name="input-test" id="input-test">
+    <label for="input-quantity">Quantity</label>
+    <input type="number" name="input-quantity" id="input-quantity-update">
 
     <input type="submit">
 </form>
-<script src="./js/product.js"></script>
-
-
-
-
+<script src="./js/update_order_product.js"></script>
 
 
 

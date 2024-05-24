@@ -100,9 +100,9 @@ app.get('/orders', function(req, res)
         COALESCE(sum((Order_Products.product_ordered_qt) * (Products.product_price)), 0) as 'subtotal'
         FROM Orders
         LEFT JOIN Order_Products ON Orders.order_id = Order_Products.order_id
-        INNER JOIN Customers ON Orders.customer_id = Customers.customer_id
+        LEFT JOIN Customers ON Orders.customer_id = Customers.customer_id
         LEFT JOIN Products ON Order_Products.product_id = Products.product_id
-        GROUP BY Order_Products.order_id
+        GROUP BY Orders.order_id
         ORDER BY Orders.order_id ASC;`;   
 
         db.pool.query(query1, function(error, rows, fields){    
@@ -384,16 +384,12 @@ app.delete('/delete-order-product-ajax/', function(req,res,next){
 app.put('/put-customer-ajax', function(req,res,next){
     let data = req.body;
   
-    let homeworld = parseInt(data.homeworld);
-    let person = parseInt(data.fullname);
+
+    let person = parseInt(data.fullname); // need review, do we need to parseInt name?
     let email = data.email;
     let phoneNumber = data.phoneNumber;
   
-    // let queryUpdateWorld = `UPDATE bsg_people SET homeworld = ? WHERE bsg_people.id = ?`;
-    // let selectWorld = `SELECT * FROM bsg_planets WHERE id = ?`
-  
     let queryUpdateCustomer = `UPDATE Customers SET phone_number = ?, email = ? WHERE customer_id = ?`;
-    // let selectCustomer = `SELECT * FROM Customers WHERE id = ?`
           // Run the 1st query
           db.pool.query(queryUpdateCustomer, [phoneNumber, email, person], function(error, rows, fields){
               if (error) {
@@ -408,6 +404,28 @@ app.put('/put-customer-ajax', function(req,res,next){
   
   })});
 
+  app.put('/put-order-product-ajax', function(req,res,next){
+    let data = req.body;
+  
+    let order = data.order;
+    let product = data.product;
+    let quantity = data.quantity;
+  
+
+    let queryUpdateOrderProduct = `Update Order_Products SET product_ordered_qt = ? WHERE order_id = ? and product_id = ?`;
+          // Run the 1st query
+          db.pool.query(queryUpdateOrderProduct, [quantity, order, product], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(400);
+              }
+              else {
+                res.send(rows);
+            }
+  
+  })});
 
 /* ----------------------------------*/
 /* ------------ LISTENER ------------*/
