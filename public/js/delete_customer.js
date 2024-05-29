@@ -1,3 +1,9 @@
+// Citation for the following function:
+// Date: 05-23-24
+// Adapted from: nodejs-starter-app
+// Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main
+
+
 function deleteCustomer(customer_id) {
     // Put our data we want to send in a javascript object
     let data = {
@@ -24,6 +30,8 @@ function deleteCustomer(customer_id) {
     }
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));
+
+    window.location.reload();
 }
 
 

@@ -1,3 +1,8 @@
+{{!-- Citation for the following function:
+Date: 05-23-24
+Adapted from: nodejs-starter-app
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --}}
+
 <!-- orders.hbs -->
 <body>
 
@@ -16,6 +21,7 @@
     <thead> 
         <tr>
             <th>Order ID</th>
+            <th>Customer ID</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Order Date</th>
@@ -26,23 +32,26 @@
     
     {{!-- Body section - prints row data --}}
     <tbody>
-        {{#each ordersData}}
+        {{#each data}}
         <tr data-value={{this.order_id}}>
-            <td>{{this.order_id}}</td>
+            <td align="center">{{this.orderID}}</td>
+            <td align="center">{{customer_id}}</td>
             <td>{{this.first_name}}</td>
             <td>{{this.last_name}}</td>
             <td>{{this.order_date}}</td>
-            <td>{{this.subtotal}}</td>
+            <td align="right">{{this.subtotal}}</td>
             <td><button onclick="deleteOrder({{this.order_id}})">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
 <script src="./js/delete_order.js"></script> {{! -- Delete not working yet -- }}
+</fieldset>
 
 {{! ========== Add Order Form - Method 2 ===========}}
 {{! ======= Not working - just for draft submission ========}}
 
+<fieldset>
 <h2>Add an Order</h2>
 <p>To add a new order, please fill in the form below and click 'Submit'!</p>
 
@@ -57,18 +66,21 @@
     </select>
     
     <label for="input-order_date">Order Date:</label>
-    <input type="date" name="input-order_date" id="input-order_date">
+    <input type="date" name="input-order_date" id="input-order_date" required>
 
     <input type="submit">
 </form>
-<script src="./js/orders.js"></script>
+<script src="./js/add_order.js"></script>
+</fieldset>
 
 
+{{! ========== Update Order Form  ===========}}
+<fieldset>
 <h2>Update the Customer on an Order</h2>
 <form id="update-order-form" method="POST" action="/update-order-form">
     <label for="input-order_id">Order ID:</label>
     <select name="input-order_id" id="mySelect">
-        <option value="test">Select an Order</option>
+        <option value="text">Select an Order</option>
         {{#each data}}
         <option value="{{this.order_id}}">{{this.order_id}}</option>
         {{/each}}
@@ -76,7 +88,7 @@
     
     <label for="input-test">Customer ID:</label>
     <select name="input-test" id="test">
-        <option value="test">Customer ID</option>
+        <option value="text">Customer ID</option>
         {{#each data}}
         <option value="{{this.customer_id}}">{{this.customer_id}}</option>
         {{/each}}
@@ -84,7 +96,8 @@
 
     <input type="submit">
 </form>
-<script src="./js/order.js"></script>
+<script src="./js/update_order.js"></script>
+</fieldset>
 
 
 

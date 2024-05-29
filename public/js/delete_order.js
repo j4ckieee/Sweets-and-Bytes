@@ -1,3 +1,8 @@
+// Citation for the following function:
+// Date: 05-23-24
+// Adapted from: nodejs-starter-app
+// Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main
+
 // ==== Not working - just for draft submission ==== //
 
 function deleteOrder(order_id) {
@@ -25,6 +30,9 @@ function deleteOrder(order_id) {
     }
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));
+
+    // Reload page
+    window.location.reload();
 }
 
 

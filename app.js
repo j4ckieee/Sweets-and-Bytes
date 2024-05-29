@@ -9,7 +9,7 @@ var app     = express();
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
-PORT        = 8463;                
+PORT        = 8463;                   
                 
 
 // Database
@@ -53,107 +53,63 @@ app.get('/products', function(req, res)
 
             res.render('products', {data: rows});                  
         })                                                      
-    });    
+    }); 
 
-// ------------ JUST FOR FINAL SUBMISSION ------
 
-app.get('/order_products', function(req, res) {
-    async.parallel({
-        ordersData: function(callback) {
-            let query1 = `SELECT Orders.order_id,
-                first_name,
-                last_name,
-                Orders.order_date,
-                (sum((Order_Products.product_ordered_qt) * (Products.product_price))) as 'subtotal'
-                FROM Orders
-                LEFT JOIN Order_Products ON Orders.order_id = Order_Products.order_id
-                INNER JOIN Customers ON Orders.customer_id = Customers.customer_id
-                LEFT JOIN Products ON Order_Products.product_id = Products.product_id
-                GROUP BY Order_Products.order_id
-                ORDER BY Orders.order_id ASC;`;
+app.get('/order_products', function(req, res)
+{         
+    let query1 = `SELECT
+    *,
+    ((Order_Products.product_ordered_qt) * (Products.product_price)) as 'total'
+    from Orders
+    INNER JOIN Order_Products ON Orders.order_id = Order_Products.order_id
+    INNER JOIN Products ON Order_Products.product_id = Products.product_id
+    ORDER BY Orders.order_id ASC;
+    `;
+    let query2 = "SELECT * FROM Products;";
+    let query3 = "SELECT * FROM Orders;";
 
-            db.pool.query(query1, function(error, rows, fields) {
-                callback(error, rows);
+    db.pool.query(query1, function(error, rows, fields){
+    
+        // Save the people
+        let orderProducts = rows;
+        
+        // Run the 2nd query
+        db.pool.query(query2, (error, rows, fields) => {
+            
+            // Save the planets
+            let products = rows;
+    
+            // Run the 3rd query
+            db.pool.query(query3, (error, rows, fields) => {
+                
+                // Save the ships
+                let orders = rows;
+    
+                // Render the data to the index view
+                return res.render('order_products', {orderProducts: orderProducts, products: products, orders: orders});
             });
-        },
-        orderDetails: function(callback) {
-            let query2 = `SELECT
-            Orders.order_id,
-            Products.product_name,
-            Order_Products.product_ordered_qt,
-            Products.product_price,
-            ((Order_Products.product_ordered_qt) * (Products.product_price)) as 'total'
-            from Orders
-            INNER JOIN Order_Products ON Orders.order_id = Order_Products.order_id
-            INNER JOIN Products ON Order_Products.product_id = Products.product_id
-            ORDER BY Orders.order_id ASC;
-            `;
+        });
+    })});
 
-            db.pool.query(query2, function(error, rows, fields) {
-                callback(error, rows);
-            });
-        }
-    }, function(err, results) {
-        if (err) {
-            // Handle error
-            console.error(err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
 
-        res.render('order_products', { ordersData: results.ordersData, orderDetails: results.orderDetails });
-    });
-});          
-// -------------
+app.get('/orders', function(req, res)
+    {  
+        let query1 = `SELECT *,
+        Orders.order_id as 'orderID',
+        COALESCE(sum((Order_Products.product_ordered_qt) * (Products.product_price)), 0) as 'subtotal'
+        FROM Orders
+        LEFT JOIN Order_Products ON Orders.order_id = Order_Products.order_id
+        LEFT JOIN Customers ON Orders.customer_id = Customers.customer_id
+        LEFT JOIN Products ON Order_Products.product_id = Products.product_id
+        GROUP BY Orders.order_id
+        ORDER BY Orders.order_id ASC;`;   
 
-const async = require('async');
-app.get('/orders', function(req, res) {
-    async.parallel({
-        ordersData: function(callback) {
-            let query1 = `SELECT Orders.order_id,
-                first_name,
-                last_name,
-                Orders.order_date,
-                (sum((Order_Products.product_ordered_qt) * (Products.product_price))) as 'subtotal'
-                FROM Orders
-                LEFT JOIN Order_Products ON Orders.order_id = Order_Products.order_id
-                INNER JOIN Customers ON Orders.customer_id = Customers.customer_id
-                LEFT JOIN Products ON Order_Products.product_id = Products.product_id
-                GROUP BY Order_Products.order_id
-                ORDER BY Orders.order_id ASC;`;
+        db.pool.query(query1, function(error, rows, fields){    
 
-            db.pool.query(query1, function(error, rows, fields) {
-                callback(error, rows);
-            });
-        },
-        orderDetails: function(callback) {
-            let query2 = `SELECT
-            Orders.order_id,
-            Products.product_name,
-            Order_Products.product_ordered_qt,
-            Products.product_price,
-            ((Order_Products.product_ordered_qt) * (Products.product_price)) as 'total'
-            from Orders
-            INNER JOIN Order_Products ON Orders.order_id = Order_Products.order_id
-            INNER JOIN Products ON Order_Products.product_id = Products.product_id
-            ORDER BY Orders.order_id ASC;
-            `;
-
-            db.pool.query(query2, function(error, rows, fields) {
-                callback(error, rows);
-            });
-        }
-    }, function(err, results) {
-        if (err) {
-            // Handle error
-            console.error(err);
-            res.status(500).send('Internal Server Error');
-            return;
-        }
-
-        res.render('orders', { ordersData: results.ordersData, orderDetails: results.orderDetails });
-    });
-});
+            res.render('orders', {data: rows});                  
+        })                                                      
+    }); 
 
                                                      
 
@@ -167,8 +123,8 @@ app.post('/add-customer-form', function(req, res){
     let data = req.body;
 
     // Capture NULL values
-    let email = parseInt(data['input-email']);
-    if (isNaN(email))
+    let email = data['input-email'];
+    if (!!email)
     {
         email = 'NULL'
     }
@@ -214,6 +170,82 @@ app.post('/add-product-form', function(req, res){
     })
 });
 
+
+app.post('/add-order-product-ajax', function(req, res) {
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // Check if adding the order product would result in negative inventory
+    let checkQuery = `SELECT product_inventory FROM Products WHERE product_id = '${data.product_id}'`;
+
+    // Run the query to check the current product quantity
+    db.pool.query(checkQuery, function(error, rows, fields) {
+        // Check if there was an error
+        if (error) {
+            // Log the error to the terminal and send a 400 response
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            // Calculate the new product quantity after adding the order product
+            let currentQuantity = rows[0].product_inventory;
+            let newQuantity = currentQuantity - data.quantity;
+            
+            // Check if the new product quantity would be negative
+            if (newQuantity >= 0) {
+                // If not negative, proceed with inserting the order product
+                let insertQuery = `INSERT INTO Order_Products (order_id, product_id, product_ordered_qt) VALUES('${data.order_id}', '${data.product_id}', '${data.quantity}')`;
+                
+                // Run the query to insert the new order product
+                db.pool.query(insertQuery, function(error, rows, fields) {
+                    // Check if there was an error
+                    if (error) {
+                        // Log the error to the terminal and send a 400 response
+                        console.log(error);
+                        res.sendStatus(400);
+                    } else {
+                        // If there was no error, update the product_quantity in the Products table
+                        let updateQuery = `UPDATE Products SET product_inventory = ${newQuantity} WHERE product_id = '${data.product_id}'`;
+
+                        // Run the query to update the product_quantity
+                        db.pool.query(updateQuery, function(error, rows, fields) {
+                            // Check if there was an error
+                            if (error) {
+                                // Log the error to the terminal and send a 400 response
+                                console.log(error);
+                                res.sendStatus(400);
+                            } else {
+                                // If all went well, perform a SELECT to retrieve the updated data
+                                let selectQuery = `SELECT *,
+                                    ((Order_Products.product_ordered_qt) * (Products.product_price)) as 'total'
+                                    FROM Orders
+                                    INNER JOIN Order_Products ON Orders.order_id = Order_Products.order_id
+                                    INNER JOIN Products ON Order_Products.product_id = Products.product_id
+                                    ORDER BY Orders.order_id ASC`;
+
+                                // Run the query to retrieve the updated data
+                                db.pool.query(selectQuery, function(error, rows, fields) {
+                                    // Check if there was an error
+                                    if (error) {
+                                        // Log the error to the terminal and send a 400 response
+                                        console.log(error);
+                                        res.sendStatus(400);
+                                    } else {
+                                        // If all went well, send the results of the query back
+                                        res.send(rows);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            } else {
+                // If adding the order product would result in negative inventory, send a 400 response
+                res.status(400).send("Out of inventory");           
+            }
+        }
+    });
+});
+
 ////////////
 // DELETE // - Delete data
 ///////////
@@ -232,7 +264,6 @@ app.delete('/delete-customer-ajax/', function(req,res,next){
               res.sendStatus(400);
               }
   })});
-
 
 
   app.delete('/delete-order-ajax/', function(req,res,next){
@@ -262,14 +293,67 @@ app.delete('/delete-product-ajax/', function(req,res,next){
             }
 })});
 
+app.delete('/delete-order-product-ajax/', function(req,res,next){
+    let data = req.body;
+    let order_product_id = parseInt(data.order_product_id);
+    let deleteOrderProduct = `DELETE FROM Order_Products WHERE order_product_id = ?`;
+  
+          db.pool.query(deleteOrderProduct, [order_product_id], function(error, rows, fields){
+            if (error) {
+            console.log(error);
+            res.sendStatus(400);
+            }
+})});
 
 /////////
 // PUT // - Update data 
 ////////
 
+app.put('/put-customer-ajax', function(req,res,next){
+    let data = req.body;
+  
 
+    let person = parseInt(data.fullname); // need review, do we need to parseInt name?
+    let email = data.email;
+    let phoneNumber = data.phoneNumber;
+  
+    let queryUpdateCustomer = `UPDATE Customers SET phone_number = ?, email = ? WHERE customer_id = ?`;
+          // Run the 1st query
+          db.pool.query(queryUpdateCustomer, [phoneNumber, email, person], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(400);
+              }
+              else {
+                res.send(rows);
+            }
+  
+  })});
 
+  app.put('/put-order-product-ajax', function(req,res,next){
+    let data = req.body;
+  
+    let order = data.order;
+    let product = data.product;
+    let quantity = data.quantity;
+  
 
+    let queryUpdateOrderProduct = `Update Order_Products SET product_ordered_qt = ? WHERE order_id = ? and product_id = ?`;
+          // Run the 1st query
+          db.pool.query(queryUpdateOrderProduct, [quantity, order, product], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(400);
+              }
+              else {
+                res.send(rows);
+            }
+  
+  })});
 
 /* ----------------------------------*/
 /* ------------ LISTENER ------------*/

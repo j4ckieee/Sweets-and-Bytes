@@ -1,7 +1,13 @@
+{{!-- Citation for the following function:
+Date: 05-23-24
+Adapted from: nodejs-starter-app
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --}}
+
 <!-- Products.hbs -->
 <body>
 
 {{! ========== Display Product Data ===========}}
+
 <h2>Products</h2>
 <p>Displays all products availible in the bakery and it's current inventory</p>
 
@@ -23,11 +29,11 @@
     <tbody>
         {{#each data}}
         <tr data-value={{this.product_id}}>
-            <td>{{this.product_id}}</td>
+            <td align = "center">{{this.product_id}}</td>
             <td>{{this.product_name}}</td>
             <td>{{this.product_description}}</td>
-            <td>{{this.product_price}}</td>
-            <td>{{this.product_inventory}}</td>
+            <td id = "price_td">{{this.product_price}}</td>
+            <td id = "inventory_td">{{this.product_inventory}}</td>
             <td><button onclick="deleteProduct({{this.product_id}})">Delete</button></td>
         </tr>
         {{/each}}
@@ -37,50 +43,55 @@
 
 
 {{! ========== Add Product Form - Method 2 ===========}}
-
+<fieldset>
 <h2>Add New Product</h2>
 <p>To add a new product, please fill in the form below and click 'Submit'.</p>
 <form id="add-product-form" method="POST" action="/add-product-form">
     <label for="input-product_name">Product Name: </label>
-    <input type="text" name="input-product_name" id="input-product_name">
+    <input type="text" name="input-product_name" id="input-product_name" placeholder="Ex: Cheese Danish">
     
     <label for="input-product_description">Product Description:</label>
-    <input type="text" name="input-product_description" id="input-product_description">
+    <input type="text" name="input-product_description" id="input-product_description" minlenth="1" maxlength="200" placeholder="200 characters or less">
+    
+    <label for="input-product_price">Product Price:</label>
+    <input type="number" name="input-product_price" min="1" id="input-product_price" placeholder="Enter Price"> 
 
-    <label for="input-product_price">Product Price</label>
-    <input type="number" name="input-product_price" id="input-product_price">
 
-    <label for="input-product_inventory">Product Inventory</label>
-    <input type="number" name="input-product_inventory" id="input-product_inventory">
+    <label for="input-product_inventory">Product Inventory:</label>
+    <input type="number" name="input-product_inventory" min="1" id="input-product_inventory" placeholder="Enter Quantity">
 
     <input type="submit">
 </form>
 <script src="./js/add_product.js"></script>
-
+</fieldset>
 
 {{! ========== Update Product in Inventory Form  ===========}}
 {{! ======= Not working - just for draft submission ========}}
-
+<fieldset>
 <h2>Update Product Inventory</h2>
 <p>To update a product, select the item from the drop-down list and enter the product's current inventory count. Then, click 'Submit'.</p>
 <form id="update-product-form">
 
     <label for="input-product_id-update">Product:</label>
     <select name="input-product_id-update" id="productSelect">
-        <option value="test">Select a Product</option>
+        <option value="text">Select a Product</option>
         {{#each data}}
         <option value="{{this.product_name}}">{{this.product_name}}</option>
         {{/each}}
     </select>
 
-    <label for="input-product_inventory-update">Inventory Count: </label>
-    <input type="number" name="input-product_inventory-update" id="input-product_inventory-update">
+    {{!--
+    <label for="input-price-update">Price: </label>
+    <input type="number" name="input-price-update" id="input-price-update" placeholder="Input Unit Price">
+    --}}
 
+    <label for="input-product-inventory-update">Inventory Count: </label>
+    <input type="number" name="input-product-inventory-update" min="1" id="input-product-inventory-update" placeholder="0">
     <input type="submit">
-
+    
 </form>
-<script src="./js/products"></script> 
-
+<script src="./js/update_product.js"></script> 
+</fieldset>
 
 <!-- end body - update above! -->
 </body>

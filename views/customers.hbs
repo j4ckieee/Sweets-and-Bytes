@@ -1,16 +1,23 @@
+{{!-- Citation for the following function:
+Date: 05-23-24
+Adapted from: nodejs-starter-app
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --}}
+
+
 <!-- customers.hbs -->
+
 <body>
 
 {{! ======== Display Customer Data =========}}
-
 {{!---- Create a table ----}}
+
 <h2>Customer Information</h2>
 <p>Displays all customer information.</p>
 <table id="customer-table">
     {{!-- Header section --}}
     <thead>
         <tr>
-            <th>Customer ID</th>
+            <th align="center">Customer ID</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
@@ -18,16 +25,17 @@
             <th>Delete</th>
         </tr>
     </thead>
+    
 
     {{!-- Body section - prints row data --}}
     <tbody>
         {{#each data}}
         <tr data-value={{this.customer_id}}>
-            <td>{{this.customer_id}}</td>
+            <td align="center">{{this.customer_id}}</td>
             <td>{{this.first_name}}</td>
             <td>{{this.last_name}}</td>
-            <td>{{this.email}}</td>
-            <td>{{this.phone_number}}</td>
+            <td id = "email_td">{{this.email}}</td>
+            <td id = "phone_td" >{{this.phone_number}}</td>
             <td><button onclick="deleteCustomer({{this.customer_id}})">Delete</button></td>
         </tr>
         {{/each}}
@@ -36,22 +44,26 @@
 <script src="./js/delete_customer.js"></script>
 
 
+
+
+
 {{! ========== Add Customer Form - Method 2 ===========}}
 
+<fieldset>
 <h2>Add New Customer</h2>
 <p>To add a new customer, please enter their information in the form below.</p>
 <form id="add-customer-form" method="POST" action="/add-customer-form">
     <label for="input-first_name">First Name:</label>
-    <input type="text" name="input-first_name" id="input-first_name">
+    <input type="text" name="input-first_name" id="input-first_name" placeholder="Jane" required>
     
     <label for="input-last_name">Last Name:</label>
-    <input type="text" name="input-last_name" id="input-last_name">
+    <input type="text" name="input-last_name" id="input-last_name" placeholder="Doe" required>
 
     <label for="input-email">Email:</label>
-    <input type="text" name="input-email" id="input-email">
+    <input type="text" name="input-email" id="input-email" pattern="[^ @]+@[^ @]+.[a-z]+" placeholder="example@email.com"required>
 
     <label for="input-age">Phone Number: </label>
-    <input type="text" name="input-phone_number" id="input-phone_number">
+    <input type="text" name="input-phone_number" id="input-phone_number" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="123-456-7890" required>
 
     <input type="submit">
 </form>
@@ -60,33 +72,37 @@
 <script src="./js/add_customer.js"></script>
 
 
+</fieldset>
+
 
 {{! ========== Update Customer Form  ===========}}
-{{! Not working - just for draft submission }}
-
+<fieldset>
 <h2>Update Customer Information</h2>
 <p>To update a customers information, select their name from the drop-down menu on the left and fill out the form.</p>
-<form id="update-customer-form">
+<p>Has to refresh the page after submitting. Auto update does not work yet</p>
+<form id="update-customer-form-ajax">
 
     <label for="input-fullname">Full name: </label>
-    <select name="input-fullname" id="mySelect">
+    <select name="input-fullname" id="input-fullname-update">
         <option value="test">Select a Person</option>
         {{#each data}}
         <option value="{{this.customer_id}}">{{this.first_name}} {{this.last_name}}</option>
         {{/each}}
     </select>
 
-    <label for="input-phone_number-update">Email: </label>
-    <input type="text" name="input-email-update" id="input-email-update">
+    <label for="input-email-update">Email: </label>
+    <input type="email" name="input-email-update" id="input-email-update" pattern="[^ @]+@[^ @]+.[a-z]+" placeholder="example@email.com" required>
 
     <label for="input-phone_number-update">Phone Number: </label>
-    <input type="text" name="input-phone_number-update" id="input-phone_number-update">
+    <input type="tel" name="input-phone_number-update" id="input-phone_number-update" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="123-456-7890" required>
 
     <input type="submit">
-
 </form>
-<script src="./js/customers.js"></script>
+<script src="./js/update_customer.js"></script>
+
+</fieldset>
 
 
 <!-- end body - update above! -->
+
 </body>

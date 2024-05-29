@@ -1,16 +1,22 @@
+{{!-- Citation for the following function:
+Date: 05-23-24
+Adapted from: nodejs-starter-app
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --}}
+
 <!-- order_products.hbs -->
 <body>
 
 {{! ========== Display Ordered Products  ===========}}
 
-<h2>Order Details</h2>
-<p>Displays order contents</p>
-
+<h2>Order Product Details</h2>
+<p>Displays order product contents</p>
+<p>Refresh page after Delete to see changes</p>
 {{!-- Create a table --}}
 <table id="order_products-table">
     <thead>
         <tr>
             <th>Order ID</th>
+            <th>Order Product ID</th>
             <th>Product Name</th>
             <th>Quantity</th>
             <th>Unit Price</th>
@@ -20,83 +26,80 @@
         </tr>
     </thead>
     <tbody>
-        {{#each orderDetails}}
-        <tr>
-            <td>{{this.order_id}}</td>
+        {{#each orderProducts}}
+        <tr data-value={{this.order_id}}-{{this.product_id}}>
+            <td align="center">{{this.order_id}}</td>
+            <td align="center">{{this.order_product_id}}</td>
             <td>{{this.product_name}}</td>
-            <td>{{this.product_ordered_qt}}</td>
-            <td>{{this.product_price}}</td>
-            <td>{{this.total}}</td>
+            <td align="center">{{this.product_ordered_qt}}</td>
+            <td align="right">{{this.product_price}}</td>
+            <td align="right">{{this.total}}</td>
             <td><button onclick="deleteOrderProducts({{this.order_product_id}})">Delete</button></td>
-
         </tr>
         {{/each}}
     </tbody>
 </table>
+<script src="./js/delete_order_product.js"></script>
 
 {{! ========== Add Product to Order Form  ===========}}
-{{! ==== Not working - just for draft submission ====}}
-
+<fieldset>
 <h2>Add Product to Order</h2>
-
-<form id="add-order_products-form" method="POST" action="/add-order_products-form">
+<p>The product ordered quantity cannot exceed product inventory</p>
+<p>Refresh page to see changes.</p>
+<form id="add-order-product-form" method="POST" action="/add-order-product-form">
     <label for="input-order-id">Order ID:</label>
     <select name="input-order-id" id="orderSelect">
         <option value="test">Select an Order</option>
-        {{#each data}}
+        {{#each orders}}
         <option value="{{this.order_id}}">{{this.order_id}}</option>
         {{/each}}
     </select>
     
-    <label for="input-test">Product Name:</label>
-    <select name="input-test" id="test">
+    <label for="input-product-id">Product Name:</label>
+    <select name="input-product-id" id="productSelect">
         <option value="test">Select a Product</option>
-        {{#each data}}
-        <option value="{{this.product_id}}">{{this.product_id}}</option>
+        {{#each products}}
+        <option value="{{this.product_id}}">{{this.product_name}}</option>
         {{/each}}
     </select>
 
-     <label for="input-test">Quantity</label>
-    <input type="number" name="input-test" id="input-test">
+     <label for="input-quantity">Quantity</label>
+    <input type="number" name="input-quantity" id="input-quantity" placeholder="Enter Quantity" required>
 
     <input type="submit">
 </form>
-<script src="./js/order_products.js"></script>
-
+<script src="./js/add_order_product.js"></script>
+</fieldset>
 
 
 {{! ========== Update Product in Order Form  ===========}}
-{{! ===== Not working - just for draft submission  =====}}
-
+<fieldset>
 <h2>Update Product Order Quantity</h2>
-<form id="update-product-form" method="POST" action="/update-product">
+<p>Refresh page to see changes.</p>
+<form id="update-order-product-form">
     <label for="input-order_id">Order ID:</label>
-    <select name="input-order_id" id="mySelect">
+    <select name="input-order_id" id="orderSelectUpdate">
         <option value="test">Select an Order</option>
-        {{#each data}}
+        {{#each orders}}
         <option value="{{this.order_id}}">{{this.order_id}}</option>
         {{/each}}
     </select>
     
-    <label for="input-test">Product Name:</label>
-    <select name="input-test" id="test">
+    <label for="input-product-id">Product Name:</label>
+    <select name="input-product-id" id="productSelectUpdate">
         <option value="test">Select a Product</option>
-        {{#each data}}
-        <option value="{{this.test}}">{{this.test}}</option>
+        {{#each products}}
+        <option value="{{this.product_id}}">{{this.product_name}}</option>
         {{/each}}
     </select>
 
-     <label for="input-test">Quantity</label>
-    <input type="number" name="input-test" id="input-test">
+    <label for="input-quantity">Quantity</label>
+    <input type="number" name="input-quantity" id="input-quantity-update" placeholder="Enter Quantity" >
 
     <input type="submit">
 </form>
-<script src="./js/product.js"></script>
-
-
-
-
-
+<script src="./js/update_order_product.js"></script>
+</fieldset>
 
 
 <!-- end body - update above! -->

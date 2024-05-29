@@ -1,53 +1,137 @@
-// app.js - ROUTES section
+// Citation for the following function:
+// Date: 05-23-24
+// Adapted from: nodejs-starter-app
+// Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main
 
-app.post('/add-person-ajax', function(req, res) 
-{
-    // Capture the incoming data and parse it back to a JS object
-    let data = req.body;
+// Get the objects we need to modify
+let addOrderProductForm = document.getElementById('add-order-product-form');
 
-    // Capture NULL values
-    let homeworld = parseInt(data.homeworld);
-    if (isNaN(homeworld))
-    {
-        homeworld = 'NULL'
+// Modify the objects we need
+addOrderProductForm.addEventListener("submit", function (e) {
+    
+    // Prevent the form from submitting
+    e.preventDefault();
+
+    // Get form fields we need to get data from
+    let inputOrderID = document.getElementById("orderSelect");
+    let inputProductID = document.getElementById("productSelect");
+    let inputQuantity = document.getElementById("input-quantity");
+
+    // Get the values from the form fields
+    let orderIDValue = inputOrderID.value;
+    let productIDValue = inputProductID.value;
+    let quantityValue = inputQuantity.value;
+
+    // Put our data we want to send in a javascript object
+    let data = {
+        order_id: orderIDValue,
+        product_id: productIDValue,
+        quantity: quantityValue,
     }
+    
+    // Setup our AJAX request
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "/add-order-product-ajax", true);
+    xhttp.setRequestHeader("Content-type", "application/json");
 
-    let age = parseInt(data.age);
-    if (isNaN(age))
-    {
-        age = 'NULL'
+    // Tell our AJAX request how to resolve
+    xhttp.onreadystatechange = () => {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+            // Add the new data to the table
+            addRowToTable(xhttp.response);
+
+            // Clear the input fields for another transaction
+            inputOrderID.value = '';
+            inputProductID.value = '';
+            inputEmail.value = '';
+            inputQuantity.value = '';
+        }
+        else if (xhttp.readyState == 4 && xhttp.status != 200) {
+            console.log("There was an error with the input.")
+        }
     }
+console.log(data)
+    // Send the request and wait for the response
+    xhttp.send(JSON.stringify(data));
 
-    // Create the query and run it on the database
-    query1 = `INSERT INTO bsg_people (fname, lname, homeworld, age) VALUES ('${data.fname}', '${data.lname}', ${homeworld}, ${age})`;
-    db.pool.query(query1, function(error, rows, fields){
+})
 
-        // Check to see if there was an error
-        if (error) {
+// BELOW NEEDS TO BE UPDATED!!!!!!!
 
-            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-            console.log(error)
-            res.sendStatus(400);
-        }
-        else
-        {
-            // If there was no error, perform a SELECT * on bsg_people
-            query2 = `SELECT * FROM bsg_people;`;
-            db.pool.query(query2, function(error, rows, fields){
+// Creates a single row from an Object representing a single record from 
+// bsg_people
+addRowToTable = (data) => {
 
-                // If there was an error on the second query, send a 400
-                if (error) {
-                    
-                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-                    console.log(error);
-                    res.sendStatus(400);
-                }
-                // If all went well, send the results of the query back.
-                else
-                {
-                    res.send(rows);
-                }
-            })
-        }
-    })
-});
+    // Get a reference to the current table on the page and clear it out.
+    let currentTable = document.getElementById("order_products-table");
+
+    // Get the location where we should insert the new row (end of table)
+    let newRowIndex = currentTable.rows.length;
+
+    // Get a reference to the new row from the database query (last object)
+    let parsedData = JSON.parse(data);
+    let newRow = parsedData[parsedData.length - 1]
+
+    // Create a row and 4 cells
+    let row = document.createElement("TR");
+    //let idCell = document.createElement("TD");
+    let orderIDCell = document.createElement("TD");
+    let orderProductIDeCell = document.createElement("TD");
+    let productNameCell = document.createElement("TD");
+    let quantityCell = document.createElement("TD");
+    let unitPriceCell = document.createElement("TD");
+    let totalCell = document.createElement("TD");
+
+
+    let deleteCell = document.createElement("TD");
+
+    // Fill the cells with correct data
+    //idCell.innerText = newRow.id;
+    // order_id: orderIDValue,
+    // product_id: productIDValue,
+    // quantity: quantityValue
+    
+    orderIDCell.innerText = newRow.order_id;
+    orderProductIDCell.innerText = newRow.order_product_id;
+    productNameCell.innerText = newRow.product_name;
+    quantityCell.innerText = newRow.product_ordered_qt;
+    unitPriceCell.innerText = newRow.product_price;
+    totalCell.innerText = newRow.total;
+
+    deleteCell = document.createElement("button");
+    deleteCell.innerHTML = "Delete";
+    deleteCell.onclick = function(){
+        deleteCustomer(newRow.order_product_id);
+    };
+
+    // Add the cells to the row 
+    //row.appendChild(idCell);
+    row.appendChild(orderIDCell);
+    row.appendChild(orderProductIDCell);
+    row.appendChild(productNameCell);
+    row.appendChild(quantityCell);
+    row.appendChild(unitPriceCell);
+    row.appendChild(totalCell);
+    row.appendChild(deleteCell);
+
+    // Add a custom row attribute so the deleteRow function can find a newly added row
+    row.setAttribute('data-value', newRow.order_product_id);
+
+    
+    // Add the row to the table
+    currentTable.appendChild(row);
+
+
+    // Find drop down menu, create a new option, fill data in the option (full name, id),
+    // then append option to drop down menu so newly created rows via ajax will be found in it without needing a refresh
+    let selectMenu = document.getElementById("mySelect");
+    let option = document.createElement("option");
+    option.text = newRow.first_name + ' ' +  newRow.last_name;
+    option.value = newRow.customer_id;
+    selectMenu.add(option);
+    // End of new step 8 code.
+
+    // Reload page
+    window.location.reload(); // not working?
+}

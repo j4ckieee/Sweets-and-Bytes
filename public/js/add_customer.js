@@ -1,3 +1,7 @@
+// Citation for the following function:
+// Date: 05-23-24
+// Adapted from: nodejs-starter-app
+// Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main
 
 // Get the objects we need to modify
 let addCustomerForm = document.getElementById('add-customer-form-ajax');
@@ -117,4 +121,7 @@ addRowToTable = (data) => {
     option.value = newRow.customer_id;
     selectMenu.add(option);
     // End of new step 8 code.
+
+   // Reload page
+   window.location.reload();
 }
