@@ -271,50 +271,79 @@ app.post('/add-product-form', function(req, res){
 });
 
 
-app.post('/add-order-product-ajax', function(req, res) 
-{
+app.post('/add-order-product-ajax', function(req, res) {
     // Capture the incoming data and parse it back to a JS object
     let data = req.body;
 
-    // Create the query and run it on the database
-    query1 = `INSERT INTO Order_Products (order_id, product_id, product_ordered_qt) VALUES('${data.order_id}', '${data.product_id}', '${data.quantity}')`;
-    db.pool.query(query1, function(error, rows, fields){
+    // Check if adding the order product would result in negative inventory
+    let checkQuery = `SELECT product_inventory FROM Products WHERE product_id = '${data.product_id}'`;
 
-        // Check to see if there was an error
+    // Run the query to check the current product quantity
+    db.pool.query(checkQuery, function(error, rows, fields) {
+        // Check if there was an error
         if (error) {
-
-            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-            console.log(error)
+            // Log the error to the terminal and send a 400 response
+            console.log(error);
             res.sendStatus(400);
-        }
-        else
-        {
-            // If there was no error, perform a SELECT * on bsg_people
-            query2 = `SELECT
-            *,
-            ((Order_Products.product_ordered_qt) * (Products.product_price)) as 'total'
-            from Orders
-            INNER JOIN Order_Products ON Orders.order_id = Order_Products.order_id
-            INNER JOIN Products ON Order_Products.product_id = Products.product_id
-            ORDER BY Orders.order_id ASC;
-            `;
-            db.pool.query(query2, function(error, rows, fields){
+        } else {
+            // Calculate the new product quantity after adding the order product
+            let currentQuantity = rows[0].product_inventory;
+            let newQuantity = currentQuantity - data.quantity;
+            
+            // Check if the new product quantity would be negative
+            if (newQuantity >= 0) {
+                // If not negative, proceed with inserting the order product
+                let insertQuery = `INSERT INTO Order_Products (order_id, product_id, product_ordered_qt) VALUES('${data.order_id}', '${data.product_id}', '${data.quantity}')`;
+                
+                // Run the query to insert the new order product
+                db.pool.query(insertQuery, function(error, rows, fields) {
+                    // Check if there was an error
+                    if (error) {
+                        // Log the error to the terminal and send a 400 response
+                        console.log(error);
+                        res.sendStatus(400);
+                    } else {
+                        // If there was no error, update the product_quantity in the Products table
+                        let updateQuery = `UPDATE Products SET product_inventory = ${newQuantity} WHERE product_id = '${data.product_id}'`;
 
-                // If there was an error on the second query, send a 400
-                if (error) {
-                    
-                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-                    console.log(error);
-                    res.sendStatus(400);
-                }
-                // If all went well, send the results of the query back.
-                else
-                {
-                    res.send(rows);
-                }
-            })
+                        // Run the query to update the product_quantity
+                        db.pool.query(updateQuery, function(error, rows, fields) {
+                            // Check if there was an error
+                            if (error) {
+                                // Log the error to the terminal and send a 400 response
+                                console.log(error);
+                                res.sendStatus(400);
+                            } else {
+                                // If all went well, perform a SELECT to retrieve the updated data
+                                let selectQuery = `SELECT *,
+                                    ((Order_Products.product_ordered_qt) * (Products.product_price)) as 'total'
+                                    FROM Orders
+                                    INNER JOIN Order_Products ON Orders.order_id = Order_Products.order_id
+                                    INNER JOIN Products ON Order_Products.product_id = Products.product_id
+                                    ORDER BY Orders.order_id ASC`;
+
+                                // Run the query to retrieve the updated data
+                                db.pool.query(selectQuery, function(error, rows, fields) {
+                                    // Check if there was an error
+                                    if (error) {
+                                        // Log the error to the terminal and send a 400 response
+                                        console.log(error);
+                                        res.sendStatus(400);
+                                    } else {
+                                        // If all went well, send the results of the query back
+                                        res.send(rows);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            } else {
+                // If adding the order product would result in negative inventory, send a 400 response
+                res.status(400).send("Out of inventory");           
+            }
         }
-    })
+    });
 });
 
 ////////////
