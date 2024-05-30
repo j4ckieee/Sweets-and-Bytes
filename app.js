@@ -68,6 +68,7 @@ app.get('/order_products', function(req, res)
     `;
     let query2 = "SELECT * FROM Products;";
     let query3 = "SELECT * FROM Orders;";
+<<<<<<< HEAD
 
     db.pool.query(query1, function(error, rows, fields){
     
@@ -93,6 +94,33 @@ app.get('/order_products', function(req, res)
     })});
 
 
+=======
+
+    db.pool.query(query1, function(error, rows, fields){
+    
+        // Save the people
+        let orderProducts = rows;
+        
+        // Run the 2nd query
+        db.pool.query(query2, (error, rows, fields) => {
+            
+            // Save the planets
+            let products = rows;
+    
+            // Run the 3rd query
+            db.pool.query(query3, (error, rows, fields) => {
+                
+                // Save the ships
+                let orders = rows;
+    
+                // Render the data to the index view
+                return res.render('order_products', {orderProducts: orderProducts, products: products, orders: orders});
+            });
+        });
+    })});
+
+
+>>>>>>> origin/main
 app.get('/orders', function(req, res)
     {  
         let query1 = `SELECT *,
@@ -110,6 +138,109 @@ app.get('/orders', function(req, res)
             res.render('orders', {data: rows});                  
         })                                                      
     }); 
+<<<<<<< HEAD
+=======
+
+   
+// ------------ JUST FOR FINAL SUBMISSION ------
+
+// app.get('/order_products', function(req, res) {
+//     async.parallel({
+//         ordersData: function(callback) {
+//             let query1 = `SELECT Orders.order_id,
+//                 first_name,
+//                 last_name,
+//                 Orders.order_date,
+//                 (sum((Order_Products.product_ordered_qt) * (Products.product_price))) as 'subtotal'
+//                 FROM Orders
+//                 LEFT JOIN Order_Products ON Orders.order_id = Order_Products.order_id
+//                 INNER JOIN Customers ON Orders.customer_id = Customers.customer_id
+//                 LEFT JOIN Products ON Order_Products.product_id = Products.product_id
+//                 GROUP BY Order_Products.order_id
+//                 ORDER BY Orders.order_id ASC;`;
+
+//             db.pool.query(query1, function(error, rows, fields) {
+//                 callback(error, rows);
+//             });
+//         },
+//         orderDetails: function(callback) {
+//             let query2 = `SELECT
+//             Orders.order_id,
+//             Products.product_name,
+//             Order_Products.product_ordered_qt,
+//             Products.product_price,
+//             ((Order_Products.product_ordered_qt) * (Products.product_price)) as 'total'
+//             from Orders
+//             INNER JOIN Order_Products ON Orders.order_id = Order_Products.order_id
+//             INNER JOIN Products ON Order_Products.product_id = Products.product_id
+//             ORDER BY Orders.order_id ASC;
+//             `;
+
+//             db.pool.query(query2, function(error, rows, fields) {
+//                 callback(error, rows);
+//             });
+//         }
+//     }, function(err, results) {
+//         if (err) {
+//             // Handle error
+//             console.error(err);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
+
+//         res.render('order_products', { ordersData: results.ordersData, orderDetails: results.orderDetails });
+//     });
+// });          
+
+// const async = require('async');
+// app.get('/orders', function(req, res) {
+//     async.parallel({
+//         ordersData: function(callback) {
+//             let query1 = `SELECT Orders.order_id,
+//                 first_name,
+//                 last_name,
+//                 Orders.order_date,
+//                 (sum((Order_Products.product_ordered_qt) * (Products.product_price))) as 'subtotal'
+//                 FROM Orders
+//                 LEFT JOIN Order_Products ON Orders.order_id = Order_Products.order_id
+//                 INNER JOIN Customers ON Orders.customer_id = Customers.customer_id
+//                 LEFT JOIN Products ON Order_Products.product_id = Products.product_id
+//                 GROUP BY Order_Products.order_id
+//                 ORDER BY Orders.order_id ASC;`;
+
+//             db.pool.query(query1, function(error, rows, fields) {
+//                 callback(error, rows);
+//             });
+//         },
+//         orderDetails: function(callback) {
+//             let query2 = `SELECT
+//             Orders.order_id,
+//             Products.product_name,
+//             Order_Products.product_ordered_qt,
+//             Products.product_price,
+//             ((Order_Products.product_ordered_qt) * (Products.product_price)) as 'total'
+//             from Orders
+//             INNER JOIN Order_Products ON Orders.order_id = Order_Products.order_id
+//             INNER JOIN Products ON Order_Products.product_id = Products.product_id
+//             ORDER BY Orders.order_id ASC;
+//             `;
+
+//             db.pool.query(query2, function(error, rows, fields) {
+//                 callback(error, rows);
+//             });
+//         }
+//     }, function(err, results) {
+//         if (err) {
+//             // Handle error
+//             console.error(err);
+//             res.status(500).send('Internal Server Error');
+//             return;
+//         }
+
+//         res.render('orders', { ordersData: results.ordersData, orderDetails: results.orderDetails });
+//     });
+// });
+>>>>>>> origin/main
 
                                                      
 
