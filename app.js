@@ -110,8 +110,6 @@ app.get('/orders', function(req, res)
             res.render('orders', {data: rows});                  
         })                                                      
     }); 
-<<<<<<< HEAD
-=======
 
    
 // ------------ JUST FOR FINAL SUBMISSION ------
