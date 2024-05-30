@@ -21,6 +21,7 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
     <thead> 
         <tr>
             <th>Order ID</th>
+            <th>Customer ID</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Order Date</th>
@@ -62,18 +63,21 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
     </select>
     
     <label for="input-order_date">Order Date:</label>
-    <input type="date" name="input-order_date" id="input-order_date">
+    <input type="date" name="input-order_date" id="input-order_date" required>
 
     <input type="submit">
 </form>
 <script src="./js/add_order.js"></script>
+</fieldset>
 
 
+{{! ========== Update Order Form  ===========}}
+<fieldset>
 <h2>Update the Customer on an Order</h2>
 <form id="update-order-form" method="POST" action="/update-order-form">
     <label for="input-order_id">Order ID:</label>
     <select name="input-order_id" id="mySelect">
-        <option value="test">Select an Order</option>
+        <option value="text">Select an Order</option>
         {{#each data}}
         <option value="{{this.order_id}}">{{this.order_id}}</option>
         {{/each}}
@@ -81,7 +85,7 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
     
     <label for="input-test">Customer ID:</label>
     <select name="input-test" id="test">
-        <option value="test">Customer ID</option>
+        <option value="text">Customer ID</option>
         {{#each data}}
         <option value="{{this.customer_id}}">{{this.customer_id}}</option>
         {{/each}}
@@ -89,7 +93,8 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
 
     <input type="submit">
 </form>
-<script src="./js/order.js"></script>
+<script src="./js/update_order.js"></script>
+</fieldset>
 
 
 
