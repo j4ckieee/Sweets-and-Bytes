@@ -9,7 +9,7 @@ var app     = express();
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
-PORT        = 8463;                   
+PORT        = 8463;                
                 
 
 // Database
@@ -68,7 +68,6 @@ app.get('/order_products', function(req, res)
     `;
     let query2 = "SELECT * FROM Products;";
     let query3 = "SELECT * FROM Orders;";
-<<<<<<< HEAD
 
     db.pool.query(query1, function(error, rows, fields){
     
@@ -94,33 +93,6 @@ app.get('/order_products', function(req, res)
     })});
 
 
-=======
-
-    db.pool.query(query1, function(error, rows, fields){
-    
-        // Save the people
-        let orderProducts = rows;
-        
-        // Run the 2nd query
-        db.pool.query(query2, (error, rows, fields) => {
-            
-            // Save the planets
-            let products = rows;
-    
-            // Run the 3rd query
-            db.pool.query(query3, (error, rows, fields) => {
-                
-                // Save the ships
-                let orders = rows;
-    
-                // Render the data to the index view
-                return res.render('order_products', {orderProducts: orderProducts, products: products, orders: orders});
-            });
-        });
-    })});
-
-
->>>>>>> origin/main
 app.get('/orders', function(req, res)
     {  
         let query1 = `SELECT *,
@@ -240,7 +212,6 @@ app.get('/orders', function(req, res)
 //         res.render('orders', { ordersData: results.ordersData, orderDetails: results.orderDetails });
 //     });
 // });
->>>>>>> origin/main
 
                                                      
 
@@ -395,6 +366,7 @@ app.delete('/delete-customer-ajax/', function(req,res,next){
               res.sendStatus(400);
               }
   })});
+
 
 
   app.delete('/delete-order-ajax/', function(req,res,next){

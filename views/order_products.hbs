@@ -28,21 +28,22 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
     <tbody>
         {{#each orderProducts}}
         <tr data-value={{this.order_id}}-{{this.product_id}}>
-            <td align="center">{{this.order_id}}</td>
-            <td align="center">{{this.order_product_id}}</td>
+            <td>{{this.order_id}}</td>
+            <td>{{this.order_product_id}}</td>
             <td>{{this.product_name}}</td>
-            <td align="center">{{this.product_ordered_qt}}</td>
-            <td align="right">{{this.product_price}}</td>
-            <td align="right">{{this.total}}</td>
+            <td>{{this.product_ordered_qt}}</td>
+            <td>{{this.product_price}}</td>
+            <td>{{this.total}}</td>
             <td><button onclick="deleteOrderProducts({{this.order_product_id}})">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
+
 <script src="./js/delete_order_product.js"></script>
 
 {{! ========== Add Product to Order Form  ===========}}
-<fieldset>
+
 <h2>Add Product to Order</h2>
 <p>The product ordered quantity cannot exceed product inventory</p>
 <p>Refresh page to see changes.</p>
@@ -64,16 +65,16 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
     </select>
 
      <label for="input-quantity">Quantity</label>
-    <input type="number" name="input-quantity" id="input-quantity" placeholder="Enter Quantity" required>
+    <input type="number" name="input-quantity" id="input-quantity" required>
 
     <input type="submit">
 </form>
 <script src="./js/add_order_product.js"></script>
-</fieldset>
+
 
 
 {{! ========== Update Product in Order Form  ===========}}
-<fieldset>
+
 <h2>Update Product Order Quantity</h2>
 <p>Refresh page to see changes.</p>
 <form id="update-order-product-form">
@@ -94,12 +95,12 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
     </select>
 
     <label for="input-quantity">Quantity</label>
-    <input type="number" name="input-quantity" id="input-quantity-update" placeholder="Enter Quantity" >
+    <input type="number" name="input-quantity" id="input-quantity-update">
 
     <input type="submit">
 </form>
 <script src="./js/update_order_product.js"></script>
-</fieldset>
+
 
 
 <!-- end body - update above! -->
