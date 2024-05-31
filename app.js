@@ -9,8 +9,7 @@ var app     = express();
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
-PORT        = 8463;                
-                
+PORT        = 8463; 
 
 // Database
 var db = require('./database/db-connector')
@@ -103,113 +102,26 @@ app.get('/orders', function(req, res)
         LEFT JOIN Customers ON Orders.customer_id = Customers.customer_id
         LEFT JOIN Products ON Order_Products.product_id = Products.product_id
         GROUP BY Orders.order_id
-        ORDER BY Orders.order_id ASC;`;   
+        ORDER BY Orders.order_id ASC;`;
 
-        db.pool.query(query1, function(error, rows, fields){    
+        // Query 2
+        let query2 = "SELECT * FROM Customers;";
 
-            res.render('orders', {data: rows});                  
+        // Run the 1st query
+        db.pool.query(query1, function(error, rows, fields){
+        
+        // Save the people
+        let orders = rows;
+        
+        // Run the second query
+        db.pool.query(query2, (error, rows, fields) => {
+            
+            // Save the planets
+            let customers = rows;
+            return res.render('orders', {data: orders, customers: customers});
+        })                 
         })                                                      
     }); 
-
-   
-// ------------ JUST FOR FINAL SUBMISSION ------
-
-// app.get('/order_products', function(req, res) {
-//     async.parallel({
-//         ordersData: function(callback) {
-//             let query1 = `SELECT Orders.order_id,
-//                 first_name,
-//                 last_name,
-//                 Orders.order_date,
-//                 (sum((Order_Products.product_ordered_qt) * (Products.product_price))) as 'subtotal'
-//                 FROM Orders
-//                 LEFT JOIN Order_Products ON Orders.order_id = Order_Products.order_id
-//                 INNER JOIN Customers ON Orders.customer_id = Customers.customer_id
-//                 LEFT JOIN Products ON Order_Products.product_id = Products.product_id
-//                 GROUP BY Order_Products.order_id
-//                 ORDER BY Orders.order_id ASC;`;
-
-//             db.pool.query(query1, function(error, rows, fields) {
-//                 callback(error, rows);
-//             });
-//         },
-//         orderDetails: function(callback) {
-//             let query2 = `SELECT
-//             Orders.order_id,
-//             Products.product_name,
-//             Order_Products.product_ordered_qt,
-//             Products.product_price,
-//             ((Order_Products.product_ordered_qt) * (Products.product_price)) as 'total'
-//             from Orders
-//             INNER JOIN Order_Products ON Orders.order_id = Order_Products.order_id
-//             INNER JOIN Products ON Order_Products.product_id = Products.product_id
-//             ORDER BY Orders.order_id ASC;
-//             `;
-
-//             db.pool.query(query2, function(error, rows, fields) {
-//                 callback(error, rows);
-//             });
-//         }
-//     }, function(err, results) {
-//         if (err) {
-//             // Handle error
-//             console.error(err);
-//             res.status(500).send('Internal Server Error');
-//             return;
-//         }
-
-//         res.render('order_products', { ordersData: results.ordersData, orderDetails: results.orderDetails });
-//     });
-// });          
-
-// const async = require('async');
-// app.get('/orders', function(req, res) {
-//     async.parallel({
-//         ordersData: function(callback) {
-//             let query1 = `SELECT Orders.order_id,
-//                 first_name,
-//                 last_name,
-//                 Orders.order_date,
-//                 (sum((Order_Products.product_ordered_qt) * (Products.product_price))) as 'subtotal'
-//                 FROM Orders
-//                 LEFT JOIN Order_Products ON Orders.order_id = Order_Products.order_id
-//                 INNER JOIN Customers ON Orders.customer_id = Customers.customer_id
-//                 LEFT JOIN Products ON Order_Products.product_id = Products.product_id
-//                 GROUP BY Order_Products.order_id
-//                 ORDER BY Orders.order_id ASC;`;
-
-//             db.pool.query(query1, function(error, rows, fields) {
-//                 callback(error, rows);
-//             });
-//         },
-//         orderDetails: function(callback) {
-//             let query2 = `SELECT
-//             Orders.order_id,
-//             Products.product_name,
-//             Order_Products.product_ordered_qt,
-//             Products.product_price,
-//             ((Order_Products.product_ordered_qt) * (Products.product_price)) as 'total'
-//             from Orders
-//             INNER JOIN Order_Products ON Orders.order_id = Order_Products.order_id
-//             INNER JOIN Products ON Order_Products.product_id = Products.product_id
-//             ORDER BY Orders.order_id ASC;
-//             `;
-
-//             db.pool.query(query2, function(error, rows, fields) {
-//                 callback(error, rows);
-//             });
-//         }
-//     }, function(err, results) {
-//         if (err) {
-//             // Handle error
-//             console.error(err);
-//             res.status(500).send('Internal Server Error');
-//             return;
-//         }
-
-//         res.render('orders', { ordersData: results.ordersData, orderDetails: results.orderDetails });
-//     });
-// });
 
                                                      
 
@@ -249,8 +161,6 @@ app.post('/add-customer-form', function(req, res){
         }
     })
 })
-   
-
 
 app.post('/add-product-form', function(req, res){
     let data = req.body;
@@ -346,6 +256,32 @@ app.post('/add-order-product-ajax', function(req, res) {
     });
 });
 
+
+app.post('/add-order-form', function(req, res){
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // Create the query and run it on the database
+    query1 = `INSERT INTO Orders (customer_id, order_date) VALUES ('${data['input-customer_id']}', '${data['input-order_date']}')`;
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // If there was no error, we redirect back to our root route
+        else
+        {
+            res.redirect('/orders');
+        }
+    })
+})
+
+
 ////////////
 // DELETE // - Delete data
 ///////////
@@ -366,14 +302,13 @@ app.delete('/delete-customer-ajax/', function(req,res,next){
   })});
 
 
-
   app.delete('/delete-order-ajax/', function(req,res,next){
     let data = req.body;
-    let orderId = parseInt(data.order_id);
+    let order_id = parseInt(data.order_id);
     let deleteOrders = `DELETE FROM Orders WHERE order_id = ?`;
   
           // Run the 1st query
-          db.pool.query(deleteOrders, [orderId], function(error, rows, fields){
+          db.pool.query(deleteOrders, [order_id], function(error, rows, fields){
             if (error) {
 
             // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
@@ -413,7 +348,6 @@ app.delete('/delete-order-product-ajax/', function(req,res,next){
 app.put('/put-customer-ajax', function(req,res,next){
     let data = req.body;
   
-
     let person = parseInt(data.fullname); // need review, do we need to parseInt name?
     let email = data.email;
     let phoneNumber = data.phoneNumber;
@@ -432,6 +366,7 @@ app.put('/put-customer-ajax', function(req,res,next){
             }
   
   })});
+
 
   app.put('/put-order-product-ajax', function(req,res,next){
     let data = req.body;
@@ -455,6 +390,7 @@ app.put('/put-customer-ajax', function(req,res,next){
             }
   
   })});
+
 
 /* ----------------------------------*/
 /* ------------ LISTENER ------------*/

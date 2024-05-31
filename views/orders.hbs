@@ -16,7 +16,7 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
 <p>Displays all bakery orders.</p>
 
 {{!---- Create a table ----}}
-<table id="order-table">
+<table id="orders-table">
     {{!-- Header section --}}
     <thead> 
         <tr>
@@ -34,12 +34,13 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
     <tbody>
         {{#each data}}
         <tr data-value={{this.order_id}}>
-            <td>{{this.orderID}}</td>
+            <td align="center">{{this.orderID}}</td>
+            <td align="center">{{this.customer_id}}</td>
             <td>{{this.first_name}}</td>
             <td>{{this.last_name}}</td>
             <td>{{this.order_date}}</td>
-            <td>{{this.subtotal}}</td>
-            <td><button onclick="deleteOrder({{this.order_id}})">Delete</button></td>
+            <td align="right">$ {{this.subtotal}}</td>
+            <td><button onclick="deleteOrder('{{this.order_id}}')">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
@@ -49,22 +50,21 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
 {{! ========== Add Order Form - Method 2 ===========}}
 {{! ======= Not working - just for draft submission ========}}
 
+<fieldset>
 <h2>Add an Order</h2>
 <p>To add a new order, please fill in the form below and click 'Submit'!</p>
-
 {{!-- Form to add a record to the table  --}}
 <form id="add-order-form" method="POST" action="/add-order-form">
-    <label for="input-customer_id">Customer ID:</label>
+    <label for="input-customer_id">Customer Name:</label>
     <select name="input-customer_id" id="mySelect">
         <option value="test">Select a Customer</option>
-        {{#each data}}
-        <option value="{{this.customer_id}}">{{this.customer_id}}</option>
+        {{#each customers}}
+        <option value="{{this.customer_id}}">{{this.first_name}} {{this.last_name}}</option>
         {{/each}}
     </select>
     
     <label for="input-order_date">Order Date:</label>
     <input type="date" name="input-order_date" id="input-order_date" required>
-
     <input type="submit">
 </form>
 <script src="./js/add_order.js"></script>
@@ -95,8 +95,6 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
 </form>
 <script src="./js/update_order.js"></script>
 </fieldset>
-
-
 
 <!-- end body - update above! -->
 </body>

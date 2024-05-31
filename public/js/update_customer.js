@@ -13,7 +13,7 @@ updateCustomerForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
     // Get form fields we need to get data from
-    let inputFullName = document.getElementById("mySelect");
+    let inputFullName = document.getElementById("customerSelect");
     let inputEmail = document.getElementById("input-email-update");
     let inputPhoneNumber = document.getElementById("input-phone_number-update");
 
@@ -22,14 +22,6 @@ updateCustomerForm.addEventListener("submit", function (e) {
     let fullNameValue = inputFullName.value;
     let emailValue = inputEmail.value;
     let phoneNumberValue = inputPhoneNumber.value;
-    
-    // currently the database table for bsg_people does not allow updating values to NULL
-    // so we must abort if being bassed NULL for homeworld
-
-    // if (!!phoneNumberValue || !!emailValue ) 
-    // {
-    //     return;
-    // }
 
 
     // Put our data we want to send in a javascript object
@@ -60,6 +52,9 @@ updateCustomerForm.addEventListener("submit", function (e) {
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));
 
+    // Reload page
+    window.location.reload();
+
 })
 
 
@@ -80,13 +75,6 @@ function updateRow(data, customer_id){
             let email_td = updateRowIndex.getElementsByTagName("td")[3];
             let phone_td = updateRowIndex.getElementsByTagName("td")[4];
 
-            // Reassign homeworld to our value we updated to
-            // console.log(parsedData[0]);
-            // console.log(parsedData);
-            // console.log(parsedData.phoneNumberValue);
-            // console.log(parsedData.emailValue);
-            // console.log(parsedData[0].name);
-
             // below code does not work.
             email_td.innerHTML = parsedData[0].emailValue; 
             phone_td.innerHTML = parsedData[0].phoneNumberValue; 
@@ -95,4 +83,3 @@ function updateRow(data, customer_id){
        }
     }
 }
-

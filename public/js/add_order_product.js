@@ -46,10 +46,14 @@ addOrderProductForm.addEventListener("submit", function (e) {
             inputProductID.value = '';
             inputEmail.value = '';
             inputQuantity.value = '';
+
+            
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.")
         }
+        // Reload page
+        window.location.reload(); 
     }
 console.log(data)
     // Send the request and wait for the response
@@ -87,11 +91,6 @@ addRowToTable = (data) => {
     let deleteCell = document.createElement("TD");
 
     // Fill the cells with correct data
-    //idCell.innerText = newRow.id;
-    // order_id: orderIDValue,
-    // product_id: productIDValue,
-    // quantity: quantityValue
-    
     orderIDCell.innerText = newRow.order_id;
     orderProductIDCell.innerText = newRow.order_product_id;
     productNameCell.innerText = newRow.product_name;
@@ -132,6 +131,7 @@ addRowToTable = (data) => {
     selectMenu.add(option);
     // End of new step 8 code.
 
-    // Reload page
-    window.location.reload(); // not working?
+
+
+    
 }

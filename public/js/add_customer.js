@@ -11,6 +11,7 @@ addCustomerForm.addEventListener("submit", function (e) {
     
     // Prevent the form from submitting
     e.preventDefault();
+    
 
     // Get form fields we need to get data from
     let inputFirstName = document.getElementById("input-first_name");
@@ -32,6 +33,7 @@ addCustomerForm.addEventListener("submit", function (e) {
         phone_number: phoneNumberValue
     }
     
+    
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "/add-customer-ajax", true);
@@ -52,7 +54,9 @@ addCustomerForm.addEventListener("submit", function (e) {
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.")
-        }
+        } 
+        // Reload page
+        window.location.reload();
     }
 
     // Send the request and wait for the response
@@ -113,15 +117,14 @@ addRowToTable = (data) => {
     // Add the row to the table
     currentTable.appendChild(row);
 
-    // Find drop down menu, create a new option, fill data in the option (full name, id),
-    // then append option to drop down menu so newly created rows via ajax will be found in it without needing a refresh
-    let selectMenu = document.getElementById("mySelect");
-    let option = document.createElement("option");
-    option.text = newRow.first_name + ' ' +  newRow.last_name;
-    option.value = newRow.customer_id;
-    selectMenu.add(option);
-    // End of new step 8 code.
+    // // Find drop down menu, create a new option, fill data in the option (full name, id),
+    // // then append option to drop down menu so newly created rows via ajax will be found in it without needing a refresh
+    // let selectMenu = document.getElementById("mySelect");
+    // let option = document.createElement("option");
+    // option.text = newRow.first_name + ' ' +  newRow.last_name;
+    // option.value = newRow.customer_id;
+    // selectMenu.add(option);
+    // // End of new step 8 code.
 
-   // Reload page
-   window.location.reload();
+   
 }

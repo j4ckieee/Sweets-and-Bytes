@@ -3,7 +3,7 @@
 // Adapted from: nodejs-starter-app
 // Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main
 
-// ==== Not working - just for draft submission ==== //
+
 
 function deleteOrder(order_id) {
     // Put our data we want to send in a javascript object
@@ -21,7 +21,7 @@ function deleteOrder(order_id) {
         if (xhttp.readyState == 4 && xhttp.status == 204) {
 
             // Add the new data to the table
-            deleteRow(personID);
+            deleteRow(order_id);
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 204) {
@@ -37,7 +37,6 @@ function deleteOrder(order_id) {
 
 
 function deleteRow(order_id){
-
     let table = document.getElementById("order-table");
     for (let i = 0, row; row = table.rows[i]; i++) {
        //iterate through rows

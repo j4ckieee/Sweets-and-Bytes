@@ -59,8 +59,11 @@ updateOrderProductForm.addEventListener("submit", function (e) {
     console.log("data", data)
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));
+    
 
-})
+    // Reload page
+    window.location.reload(); 
+} )
 
 function updateRow(data, order_id, product_id){
     let parsedData = JSON.parse(data);

@@ -3,21 +3,26 @@ Date: 05-23-24
 Adapted from: nodejs-starter-app
 Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --}}
 
+{{!-- Citation for the following function:
+Date: 05-23-24
+Adapted from: nodejs-starter-app
+Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --}}
+
 
 <!-- customers.hbs -->
 
 <body>
 
 {{! ======== Display Customer Data =========}}
-{{!---- Create a table ----}}
 
+{{!---- Create a table ----}}
 <h2>Customer Information</h2>
 <p>Displays all customer information.</p>
 <table id="customer-table">
     {{!-- Header section --}}
     <thead>
         <tr>
-            <th align="center">Customer ID</th>
+            <th>Customer ID</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
@@ -25,7 +30,6 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
             <th>Delete</th>
         </tr>
     </thead>
-    
 
     {{!-- Body section - prints row data --}}
     <tbody>
@@ -44,11 +48,7 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
 <script src="./js/delete_customer.js"></script>
 
 
-
-
-
 {{! ========== Add Customer Form - Method 2 ===========}}
-
 <fieldset>
 <h2>Add New Customer</h2>
 <p>To add a new customer, please enter their information in the form below.</p>
@@ -60,30 +60,27 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
     <input type="text" name="input-last_name" id="input-last_name" placeholder="Doe" required>
 
     <label for="input-email">Email:</label>
-    <input type="text" name="input-email" id="input-email" pattern="[^ @]+@[^ @]+.[a-z]+" placeholder="example@email.com"required>
+    <input type="text" name="input-email" id="input-email" pattern="[^ @]+@[^ @]+.[a-z]+" placeholder="example@email.com" required>
 
-    <label for="input-age">Phone Number: </label>
+    <label for="input-phone_number">Phone Number: </label>
     <input type="text" name="input-phone_number" id="input-phone_number" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="123-456-7890" required>
 
     <input type="submit">
 </form>
-
 {{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
 <script src="./js/add_customer.js"></script>
-
-
 </fieldset>
+
 
 
 {{! ========== Update Customer Form  ===========}}
 <fieldset>
 <h2>Update Customer Information</h2>
 <p>To update a customers information, select their name from the drop-down menu on the left and fill out the form.</p>
-<p>Has to refresh the page after submitting. Auto update does not work yet</p>
 <form id="update-customer-form-ajax">
 
     <label for="input-fullname">Full name: </label>
-    <select name="input-fullname" id="input-fullname-update">
+    <select name="input-fullname" id="customerSelect">
         <option value="test">Select a Person</option>
         {{#each data}}
         <option value="{{this.customer_id}}">{{this.first_name}} {{this.last_name}}</option>
@@ -91,18 +88,16 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
     </select>
 
     <label for="input-email-update">Email: </label>
-    <input type="email" name="input-email-update" id="input-email-update" pattern="[^ @]+@[^ @]+.[a-z]+" placeholder="example@email.com" required>
+    <input type="text" name="input-email-update" id="input-email-update" pattern="[^ @]+@[^ @]+.[a-z]+" placeholder="example@email.com" required>
 
     <label for="input-phone_number-update">Phone Number: </label>
     <input type="tel" name="input-phone_number-update" id="input-phone_number-update" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="123-456-7890" required>
 
     <input type="submit">
+
 </form>
 <script src="./js/update_customer.js"></script>
-
 </fieldset>
 
-
 <!-- end body - update above! -->
-
 </body>

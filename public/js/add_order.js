@@ -1,10 +1,5 @@
-// Citation for the following function:
-// Date: 05-23-24
-// Adapted from: nodejs-starter-app
-// Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main
-
 // Get the objects we need to modify
-let addOrderForm = document.getElementById('add-order-form');
+let addOrderForm = document.getElementById('add-order-form-ajax');
 
 // Modify the objects we need
 addOrderForm.addEventListener("submit", function (e) {
@@ -13,26 +8,30 @@ addOrderForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
     // Get form fields we need to get data from
-    // let inputCustomerId = document.getElementById("input-customer_id");
+    let inputCustomerId = document.getElementById("input-customer_id");
     let inputOrderDate = document.getElementById("input-order_date");
-    let inputTotalPrice = document.getElementById("input-total_price");
+   
 
     // Get the values from the form fields
-    // let customerIdValue = inputCustomerId.value;
+    let customerIdValue = inputCustomerId.value;
     let orderDateValue = inputOrderDate.value;
-    let totalPriceValue = inputTotalPrice.value;
 
 
     // Put our data we want to send in a javascript object
     let data = {
-        // customer_id: customerIdValue,
-        order_date: orderDateValue,
-        total_price: totalPriceValue,
+        // fname: firstNameValue,
+        // lname: lastNameValue,
+        // homeworld: homeworldValue,
+        // age: ageValue
+
+        customer_id: customerIdValue,
+        order_date: orderDateValue
     }
+    console.log(data)
     
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/add-order-ajax", true);
+    xhttp.open("POST", "/add-order-form-ajax", true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
     // Tell our AJAX request how to resolve
@@ -43,9 +42,8 @@ addOrderForm.addEventListener("submit", function (e) {
             addRowToTable(xhttp.response);
 
             // Clear the input fields for another transaction
-            // inputCustomerId.value = '';
+            inputCustomerId.value = '';
             inputOrderDate.value = '';
-            inputTotalPrice.value = '';
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.")
@@ -63,7 +61,7 @@ addOrderForm.addEventListener("submit", function (e) {
 addRowToTable = (data) => {
 
     // Get a reference to the current table on the page and clear it out.
-    let currentTable = document.getElementById("order-table");
+    let currentTable = document.getElementById("orders-table");
 
     // Get the location where we should insert the new row (end of table)
     let newRowIndex = currentTable.rows.length;
@@ -72,38 +70,52 @@ addRowToTable = (data) => {
     let parsedData = JSON.parse(data);
     let newRow = parsedData[parsedData.length - 1]
 
-    // Create a row and 4 cells
+    // Create a row and 6 cells
     let row = document.createElement("TR");
-    // let customerIdCell = document.createElement("TD");
+    let orderIdCell = document.createElement("TD");
+    let customerIdCell = document.createElement("TD");
+    let firstNameCell = document.createElement("TD");
+    let lastNameCell = document.createElement("TD");
     let orderDateCell = document.createElement("TD");
-    let totalPriceCell = document.createElement("TD");
-
-    // Delete
+    let subtotalCell = document.createElement("TD");
+    
     let deleteCell = document.createElement("TD");
 
-    
-
     // Fill the cells with correct data
-    // customerIdCell.innerText = newRow.customer_id;
+    orderIdCell.innerText = newRow.order_id;
+    customerIdCell.innerText = newRow.customer_id;
+    firstNameCell.innerText = newRow.first_name;
+    lastNameCell.innerText = newRow.last_name;
     orderDateCell.innerText = newRow.order_date;
-    totalPriceCell.innerText = newRow.total_price;
+    subtotalCell.innerText = newRow.subtotal;
 
-    // Delete
     deleteCell = document.createElement("button");
     deleteCell.innerHTML = "Delete";
     deleteCell.onclick = function(){
         deleteOrder(newRow.order_id);
     };
-   
 
     // Add the cells to the row 
-    // row.appendChild(customerIdCell);
+    row.appendChild(orderIdCell);
+    row.appendChild(customerIdCell);
+    row.appendChild(firstNameCell);
+    row.appendChild(lastNameCell);
     row.appendChild(orderDateCell);
-    row.appendChild(totalPriceCell);
+    row.appendChild(subtotalCell);
+  
+    row.setAttribute('data-value', newRow.order_id);
 
-    
     // Add the row to the table
     currentTable.appendChild(row);
+
+     // Find drop down menu, create a new option, fill data in the option (full name, id),
+    // then append option to drop down menu so newly created rows via ajax will be found in it without needing a refresh
+    let selectMenu = document.getElementById("mySelect");
+    let option = document.createElement("option");
+    option.text = newRow.order_id;
+    option.value = newRow.order_id;
+    selectMenu.add(option);
+    // End of new step 8 code.
 
     // Reload page
     window.location.reload();

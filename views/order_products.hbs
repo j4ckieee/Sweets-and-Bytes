@@ -10,7 +10,6 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
 
 <h2>Order Product Details</h2>
 <p>Displays order product contents</p>
-<p>Refresh page after Delete to see changes</p>
 {{!-- Create a table --}}
 <table id="order_products-table">
     <thead>
@@ -32,8 +31,8 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
             <td align="center">{{this.order_product_id}}</td>
             <td>{{this.product_name}}</td>
             <td align="center">{{this.product_ordered_qt}}</td>
-            <td align="right">{{this.product_price}}</td>
-            <td align="right">{{this.total}}</td>
+            <td align="right">$ {{this.product_price}}</td>
+            <td align="right">$ {{this.total}}</td>
             <td><button onclick="deleteOrderProducts({{this.order_product_id}})">Delete</button></td>
         </tr>
         {{/each}}
@@ -44,8 +43,8 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
 {{! ========== Add Product to Order Form  ===========}}
 <fieldset>
 <h2>Add Product to Order</h2>
-<p>The product ordered quantity cannot exceed product inventory</p>
-<p>Refresh page to see changes.</p>
+<p>Fill in the following form to add a product into an order.</p>
+<p>Note: Product will not be added to the order if the quantity exceeds the product's current inventory.</p>
 <form id="add-order-product-form" method="POST" action="/add-order-product-form">
     <label for="input-order-id">Order ID:</label>
     <select name="input-order-id" id="orderSelect">
@@ -75,7 +74,7 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
 {{! ========== Update Product in Order Form  ===========}}
 <fieldset>
 <h2>Update Product Order Quantity</h2>
-<p>Refresh page to see changes.</p>
+<p>Fill in the following form to update the product quantity in an order.</p>
 <form id="update-order-product-form">
     <label for="input-order_id">Order ID:</label>
     <select name="input-order_id" id="orderSelectUpdate">

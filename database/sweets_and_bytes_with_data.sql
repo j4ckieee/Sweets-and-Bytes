@@ -69,13 +69,13 @@ INSERT INTO `Orders` VALUES (1,1,'2024-04-30',10.00),(2,2,'2024-05-01',7.50),(3,
 /*!40000 ALTER TABLE `Orders` ENABLE KEYS */;
 
 --
--- Table structure for table `Orders_Products`
+-- Table structure for table `Order_Products`
 --
 
-DROP TABLE IF EXISTS `Orders_Products`;
+DROP TABLE IF EXISTS `Order_Products`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `Orders_Products` (
+CREATE TABLE `Order_Products` (
   `order_product_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `order_id` int(11) NOT NULL COMMENT 'FK - Orders table',
   `product_id` int(11) NOT NULL COMMENT 'FK - Products table',
@@ -83,18 +83,18 @@ CREATE TABLE `Orders_Products` (
   PRIMARY KEY (`order_product_id`),
   KEY `order_id` (`order_id`),
   KEY `product_id` (`product_id`),
-  CONSTRAINT `Orders_Products_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `Orders` (`order_id`),
-  CONSTRAINT `Orders_Products_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `Products` (`product_id`)
+  CONSTRAINT `Order_Products_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `Orders` (`order_id`),
+  CONSTRAINT `Order_Products_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `Products` (`product_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Orders_Products`
+-- Dumping data for table `Order_Products`
 --
 
-/*!40000 ALTER TABLE `Orders_Products` DISABLE KEYS */;
-INSERT INTO `Orders_Products` VALUES (1,1,1,2),(2,1,3,1),(3,2,2,3),(4,3,5,1),(5,4,4,2);
-/*!40000 ALTER TABLE `Orders_Products` ENABLE KEYS */;
+/*!40000 ALTER TABLE `Order_Products` DISABLE KEYS */;
+INSERT INTO `Order_Products` VALUES (1,1,1,2),(2,1,3,1),(3,2,2,3),(4,3,5,1),(5,4,4,2);
+/*!40000 ALTER TABLE `Order_Products` ENABLE KEYS */;
 
 --
 -- Table structure for table `Products`

@@ -20,9 +20,8 @@ function deleteCustomer(customer_id) {
         if (xhttp.readyState == 4 && xhttp.status == 204) {
 
             // Add the new data to the table 
-            // PERSON ID IS WRONG BUT IT STOPS WORKING IF I CHANGE IT???????
-            deleteRow(personID);
-
+            deleteRow(customer_id);
+            
         }
         else if (xhttp.readyState == 4 && xhttp.status != 204) {
             console.log("There was an error with the input.")
