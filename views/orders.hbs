@@ -14,6 +14,7 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
 
 <h2>Orders</h2>
 <p>Displays all bakery orders.</p>
+<p>[DELETE NOT WORKING YET]</p>
 
 {{!---- Create a table ----}}
 <table id="orders-table">
@@ -74,6 +75,8 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
 {{! ========== Update Order Form  ===========}}
 <fieldset>
 <h2>Update the Customer on an Order</h2>
+<p>To update a customer on an order, fill out the following form.</p>
+<p>[NOT WORKING YET]</p>
 <form id="update-order-form" method="POST" action="/update-order-form">
     <label for="input-order_id">Order ID:</label>
     <select name="input-order_id" id="mySelect">
@@ -83,11 +86,11 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
         {{/each}}
     </select>
     
-    <label for="input-test">Customer ID:</label>
+    <label for="input-test">Customer Name:</label>
     <select name="input-test" id="test">
-        <option value="text">Customer ID</option>
-        {{#each data}}
-        <option value="{{this.customer_id}}">{{this.customer_id}}</option>
+        <option value="text">Select Customer</option>
+        {{#each customers}}
+        <option value="{{this.customer_id}}">{{this.first_name}} {{this.last_name}}</option>
         {{/each}}
     </select>
 
