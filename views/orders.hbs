@@ -16,6 +16,7 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
 <p>Displays all bakery orders.</p>
 <p>[DELETE NOT WORKING YET]</p>
 
+
 {{!---- Create a table ----}}
 <table id="orders-table">
     {{!-- Header section --}}
@@ -41,12 +42,14 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
             <td>{{this.last_name}}</td>
             <td>{{this.order_date}}</td>
             <td align="right">$ {{this.subtotal}}</td>
-            <td><button onclick="deleteOrder('{{this.order_id}}')">Delete</button></td>
+            <td><button onclick="deleteOrder({{this.order_id}})">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
 <script src="./js/delete_order.js"></script> {{! -- Delete not working yet -- }}
+
+
 
 {{! ========== Add Order Form - Method 2 ===========}}
 {{! ======= Not working - just for draft submission ========}}
@@ -78,8 +81,8 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
 <p>To update a customer on an order, fill out the following form.</p>
 <p>[NOT WORKING YET]</p>
 <form id="update-order-form" method="POST" action="/update-order-form">
-    <label for="input-order_id">Order ID:</label>
-    <select name="input-order_id" id="mySelect">
+    <label for="input-order-id">Order ID:</label>
+    <select name="input-order-id" id="mySelect">
         <option value="text">Select an Order</option>
         {{#each data}}
         <option value="{{this.order_id}}">{{this.order_id}}</option>

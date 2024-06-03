@@ -10,6 +10,7 @@ function deleteOrder(order_id) {
     let data = {
         order_id: order_id
     };
+    console.log(order_id)
 
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();

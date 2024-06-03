@@ -9,7 +9,7 @@ var app     = express();
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
-PORT        = 7777; 
+PORT        = 8463; 
 
 // Database
 var db = require('./database/db-connector')
@@ -60,13 +60,22 @@ app.get('/order_products', function(req, res)
     let query1 = `SELECT
     *,
     ((Order_Products.product_ordered_qt) * (Products.product_price)) as 'total'
-    from Orders
-    INNER JOIN Order_Products ON Orders.order_id = Order_Products.order_id
-    INNER JOIN Products ON Order_Products.product_id = Products.product_id
+    from Order_Products
+    LEFT JOIN Orders ON Orders.order_id = Order_Products.order_id
+    LEFT JOIN Products ON Order_Products.product_id = Products.product_id
+    LEFT JOIN Customers ON Orders.customer_id = Customers.customer_id
     ORDER BY Orders.order_id ASC;
     `;
     let query2 = "SELECT * FROM Products;";
-    let query3 = "SELECT * FROM Orders;";
+    let query3 = `SELECT *,
+    Orders.order_id as 'orderID',
+    COALESCE(sum((Order_Products.product_ordered_qt) * (Products.product_price)), 0) as 'subtotal'
+    FROM Orders
+    LEFT JOIN Order_Products ON Orders.order_id = Order_Products.order_id
+    LEFT JOIN Customers ON Orders.customer_id = Customers.customer_id
+    LEFT JOIN Products ON Order_Products.product_id = Products.product_id
+    GROUP BY Orders.order_id
+    ORDER BY Orders.order_id ASC;`;
 
     db.pool.query(query1, function(error, rows, fields){
     
@@ -306,7 +315,7 @@ app.delete('/delete-customer-ajax/', function(req,res,next){
     let data = req.body;
     let order_id = parseInt(data.order_id);
     let deleteOrders = `DELETE FROM Orders WHERE order_id = ?`;
-  
+    console.log()
           // Run the 1st query
           db.pool.query(deleteOrders, [order_id], function(error, rows, fields){
             if (error) {

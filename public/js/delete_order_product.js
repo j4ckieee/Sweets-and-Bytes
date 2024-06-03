@@ -20,8 +20,9 @@ function deleteOrderProducts(order_product_id) {
 
             // Add the new data to the table 
             // PERSON ID IS WRONG BUT IT STOPS WORKING IF I CHANGE IT???????
-            deleteRow(order_product_id);
+            // deleteRow(order_product_id);
 
+            window.location.reload();
         }
         else if (xhttp.readyState == 4 && xhttp.status != 204) {
             console.log("There was an error with the input.")
@@ -30,7 +31,9 @@ function deleteOrderProducts(order_product_id) {
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));
 
+    //doesnt wait for the ready state.
     window.location.reload();
+
 }
 
 

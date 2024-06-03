@@ -44,12 +44,13 @@ updateOrderProductForm.addEventListener("submit", function (e) {
     xhttp.open("PUT", "/put-order-product-ajax", true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
+
     // Tell our AJAX request how to resolve
     xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-
-            // Add the new data to the table
-            updateRow(xhttp.response, orderValue, productValue);
+ 
+            // Reload page
+            window.location.reload();
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
@@ -59,33 +60,6 @@ updateOrderProductForm.addEventListener("submit", function (e) {
     console.log("data", data)
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));
-    
 
-    // Reload page
-    window.location.reload(); 
+
 } )
-
-function updateRow(data, order_id, product_id){
-    let parsedData = JSON.parse(data);
-    
-    let table = document.getElementById("order_products-table");
-
-    console.log("key",`${order_id}-${product_id}`)
-    for (let i = 0, row; row = table.rows[i]; i++) {
-       //iterate through rows
-       //rows would be accessed using the "row" variable assigned in the for loop
-       console.log("key",`${order_id}-${product_id}`)
-       console.log("data-value", table.rows[i].getAttribute("data-value"))
-       if (table.rows[i].getAttribute("data-value") == `${order_id}-${product_id}`) {
-
-            // Get the location of the row where we found the matching person ID
-            let updateRowIndex = table.getElementsByTagName("tr")[i];
-
-            // Get td of homeworld value
-            let td = updateRowIndex.getElementsByTagName("td")[3];
-
-            // Reassign homeworld to our value we updated to
-            td.innerHTML = parsedData[0].name; 
-       }
-    }
-}
