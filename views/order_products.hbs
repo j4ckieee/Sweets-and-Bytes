@@ -31,7 +31,7 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
         <tr data-value={{this.order_id}}-{{this.product_id}}>
             <td align="center">{{this.order_id}}</td>
             {{!-- <td align="center">{{this.order_product_id}}</td> --}}
-            <td align="center">{{this.first_name}} {{this.last_name}}</td>
+            <td align="center">{{#if this.first_name}}{{this.first_name}}{{else}}NULL{{/if}} {{this.last_name}}</td>
             <td>{{formatDate this.order_date}}</td>
             <td>{{this.product_name}}</td>
             <td align="center">{{this.product_ordered_qt}}</td>
@@ -54,7 +54,12 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
     <select name="input-order-id" id="orderSelect">
         <option value="test">Select an Order</option>
         {{#each orders}}
-        <option value="{{this.orderID}}">{{this.orderID}}-{{this.first_name}} {{this.last_name}}-{{formatDate this.order_date}}</option>
+        <option value="{{this.orderID}}">
+            {{this.orderID}} -
+            {{#if this.first_name}}{{this.first_name}}{{else}}NULL{{/if}} 
+            {{this.last_name}} -
+            {{formatDate this.order_date}}
+        </option>        
         {{/each}}
     </select>
     
@@ -84,7 +89,12 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
     <select name="input-order-id" id="orderSelectUpdate">
         <option value="test">Select an Order</option>
         {{#each orders}}
-        <option value="{{this.order_id}}">{{this.orderID}}-{{this.first_name}} {{this.last_name}}-{{formatDate this.order_date}}</option>
+        <option value="{{this.orderID}}">
+            {{this.orderID}} -
+            {{#if this.first_name}}{{this.first_name}}{{else}}NULL{{/if}} 
+            {{this.last_name}} -
+            {{formatDate this.order_date}}
+        </option>   
         {{/each}}
     </select>
     

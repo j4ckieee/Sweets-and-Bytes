@@ -55,18 +55,18 @@ WHERE product_name = :input-product_name;
 
 ------------ Orders ------------
 -- Get all attributes in Orders table
-SELECT `Orders`.order_id as 'Order ID',
-first_name as 'First Name',
-last_name as 'Last Name',
--- CONCAT(Customers.first_name, ' ', `Customers`.last_name) as 'Customer',
-Orders.order_date as 'Order Date',
-(sum((`Order_Products`.product_ordered_qt) * (Products.product_price))) as 'subtotal'
-FROM `Orders`
-LEFT JOIN `Order_Products` ON Orders.order_id = `Order_Products`.order_id
-LEFT JOIN `Customers` ON `Orders`.customer_id = `Customers`.customer_id
-LEFT JOIN `Products` ON Order_Products.product_id = Products.product_id
-GROUP BY Orders.order_id
-ORDER BY `Orders`.order_id ASC;
+SELECT *,
+        Orders.order_id as 'orderID',
+        COALESCE(sum((Order_Products.product_ordered_qt) * (Products.product_price)), 0) as 'subtotal'
+        FROM Orders
+        LEFT JOIN Order_Products ON Orders.order_id = Order_Products.order_id
+        LEFT JOIN Customers ON Orders.customer_id = Customers.customer_id
+        LEFT JOIN Products ON Order_Products.product_id = Products.product_id
+        GROUP BY Orders.order_id
+        ORDER BY Orders.order_id ASC;
+
+--Dropdown for Customers
+SELECT * FROM Customers;
 
 -- Add a new order
 INSERT INTO `Orders` (customer_id, order_date) VALUES
@@ -78,16 +78,29 @@ INSERT INTO `Orders` (customer_id, order_date) VALUES
 
 ------------ Order_Products ------------
 -- Get all attributes in Order_Products table
+
 SELECT
-`Orders`.order_id as 'Order ID',
-Products.product_name as 'Product',
-`Order_Products`.product_ordered_qt as 'Quantity',
-Products.product_price as 'Unit Price',
-((`Order_Products`.product_ordered_qt) * (Products.product_price)) as 'Total'
-from `Orders`
-INNER JOIN Order_Products ON Orders.order_id = `Order_Products`.order_id
-INNER JOIN `Products` ON Order_Products.product_id = Products.product_id
-ORDER BY `Orders`.order_id ASC;
+    *,
+    ((Order_Products.product_ordered_qt) * (Products.product_price)) as 'total'
+    from Order_Products
+    LEFT JOIN Orders ON Orders.order_id = Order_Products.order_id
+    LEFT JOIN Products ON Order_Products.product_id = Products.product_id
+    LEFT JOIN Customers ON Orders.customer_id = Customers.customer_id
+    ORDER BY Orders.order_id ASC;
+
+-- Dropdown for Products
+SELECT * FROM Products;
+
+-- Dropdown for OrderID, Customer Name, Order Date
+SELECT *,
+    Orders.order_id as 'orderID',
+    COALESCE(sum((Order_Products.product_ordered_qt) * (Products.product_price)), 0) as 'subtotal'
+    FROM Orders
+    LEFT JOIN Order_Products ON Orders.order_id = Order_Products.order_id
+    LEFT JOIN Customers ON Orders.customer_id = Customers.customer_id
+    LEFT JOIN Products ON Order_Products.product_id = Products.product_id
+    GROUP BY Orders.order_id
+    ORDER BY Orders.order_id ASC;
 
 -- Add a new order_product to an order, also update the product inventory
 INSERT INTO `Order_Products` (order_id, product_id, product_ordered_qt) VALUES(
