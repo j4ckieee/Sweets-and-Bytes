@@ -1,37 +1,19 @@
-/*  ===== MOBILE styles (reside at the top and are inherited by all devices) ===== */
-/*  ===== See tablet, desktop, and print @media queries at the bottom. */
-
-
 /*   ----- Imports  -----  */
-  /* @import 'node_modules/modern-normalize/modern-normalize.css';  npm install modern-normalize  Resets elements for browser consistency.  https://www.npmjs.com/package/modern-normalize */         
-  /* @import "component1.css";   Component-specific stylesheets, if any.   */
   @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@700&family=Playfair+Display:wght@400..900&display=swap');
 
 
 /*   ----- Variables  -----  */
 :root {
-    /*   ----- CUSTOM COLOR EXAMPLE: var(--NAME) to use -----  */
+    /* CUSTOM COLORS EXAMPLE: to use, input var(--NAME) */
     --skyBlue: #5EADF2;
-    --ltForestGreen: #52682D;
-    --dkForestGreen: #2F3601;
-    --navyBlue: #052F5F;
-    --eggshell: #F2E8DF;
-    --stoneGray: #8C8281;
-    --eggshellTransparent: rgba(219,210,202,.90);
-    --dkBlueTransparent: rgba(8, 75, 152, 0.80);
-   
-
+    --darkBlueTransparent: rgba(8, 75, 152, 0.80);
 }
 
-/*  ----- Viewport ----- elements inherited by all remaining elements ----- */
+/*  ----- Viewport -----  */
 body {       
   background-color: white;
-  background-attachment: fixed;
-  background-position: top left;
-  background-repeat: no-repeat;
-  background-size: cover;
   color: black;
-  font-family: "Playfair Display", serif; /* Define with at least one font name and its related generic family name.*/
+  font-family: "Playfair Display", serif; 
   margin: 0 auto;
   padding:1%;
   max-width: 75%;
@@ -41,13 +23,12 @@ body {
 header {
   margin:1%;
   padding:1%;
-  height:60px;
+  height:70px;
   text-align:center;
 }
 
-header img {}
-
 footer {
+  text-align: center;
 }
 
 main {margin:1%;}
@@ -56,23 +37,8 @@ section {
   padding:1%;
 } 
 
-article {
-  
 
-}
-  #topic1 {}
-
-div {}
-aside {}
-
-/* ----- Anchors ----- Text links */
-a {}
-a:link {}
-a:hover {}
-a:active {}
-a:visited {}
-
-/*  ----- Navigation ----- Override text links for navigation only.  */
+/*  ----- Navigation -----   */
 nav.global {
   margin:0;
   padding:1%;
@@ -96,203 +62,101 @@ nav.global a:hover {
   color: black;
 }
 
-nav.local {
-  background-color: var(--eggshell);
-  border-radius:8px 8px 8px 8px;
-  display: flex;
-  flex-flow: row ;
-  flex-wrap: nowrap;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: stretch;
-  margin: 10px; 
-  padding:0;
-} /* local navigation buttons */
-
-nav.local a {
-  border-right:0px solid transparent;
-  border-top:1px solid transparent;
-  border-radius:0;
-  background-color:transparent;
-  color:var(--ltForestGreen);
-  line-height:1;
-  padding:1% 1.5%;
-  font-size:100%;
-  text-decoration:none;
-  text-align:center
-}
-
-nav.local a:hover {
-  border:2px solid var(--skyBlue);
-  border-radius:8px 8px 8px 8px;
-  background-color:transparent;
-  font-style: italic;
-  color: var(--skyBlue);
-} /* local navigation button when hovered over */
-
 /*  -----  Typography  ----- */
-p {}
-br {}
-ol, ul, dl {}
-li, dd {margin-bottom:7px;}
-dt {
-  font-weight:bold; 
-  font-style: italic;
-  color:var(--ltForestGreen);
-  }
-
 h1, h2, h3, h4, h5, h6 {
   font-family: "Libre Franklin", sans-serif;
   font-weight: 700;} 
-h1 {}
-h2 {}
-h3 {}
-h4 {}
-h5 {}
-h6 {}
 
-abbr {}
-acronym {}
-address {}
-blockquote {}
-  q {}
-  cite {}
-em {}
-hr {}
-mark {}
-s {}
-span {}
-strong {}
-sub {}
-sup {}
-time {}
-
-/*  ----- Coding or instructional typography ----- */
-pre {}
-code {}
-kbd {}
-samp {}
-var {}
-del {} 
-ins {}
 
 /*  ----- Table ----- */
 table {
     margin-left:auto; 
     margin-right:auto;
-}
+    margin-bottom: 5%;
+    border-top-left-radius: 6px;
+    
+}    
 
 table, th, td {
     border: 1px solid black;
     border-collapse: collapse;
-    padding: 4px 6px;
+    padding: 4px 10px;
   }
-caption {}
+
+
+
 thead {
-    text-align: center;
+  text-align: center;
+  background-color: rgba(249, 189, 198, .85);
+  color: black;  
 }
-tbody {}
-tfoot {}
-tr {}
-  tr:nth-child(even) {}
-th {}
-td {}
-  td:nth-child(1) {}
-colgroup {}
-data {}
-datalist {}
+
+
+tr:nth-child(even) {              /* Styles alternating rows */
+  background-color: rgba(249, 189, 198, .24);
+}   
 
 
 /*  ----- Form ----- */
-form {}
-
-
 fieldset {
-  border: 1px solid var(--navyBlue);
+  border: 1px solid black;
   border-radius:8px 8px 8px 8px;
   padding: 1% 5% 4% 5%;
   margin-top: 3%;
-  margin-bottom: 3%;
+  margin-bottom: 5%;
 }
-legend {}
-label {display: inline-block;
+
+legend {
+  border-radius: 4px;
+  
+}
+
+label {display: inline-block;     /* Form input label (ex: First Name) */
   color: black;
   margin-top: 4%;
-  font-size: 100%;}
-button {}
-input {}
-select {}
-  optgroup {}
-  option {}
-textarea {}
-output {}
-meter {}
-progress {}
+  font-size: 100%;
+  margin-right: 4px;
+} 
+  
 
-
-/* ----- Media ----- */
-figure {}
-  figcaption {}
-  figure img {}
-svg {}
-picture {}
-  source {}
-iframe {}
-video {}
-audio {}
-embed {}
-object {}
-
-/*  ----- Classes for alignment, positioning, widths, grids, embellishments, and animation -----  */
-.gallery { 
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-	margin:0; 
-  padding:0;
+button {
+  border-radius: 6px;
+  background-color: lightgray;
+  border-color: black;
 }
 
-.gallery figure {
-  background-color: var(--eggshell);
-  border:2px solid var(--skyBlue);
-  border-radius:4px;
-  width: 250px;
-  margin:1%;
-  padding:1%;
+
+input[type="submit"] {            /* Styles the submit button: */
+  font-size: 80%;
+  border-radius: 6px;
+  background-color: lightgray;
+  border-color: black;
+} 
+
+input[type="date"] {
+  font-size: 80%;
+  border-radius: 6px;
 }
 
-.gallery figcaption {
-  color: var(--skyBlue);
-  text-align: center;
-  display:block; 
-  padding: 1% 1% 1% 1%;
+input {
+  font: "Playfair Display", serif;
+  font-size: 85%;
+  margin-right: 15px;
 }
 
-.gallery img  {
-    width:100%;
-    margin:0;
-    padding:0;
+
+select {
+  color: black;
+  font-size: 100%;
+  margin-right: 15px;
 }
 
-.floatright {}
-.floatleft {}
-.center-middle {}
 
-.ten {}
-.twenty {}
-.thirty {}
-.forty {}
-.fifty {}
-.sixty {}
-.seventy {}
-.eighty {}
 
-.radius {}
-.circle {}
-.boxshadow {}
-.tshadow {} 
-.gradient {}
-.shape {}
+
+
+
+
 
 
 @keyframes App-logo {}

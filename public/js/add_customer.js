@@ -82,8 +82,9 @@ addRowToTable = (data) => {
     // Create a row and 4 cells
     let row = document.createElement("TR");
     //let idCell = document.createElement("TD");
-    let firstNameCell = document.createElement("TD");
-    let lastNameCell = document.createElement("TD");
+    // let firstNameCell = document.createElement("TD");
+    // let lastNameCell = document.createElement("TD");
+    let fullNameCell = document.createElement("TD");
     let emailCell = document.createElement("TD");
     let phoneNumberCell = document.createElement("TD");
 
@@ -91,8 +92,9 @@ addRowToTable = (data) => {
 
     // Fill the cells with correct data
     //idCell.innerText = newRow.id;
-    firstNameCell.innerText = newRow.first_name;
-    lastNameCell.innerText = newRow.last_name;
+    // firstNameCell.innerText = newRow.first_name;
+    // lastNameCell.innerText = newRow.last_name;
+    fullNameCell.innerText = newRow.first_name + ' ' +  newRow.last_name;
     emailCell.innerText = newRow.email;
     phoneNumberCell.innerText = newRow.phone_number;
 
@@ -104,8 +106,9 @@ addRowToTable = (data) => {
 
     // Add the cells to the row 
     //row.appendChild(idCell);
-    row.appendChild(firstNameCell);
-    row.appendChild(lastNameCell);
+    // row.appendChild(firstNameCell);
+    // row.appendChild(lastNameCell);
+    row.appendChild(fullNameCellCell);
     row.appendChild(emailCell);
     row.appendChild(phoneNumberCell);
     row.appendChild(deleteCell);
@@ -116,15 +119,6 @@ addRowToTable = (data) => {
     
     // Add the row to the table
     currentTable.appendChild(row);
-
-    // // Find drop down menu, create a new option, fill data in the option (full name, id),
-    // // then append option to drop down menu so newly created rows via ajax will be found in it without needing a refresh
-    // let selectMenu = document.getElementById("mySelect");
-    // let option = document.createElement("option");
-    // option.text = newRow.first_name + ' ' +  newRow.last_name;
-    // option.value = newRow.customer_id;
-    // selectMenu.add(option);
-    // // End of new step 8 code.
 
    
 }
