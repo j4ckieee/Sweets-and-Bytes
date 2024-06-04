@@ -23,9 +23,7 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
     <thead> 
         <tr>
             <th>Order ID</th>
-            <th>Customer ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
+            <th>Customers</th>
             <th>Order Date</th>
             <th>Subtotal</th>
             <th>Delete</th>
@@ -37,10 +35,8 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
         {{#each data}}
         <tr data-value={{this.order_id}}>
             <td align="center">{{this.orderID}}</td>
-            <td align="center">{{this.customer_id}}</td>
-            <td>{{this.first_name}}</td>
-            <td>{{this.last_name}}</td>
-            <td>{{this.order_date}}</td>
+            <td>{{this.first_name}} {{this.last_name}}</td>
+            <td>{{formatDate this.order_date}}</td>
             <td align="right">$ {{this.subtotal}}</td>
             <td><button onclick="deleteOrder({{this.order_id}})">Delete</button></td>
         </tr>

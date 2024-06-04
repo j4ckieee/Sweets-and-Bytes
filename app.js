@@ -1,5 +1,11 @@
 // App.js
 
+// {{!-- Citation for the following function:
+//     Date: 05-23-24
+//     Adapted from: nodejs-starter-app
+//     Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --}}
+    
+
 /* -------------------------------*/
 /* ------------ SETUP ------------*/
 /* -------------------------------*/
@@ -19,6 +25,28 @@ var exphbs = require('express-handlebars');
 app.engine('.hbs', engine({extname: ".hbs"}));  
 app.set('view engine', '.hbs');                 
 
+
+// {{!-- Citation for the following function:
+//     Date: 06-03-24
+//     Adapted from: How do I get Month and Date of JavaScript in 2 digit format?
+//     Source URL: https://stackoverflow.com/questions/6040515/how-do-i-get-month-and-date-of-javascript-in-2-digit-format--}}
+    
+// Convert Date Format DD/MM/YYY
+const hbs = exphbs.create({
+    extname: ".hbs",
+    helpers: {
+        formatDate: function (date) {
+            let d = new Date(date);
+            let day = ('0' + d.getDate()).slice(-2);
+            let month = ('0' + (d.getMonth() + 1)).slice(-2);
+            let year = d.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+    }
+});
+
+app.engine('.hbs', hbs.engine);  
+app.set('view engine', '.hbs');    
 
 /* -------------------------------*/
 /* ------------ ROUTES -----------*/
