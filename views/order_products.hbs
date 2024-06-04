@@ -21,7 +21,7 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
             <th>Product Name</th>
             <th>Quantity</th>
             <th>Unit Price</th>
-            <th>Total</th>
+            <th>Item Total</th>
             <th>Delete</th>
 
         </tr>
@@ -46,13 +46,13 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
 
 {{! ========== Add Product to Order Form  ===========}}
 <fieldset>
-<h2>Add Product to Order</h2>
+<legend><h2>Add Product to Order</h2></legend>
 <p>Fill in the following form to add a product into an order.</p>
 <p>Note: Product will not be added to the order if the quantity exceeds the product's current inventory.</p>
 <form id="add-order-product-form" method="POST" action="/add-order-product-form">
     <label for="orderSelect">Order ID:</label>
     <select name="input-order-id" id="orderSelect">
-        <option value="test">Select an Order</option>
+        <option value="test">Select Order</option>
         {{#each orders}}
         <option value="{{this.orderID}}">
             {{this.orderID}} -
@@ -63,16 +63,16 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
         {{/each}}
     </select>
     
-    <label for="productSelect">Product Name:</label>
+    <label for="productSelect">Product:</label>
     <select name="input-product-id" id="productSelect">
-        <option value="test">Select a Product</option>
+        <option value="test">Select Product</option>
         {{#each products}}
         <option value="{{this.product_id}}">{{this.product_name}}</option>
         {{/each}}
-    </select>
+    </select> 
 
-     <label for="input-quantity">Quantity</label>
-    <input type="number" name="input-quantity" id="input-quantity" min="1" placeholder="Enter Quantity" required>
+    <label for="input-quantity">Quantity:</label>
+    <input type="number" name="input-quantity" id="input-quantity" min="1" style="width: 60px" placeholder="Min: 1" required>
 
     <input type="submit">
 </form>
@@ -82,12 +82,12 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
 
 {{! ========== Update Product in Order Form  ===========}}
 <fieldset>
-<h2>Update Product Order Quantity</h2>
+<legend><h2>Update Product Order Quantity</h2></legend>
 <p>Fill in the following form to update the product quantity in an order.</p>
 <form id="update-order-product-form">
     <label for="orderSelectUpdate">Order ID:</label>
     <select name="input-order-id" id="orderSelectUpdate">
-        <option value="test">Select an Order</option>
+        <option value="test">Select Order</option>
         {{#each orders}}
         <option value="{{this.orderID}}">
             {{this.orderID}} -
@@ -98,7 +98,7 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
         {{/each}}
     </select>
     
-    <label for="productSelectUpdate">Product Name:</label>
+    <label for="productSelectUpdate">Product:</label>
     <select name="input-product-id" id="productSelectUpdate">
         <option value="test">Select a Product</option>
         {{#each products}}
@@ -107,7 +107,7 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
     </select>
 
     <label for="input-quantity-update">Quantity</label>
-    <input type="number" name="input-quantity" id="input-quantity-update" min="1" placeholder="Enter Quantity" >
+    <input type="number" name="input-quantity" id="input-quantity-update" min="1" style="width: 60px" placeholder="Min: 1" >
 
     <input type="submit">
 </form>

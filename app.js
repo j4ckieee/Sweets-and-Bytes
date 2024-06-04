@@ -15,7 +15,7 @@ var app     = express();
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
-PORT        = 8463; 
+PORT        = 7777; 
 
 // Database
 var db = require('./database/db-connector')
@@ -31,7 +31,7 @@ app.set('view engine', '.hbs');
 //     Adapted from: How do I get Month and Date of JavaScript in 2 digit format?
 //     Source URL: https://stackoverflow.com/questions/6040515/how-do-i-get-month-and-date-of-javascript-in-2-digit-format--}}
     
-// Convert Date Format DD/MM/YYY
+// Convert Date Format MM/DD/YYYY
 const hbs = exphbs.create({
     extname: ".hbs",
     helpers: {
@@ -40,7 +40,7 @@ const hbs = exphbs.create({
             let day = ('0' + d.getDate()).slice(-2);
             let month = ('0' + (d.getMonth() + 1)).slice(-2);
             let year = d.getFullYear();
-            return `${day}/${month}/${year}`;
+            return `${month}/${day}/${year}`;
         },
         formatNumber: function (number) {
             return number.toFixed(2);
@@ -387,7 +387,7 @@ app.delete('/delete-order-product-ajax/', function(req,res,next){
 
 app.put('/put-customer-ajax', function(req,res,next){
     let data = req.body;
-  
+
     let person = parseInt(data.fullname); // need review, do we need to parseInt name?
     let email = data.email;
     let phoneNumber = data.phoneNumber;

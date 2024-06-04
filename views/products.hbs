@@ -31,7 +31,7 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
             <td align="center">{{this.product_id}}</td>
             <td>{{this.product_name}}</td>
             <td>{{this.product_description}}</td>
-            <td align="right">$ {{this.product_price}}</td>
+            <td align="right">$ {{formatNumber this.product_price}}</td>
             <td align="center">{{this.product_inventory}}</td>
             <td><button onclick="deleteProduct({{this.product_id}})">Delete</button></td>
         </tr>
@@ -43,20 +43,21 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
 
 {{! ========== Add Product Form - Method 2 ===========}}
 <fieldset>
-<h2>Add New Product</h2>
+<legend><h2>Add New Product</h2></legend>
 <p>To add a new product, please fill in the form below and click 'Submit'.</p>
 <form id="add-product-form" method="POST" action="/add-product-form">
     <label for="input-product_name">Product Name: </label>
     <input type="text" name="input-product_name" id="input-product_name" placeholder="Ex: Cheese Danish">
     
-    <label for="input-product_description">Product Description:</label>
-    <input type="text" name="input-product_description"  minlenth="1" maxlength="200" placeholder="200 characters or less">
-
     <label for="input-product_price">Product Price:</label>
-    <input type="number" name="input-product_price" min="1" id="input-product_price" placeholder="Enter Price"> 
+    <input type="number" name="input-product_price" min="1.00" step="0.01" id="input-product_price" style="width: 80px" placeholder="Min: 1.00"> 
 
     <label for="input-product_inventory">Product Inventory:</label>
-    <input type="number" name="input-product_inventory" min="1" id="input-product_inventory" placeholder="Enter Quantity">
+    <input type="number" name="input-product_inventory" min="1" id="input-product_inventory" style="width: 60px" placeholder="Min: 1">
+    </br>
+    <label for="input-product_description">Product Description:</label>
+    <input type="text" name="input-product_description"  minlenth="1" maxlength="100" style="width: 300px" placeholder="100 characters or less">
+    
 
     <input type="submit">
 </form>
@@ -67,21 +68,21 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
 {{! ========== Update Product in Inventory Form  ===========}}
 {{! ======= Not working - just for draft submission ========}}
 <fieldset>
-<h2>Update Product Inventory</h2>
+<legend><h2>Update Product Inventory</h2></legend>
 <p>To update a product, select the item from the drop-down list and enter the product's current inventory count. Then, click 'Submit'.</p>
 <p>[NOT WORKING YET]</p>
 <form id="update-product-form">
 
     <label for="input-product_id-update">Product:</label>
     <select name="input-product_id-update" id="productSelect">
-        <option value="test">Select a Product</option>
+        <option value="test">Select Product</option>
         {{#each data}}
         <option value="{{this.product_name}}">{{this.product_name}}</option>
         {{/each}}
     </select>
 
     <label for="input-product_inventory-update">Inventory Count: </label>
-    <input type="number" name="input-product-inventory-update" id="input-product-inventory-update" placeholder="0">
+    <input type="number" name="input-product-inventory-update" id="input-product-inventory-update" style="width: 60px" placeholder="Min: 0">
     <input type="submit">
 
 </form>
