@@ -8,7 +8,7 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
 
 {{! ========== Display Ordered Products  ===========}}
 
-<h2>Order Product Details</h2>
+<h2>Order Details</h2>
 <p>Displays order product contents</p>
 {{!-- Create a table --}}
 <table id="order_products-table">
@@ -35,8 +35,8 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
             <td>{{formatDate this.order_date}}</td>
             <td>{{this.product_name}}</td>
             <td align="center">{{this.product_ordered_qt}}</td>
-            <td align="right">$ {{this.product_price}}</td>
-            <td align="right">$ {{this.total}}</td>
+            <td align="right">$ {{formatNumber this.product_price}}</td>
+            <td align="right">$ {{formatNumber this.total}}</td>
             <td><button onclick="deleteOrderProducts({{this.order_product_id}})">Delete</button></td>
         </tr>
         {{/each}}

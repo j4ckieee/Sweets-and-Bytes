@@ -37,7 +37,7 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
             <td align="center">{{this.orderID}}</td>
             <td>{{this.first_name}} {{this.last_name}}</td>
             <td>{{formatDate this.order_date}}</td>
-            <td align="right">$ {{this.subtotal}}</td>
+            <td align="right">$ {{formatNumber this.subtotal}}</td>
             <td><button onclick="deleteOrder({{this.order_id}})">Delete</button></td>
         </tr>
         {{/each}}

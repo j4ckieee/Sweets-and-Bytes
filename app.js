@@ -41,12 +41,15 @@ const hbs = exphbs.create({
             let month = ('0' + (d.getMonth() + 1)).slice(-2);
             let year = d.getFullYear();
             return `${day}/${month}/${year}`;
+        },
+        formatNumber: function (number) {
+            return number.toFixed(2);
         }
     }
 });
 
 app.engine('.hbs', hbs.engine);  
-app.set('view engine', '.hbs');    
+app.set('view engine', '.hbs');  
 
 /* -------------------------------*/
 /* ------------ ROUTES -----------*/
