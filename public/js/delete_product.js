@@ -25,7 +25,9 @@ function deleteProduct(product_id) {
         }
         else if (xhttp.readyState == 4 && xhttp.status != 204) {
             console.log("There was an error with the input.")
+            window.alert("This product can not be deleted if it has already been placed in an order.")
         }
+        
     }
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));

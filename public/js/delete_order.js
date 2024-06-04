@@ -27,6 +27,7 @@ function deleteOrder(order_id) {
         }
         else if (xhttp.readyState == 4 && xhttp.status != 204) {
             console.log("There was an error with the input.")
+            window.alert("Order could not be deleted. Please make sure the order is empty and the subtotal is zero is empty before deletion. ");
         }
     }
     // Send the request and wait for the response
