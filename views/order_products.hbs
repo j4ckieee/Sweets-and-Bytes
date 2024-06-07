@@ -9,14 +9,14 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
 {{! ========== Display Ordered Products  ===========}}
 
 <h2>Order Details</h2>
-<p>Displays order product contents</p>
+<p>Displays order details - sorted by Order ID.</p>
 {{!-- Create a table --}}
 <table id="order_products-table">
     <thead>
         <tr>
             <th>Order ID</th>
             {{!-- <th>Order Product ID</th> --}}
-            <th>Customers</th>
+            <th>Customer</th>
             <th>Order Date</th>
             <th>Product Name</th>
             <th>Quantity</th>
@@ -31,7 +31,7 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
         <tr data-value={{this.order_id}}-{{this.product_id}}>
             <td align="center">{{this.order_id}}</td>
             {{!-- <td align="center">{{this.order_product_id}}</td> --}}
-            <td align="center">{{#if this.first_name}}{{this.first_name}}{{else}}NULL{{/if}} {{this.last_name}}</td>
+            <td>{{#if this.first_name}}{{this.first_name}}{{else}}NULL{{/if}} {{this.last_name}}</td>
             <td>{{formatDate this.order_date}}</td>
             <td>{{this.product_name}}</td>
             <td align="center">{{this.product_ordered_qt}}</td>
@@ -67,7 +67,7 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
     <select name="input-product-id" id="productSelect">
         <option value="test">Select Product</option>
         {{#each products}}
-        <option value="{{this.product_id}}">{{this.product_name}} - Inventory {{this.product_inventory}}</option>
+        <option value="{{this.product_id}}">{{this.product_name}} - Inventory: {{this.product_inventory}}</option>
         {{/each}}
     </select> 
 
@@ -102,7 +102,7 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
     <select name="input-product-id" id="productSelectUpdate">
         <option value="test">Select a Product</option>
         {{#each products}}
-        <option value="{{this.product_id}}">{{this.product_name}}</option>
+        <option value="{{this.product_id}}">{{this.product_name}} - Inventory: {{this.product_inventory}}</option>
         {{/each}}
     </select>
 

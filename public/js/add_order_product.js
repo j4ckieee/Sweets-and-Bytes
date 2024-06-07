@@ -52,9 +52,6 @@ addOrderProductForm.addEventListener("submit", function (e) {
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.")
         }
-
-        else {window.alert("Product could not be added to order. Please make sure order quantity does not exceed the product's current inventory.")}
-
         // Reload page
         window.location.reload(); 
     }
