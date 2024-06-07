@@ -4,6 +4,18 @@
 // Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main
 
 function deleteOrderProducts(order_product_id) {
+    // Citation for confirm deletion:
+    // Date: 06-07-24
+    // Adapted from: mdn web docs
+    // Source URL: https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm
+
+    // Confirm window
+    let confirmDelete = window.confirm("Are you sure you want to delete this product from the order?");
+    
+    if (!confirmDelete) {
+        return; 
+    }
+
     // Put our data we want to send in a javascript object
     let data = {
         order_product_id: order_product_id

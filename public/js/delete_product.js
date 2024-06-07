@@ -5,6 +5,19 @@
 
 
 function deleteProduct(product_id) {
+
+    // Citation for confirm deletion:
+    // Date: 06-07-24
+    // Adapted from: mdn web docs
+    // Source URL: https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm
+
+    // Confirm window
+    let confirmDelete = window.confirm("Are you sure you want to delete this product from the inventory? \n\nNote: Product will not be deleted from inventory if there are already orders placed for it.");
+    
+    if (!confirmDelete) {
+        return; 
+    }
+
     // Put our data we want to send in a javascript object
     let data = {
         product_id: product_id
@@ -25,9 +38,7 @@ function deleteProduct(product_id) {
         }
         else if (xhttp.readyState == 4 && xhttp.status != 204) {
             console.log("There was an error with the input.")
-            window.alert("This product can not be deleted if it has already been placed in an order.")
         }
-        
     }
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));

@@ -6,6 +6,19 @@
 
 
 function deleteOrder(order_id) {
+
+    // Citation for confirm deletion:
+    // Date: 06-07-24
+    // Adapted from: mdn web docs
+    // Source URL: https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm
+
+    // Confirm window
+    let confirmDelete = window.confirm("Are you sure you want to delete this order? \n\nNote: Orders will not deleted if there are products in them.\nPlease make sure the subtotal is $0.00 before proceeding.");
+    
+    if (!confirmDelete) {
+        return; 
+    }
+
     // Put our data we want to send in a javascript object
     let data = {
         order_id: order_id
@@ -27,7 +40,6 @@ function deleteOrder(order_id) {
         }
         else if (xhttp.readyState == 4 && xhttp.status != 204) {
             console.log("There was an error with the input.")
-            window.alert("Order could not be deleted. Please make sure the order is empty and the subtotal is zero is empty before deletion. ");
         }
     }
     // Send the request and wait for the response

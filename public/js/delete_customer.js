@@ -5,6 +5,18 @@
 
 
 function deleteCustomer(customer_id) {
+    // Citation for confirm deletion:
+    // Date: 06-07-24
+    // Adapted from: mdn web docs
+    // Source URL: https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm
+
+    // Confirm window
+    let confirmDelete = window.confirm("Are you sure you want to delete this customer? \n\nNote: Existing orders will still remain after customer deletion.");
+    
+    if (!confirmDelete) {
+        return; 
+    }
+    
     // Put our data we want to send in a javascript object
     let data = {
         customer_id: customer_id

@@ -75,6 +75,9 @@ INSERT INTO `Orders` (customer_id, order_date) VALUES
     WHERE Customers.first_name = :input-first_name and `Customers`.last_name = :input-last_name),
     :input-order_date);
 
+-- Update an order's customer
+UPDATE Orders SET customer_id = :input-customer_id WHERE order_id = :input-order_id;
+
 
 ------------ Order_Products ------------
 -- Get all attributes in Order_Products table
