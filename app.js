@@ -429,40 +429,35 @@ app.put('/put-customer-ajax', function(req,res,next){
   
   })});
 
-  app.put('/put-order-ajax', function(req,res,next){
+  app.put('/put-order-ajax', function(req, res, next){
     let data = req.body;
   
     let order = parseInt(data.orderIdUpdated);
-    let customer = parseInt(data.customerIdUpdated);
+    let customer = data.customerIdUpdated ? parseInt(data.customerIdUpdated) : null;  // Handle NULL case
   
     let queryUpdateCustomer = `UPDATE Orders SET customer_id = ? WHERE order_id = ?`;
-    let selectCustomer = `SELECT * FROM Customers WHERE customer_id = ?`
-  
-          // Run the 1st query
-          db.pool.query(queryUpdateCustomer, [customer, order], function(error, rows, fields){
-              if (error) {
-  
-              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-              console.log(error);
-              res.sendStatus(400);
-              }
-  
-              // If there was no error, we run our second query and return that data so we can use it to update the people's
-              // table on the front-end
-              else
-              {
-                  // Run the second query
-                  db.pool.query(selectCustomer, [customer], function(error, rows, fields) {
-  
-                      if (error) {
-                          console.log(error);
-                          res.sendStatus(400);
-                      } else {
-                          res.send(rows);
-                      }
-                  })
-              }
-  })});
+    let selectCustomer = `SELECT * FROM Customers WHERE customer_id = ?`;
+
+    db.pool.query(queryUpdateCustomer, [customer, order], function(error, rows, fields){
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            if (customer !== null) {
+                db.pool.query(selectCustomer, [customer], function(error, rows, fields) {
+                    if (error) {
+                        console.log(error);
+                        res.sendStatus(400);
+                    } else {
+                        res.send(rows);
+                    }
+                });
+            } else {
+                res.send([{ customer_id: "NULL" }]);  // Handle NULL case
+            }
+        }
+    });
+});
 
 
   app.put('/put-product-ajax', function(req,res,next){

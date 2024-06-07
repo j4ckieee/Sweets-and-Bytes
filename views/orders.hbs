@@ -89,6 +89,7 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
     <label for="input-test">Customer Name:</label>
     <select name="input-test" id="updateOrderCustomerSelect">
         <option value="text">Select Customer</option>
+        <option value="NULL">NULL</option>
         {{#each customers}}
         <option value="{{this.customer_id}}">{{this.first_name}} {{this.last_name}}</option>
         {{/each}}

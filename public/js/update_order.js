@@ -24,7 +24,7 @@ updateOrderForm.addEventListener("submit", function (e) {
     // Put our data we want to send in a javascript object
     let data = {
         orderIdUpdated: orderIdValue,
-        customerIdUpdated: customerIdValue,
+        customerIdUpdated: customerIdValue === "NULL" ? null : customerIdValue,  // Handle NULL case
     }
     
     // Setup our AJAX request
