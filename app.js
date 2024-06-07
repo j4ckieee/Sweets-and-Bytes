@@ -13,7 +13,7 @@ var app     = express();
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
-PORT        = 7777; 
+PORT        = 5555; 
 
 // Database
 var db = require('./database/db-connector')
@@ -101,7 +101,7 @@ app.get('/order_products', function(req, res)
     COALESCE(sum((Order_Products.product_ordered_qt) * (Products.product_price)), 0) as 'subtotal'
     FROM Orders
     LEFT JOIN Order_Products ON Orders.order_id = Order_Products.order_id
-    LEFT JOIN Customers ON Orders.customer_id = Customers.customer_id
+    INNER JOIN Customers ON Orders.customer_id = Customers.customer_id
     LEFT JOIN Products ON Order_Products.product_id = Products.product_id
     GROUP BY Orders.order_id
     ORDER BY Orders.order_id ASC;`;
