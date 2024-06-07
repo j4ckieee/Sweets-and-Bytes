@@ -78,7 +78,11 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
     <select name="input-order-id" id="updateOrderSelect">
         <option value="text">Select Order ID</option>
         {{#each data}}
-        <option value="{{this.orderID}}">{{this.orderID}}</option>
+        <option value="{{this.orderID}}">
+            {{this.orderID}} -
+            {{#if this.first_name}}{{this.first_name}}{{else}}NULL{{/if}} 
+            {{this.last_name}} -
+            {{formatDate this.order_date}}</option>
         {{/each}}
     </select>
     
