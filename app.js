@@ -465,6 +465,30 @@ app.put('/put-customer-ajax', function(req,res,next){
   })});
 
 
+  app.put('/put-product-ajax', function(req,res,next){
+    let data = req.body;
+  
+    let product = parseInt(data.product);
+    let price = parseInt(data.price);
+    let inventory = parseInt(data.inventory);
+  
+    console.log("product id:", product)
+    
+    let queryUpdateOrderProduct = `UPDATE Products SET product_price = ?, product_inventory = ? WHERE product_id = ?`;
+          // Run the 1st query
+          db.pool.query(queryUpdateOrderProduct, [price, inventory, product], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(400);
+              }
+              else {
+                res.send(rows);
+            }
+  
+  })});
+
 /* ----------------------------------*/
 /* ------------ LISTENER ------------*/
 /* ----------------------------------*/
