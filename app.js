@@ -1,6 +1,4 @@
-// App.js
-
-// {{!-- Citation for the following function:
+//     Citation for the following function:
 //     Date: 05-23-24
 //     Adapted from: nodejs-starter-app
 //     Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --}}
@@ -429,6 +427,41 @@ app.put('/put-customer-ajax', function(req,res,next){
                 res.send(rows);
             }
   
+  })});
+
+  app.put('/put-order-ajax', function(req,res,next){
+    let data = req.body;
+  
+    let order = parseInt(data.orderIdUpdated);
+    let customer = parseInt(data.customerIdUpdated);
+  
+    let queryUpdateCustomer = `UPDATE Orders SET customer_id = ? WHERE order_id = ?`;
+    let selectCustomer = `SELECT * FROM Customers WHERE customer_id = ?`
+  
+          // Run the 1st query
+          db.pool.query(queryUpdateCustomer, [customer, order], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(400);
+              }
+  
+              // If there was no error, we run our second query and return that data so we can use it to update the people's
+              // table on the front-end
+              else
+              {
+                  // Run the second query
+                  db.pool.query(selectCustomer, [customer], function(error, rows, fields) {
+  
+                      if (error) {
+                          console.log(error);
+                          res.sendStatus(400);
+                      } else {
+                          res.send(rows);
+                      }
+                  })
+              }
   })});
 
 
