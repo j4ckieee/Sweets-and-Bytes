@@ -6,6 +6,23 @@
 // Get the objects we need to modify
 let updateCustomerForm = document.getElementById('update-customer-form-ajax');
 
+let customerSelect = document.getElementById("customerSelect");
+let inputEmail = document.getElementById("input-email-update");
+let inputPhoneNumber = document.getElementById("input-phone_number-update");
+
+// Add event listener to the customer drop-down
+customerSelect.addEventListener("change", function () {
+    // Get the selected option
+    let selectedOption = customerSelect.options[customerSelect.selectedIndex];
+
+    // Get the email and phone from the data attributes
+    let email = selectedOption.getAttribute("data-email");
+    let phone = selectedOption.getAttribute("data-phone");
+
+    // Update the email and phone input fields
+    inputEmail.value = email;
+    inputPhoneNumber.value = phone;
+});
 // Modify the objects we need
 updateCustomerForm.addEventListener("submit", function (e) {
    
