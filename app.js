@@ -331,13 +331,14 @@ app.delete('/delete-customer-ajax/', function(req,res,next){
   
           // Run the 1st query
           db.pool.query(deleteCustomers, [customerId], function(error, rows, fields){
-              if (error) {
-  
-              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-              console.log(error);
-              res.sendStatus(400);
-              }
-  })});
+            if (error) {
+                console.log(error);
+                res.sendStatus(400);
+                return;
+            }
+            res.sendStatus(204);
+        });
+    });
 
 
   app.delete('/delete-order-ajax/', function(req, res, next) {
