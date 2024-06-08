@@ -6,6 +6,21 @@
 // Get the objects we need to modify
 let updateProductProductForm = document.getElementById('update-product-form');
 
+let inputProduct = document.getElementById("input-product_id-update");
+let inputPrice = document.getElementById("input-price-product-update");
+
+// Add event listener to the product drop-down
+inputProduct.addEventListener("change", function () {
+    // Get the selected option
+    let selectedOption = inputProduct.options[inputProduct.selectedIndex];
+
+    // Get the price from the data attribute
+    let price = selectedOption.getAttribute("data-price");
+
+    // Update the price input field
+    inputPrice.value = price;
+});
+
 // Modify the objects we need
 updateProductProductForm.addEventListener("submit", function (e) {
    

@@ -66,7 +66,6 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
 
 
 {{! ========== Update Product in Inventory Form  ===========}}
-{{! ======= Not working - just for draft submission ========}}
 <fieldset>
 <legend><h2>Update Product Inventory</h2></legend>
 <p>To update a product's inventory, select the product from the drop-down list and enter the product's current inventory count in the following form. Then, click 'Submit'.</p>
@@ -75,7 +74,7 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
     <select name="input-product_id-update" id="input-product_id-update">
         <option value="test">Select Product</option>
         {{#each data}}
-        <option value="{{this.product_id}}">{{this.product_name}} - Inventory: {{this.product_inventory}}</option>
+        <option value="{{this.product_id}}" data-price="{{this.product_price}}">{{this.product_name}} - Inventory: {{this.product_inventory}}</option>
         {{/each}}
     </select>
 
