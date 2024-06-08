@@ -4,60 +4,41 @@
 // Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main
 
 
-
 function deleteOrder(order_id) {
+    // Confirm deletion
+    let confirmDelete = window.confirm("Are you sure you want to delete this order? \n\nNote: Orders will not be deleted if there are products in them.\nPlease make sure the subtotal is $0.00 before proceeding.");
 
-    // Citation for confirm deletion:
-    // Date: 06-07-24
-    // Adapted from: mdn web docs
-    // Source URL: https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm
-
-    // Confirm window
-    let confirmDelete = window.confirm("Are you sure you want to delete this order? \n\nNote: Orders will not deleted if there are products in them.\nPlease make sure the subtotal is $0.00 before proceeding.");
-    
     if (!confirmDelete) {
-        return; 
+        return;
     }
 
-    // Put our data we want to send in a javascript object
+    // Data to be sent
     let data = {
         order_id: order_id
     };
-    console.log(order_id)
 
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
     xhttp.open("DELETE", "/delete-order-ajax", true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
-    // Tell our AJAX request how to resolve
+    // Handle the AJAX response
     xhttp.onreadystatechange = () => {
-        if (xhttp.readyState == 4 && xhttp.status == 204) {
-
-            // Add the new data to the table
-            deleteRow(order_id);
-
+        if (xhttp.readyState == 4) {
+            if (xhttp.status == 204) {
+                // Reload the page to reflect changes
+                window.location.reload();
+            } else if (xhttp.status == 400) {
+                console.log("Order cannot be deleted because it contains products.");
+                alert("Order cannot be deleted because it contains products.");
+            } else {
+                console.log("There was an error with the input.");
+                alert("There was an error with the input.");
+            }
         }
-        else if (xhttp.readyState == 4 && xhttp.status != 204) {
-            console.log("There was an error with the input.")
-        }
-    }
-    // Send the request and wait for the response
+    };
+
+    // Send the request
     xhttp.send(JSON.stringify(data));
+};
 
-    // Reload page
-    window.location.reload();
-}
-
-
-function deleteRow(order_id){
-    let table = document.getElementById("order-table");
-    for (let i = 0, row; row = table.rows[i]; i++) {
-       //iterate through rows
-       //rows would be accessed using the "row" variable assigned in the for loop
-       if (table.rows[i].getAttribute("data-value") == order_id) {
-            table.deleteRow(i);
-            break;
-       }
-    }
-}

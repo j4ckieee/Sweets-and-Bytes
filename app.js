@@ -340,20 +340,40 @@ app.delete('/delete-customer-ajax/', function(req,res,next){
   })});
 
 
-  app.delete('/delete-order-ajax/', function(req,res,next){
+  app.delete('/delete-order-ajax/', function(req, res, next) {
     let data = req.body;
     let order_id = parseInt(data.order_id);
-    let deleteOrders = `DELETE FROM Orders WHERE order_id = ?`;
-    console.log()
-          // Run the 1st query
-          db.pool.query(deleteOrders, [order_id], function(error, rows, fields){
-            if (error) {
 
-            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+    // Check if there are products in the order
+    let checkOrderProducts = `SELECT COUNT(*) AS productCount FROM Order_Products WHERE order_id = ?`;
+
+    db.pool.query(checkOrderProducts, [order_id], function(error, rows, fields) {
+        if (error) {
             console.log(error);
             res.sendStatus(400);
-            }
-})});
+            return;
+        }
+
+        let productCount = rows[0].productCount;
+
+        if (productCount > 0) {
+            // If there are products in the order, send a response indicating it cannot be deleted
+            res.status(400).send('Order cannot be deleted because it contains products.');
+        } else {
+            // If there are no products in the order, delete the order
+            let deleteOrders = `DELETE FROM Orders WHERE order_id = ?`;
+
+            db.pool.query(deleteOrders, [order_id], function(error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                    return;
+                }
+                res.sendStatus(204);
+            });
+        }
+    });
+});
 
 app.delete('/delete-product-ajax/', function(req,res,next){
     let data = req.body;
