@@ -34,8 +34,12 @@ function deleteProduct(product_id) {
             if (xhttp.status == 204) {
                 // Reload the page to reflect changes
                 window.location.reload();
+            } else if (xhttp.status == 400) {
+                console.log("Product cannot be deleted because there are already orders placed for it.");
+                alert("Product cannot be deleted because there are already orders placed for it.");
             } else {
                 console.log("There was an error with the input.");
+                alert("There was an error with the input.");
             }
         }
     };
