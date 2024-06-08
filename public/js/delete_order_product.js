@@ -40,30 +40,4 @@ function deleteOrderProducts(order_product_id) {
 
     // Send the request
     xhttp.send(JSON.stringify(data));
-}
-
-
-// Deletes row from data table if customer is removed
-function deleteRow(order_product_id){
-
-    let table = document.getElementById("order_products-table");
-    for (let i = 0, row; row = table.rows[i]; i++) {
-       if (table.rows[i].getAttribute("data-value") == order_product_id) {
-            table.deleteRow(i);
-            break;
-       }
-    }
-}
-
-
-// Deletes names from drop down menu if customer is removed from database
-function deleteDropDownMenu(order_product_id){
-    let selectMenu = document.getElementById("mySelect");
-    for (let i = 0; i < selectMenu.length; i++){
-      if (Number(selectMenu.options[i].value) === Number(order_product_id)){
-        selectMenu[i].remove();
-        break;
-      } 
-  
-    }
-  }
+};
