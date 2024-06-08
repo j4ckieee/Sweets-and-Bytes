@@ -48,18 +48,19 @@ updateOrderProductForm.addEventListener("submit", function (e) {
     // Tell our AJAX request how to resolve
     xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
- 
             // Reload page
             window.location.reload();
-
-        }
-        else if (xhttp.readyState == 4 && xhttp.status != 200) {
-            console.log("There was an error with the input.")
+        } else if (xhttp.readyState == 4 && xhttp.status == 400) {
+            // Check if the error message is "Out of inventory"
+            if (xhttp.responseText === "Out of inventory") {
+                // Show the pop-up window with the error message
+                alert("The update cannot be processed. There is not enough product inventory.");
+            } else {
+                console.log("There was an error with the input.");
+            }
         }
     }
-    console.log("data", data)
+
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));
-
-
-} )
+});
