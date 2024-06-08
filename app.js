@@ -330,15 +330,15 @@ app.delete('/delete-customer-ajax/', function(req,res,next){
     let deleteCustomers= `DELETE FROM Customers WHERE customer_id = ?`;
   
           // Run the 1st query
-          db.pool.query(deleteCustomers, [customerId], function(error, rows, fields){
-            if (error) {
-                console.log(error);
-                res.sendStatus(400);
-                return;
-            }
-            res.sendStatus(204);
-        });
+        db.pool.query(deleteCustomers, [customerId], function(error, rows, fields){
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+            return;
+        }
+        res.sendStatus(204);
     });
+});
 
 
   app.delete('/delete-order-ajax/', function(req, res, next) {
@@ -383,10 +383,13 @@ app.delete('/delete-product-ajax/', function(req,res,next){
   
           db.pool.query(deleteProduct, [productId], function(error, rows, fields){
             if (error) {
-            console.log(error);
-            res.sendStatus(400);
+                console.log(error);
+                res.sendStatus(400);
+                return;
             }
-})});
+            res.sendStatus(204);
+        });
+    });
 
 
 app.delete('/delete-order-product-ajax/', function(req, res, next) {
