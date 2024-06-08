@@ -6,6 +6,11 @@
 // Get the objects we need to modify
 let updateCustomerForm = document.getElementById('update-customer-form-ajax');
 
+// Citation for the following function of autofill input after dropdown selection:
+// Date: 06-07-2024
+// Adapted from: Autofill input after selected select option Javascript DOM
+// Source URL: https://stackoverflow.com/questions/67231953/autofill-input-after-selected-select-option-javascript-dom
+
 let customerSelect = document.getElementById("customerSelect");
 let inputEmail = document.getElementById("input-email-update");
 let inputPhoneNumber = document.getElementById("input-phone_number-update");
@@ -23,6 +28,8 @@ customerSelect.addEventListener("change", function () {
     inputEmail.value = email;
     inputPhoneNumber.value = phone;
 });
+
+
 // Modify the objects we need
 updateCustomerForm.addEventListener("submit", function (e) {
    

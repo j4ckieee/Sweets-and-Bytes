@@ -74,7 +74,7 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
     <select name="input-product_id-update" id="input-product_id-update">
         <option value="test">Select Product</option>
         {{#each data}}
-        <option value="{{this.product_id}}" data-price="{{this.product_price}}">{{this.product_name}} - Inventory: {{this.product_inventory}}</option>
+        <option value="{{this.product_id}}" data-price="{{this.product_price}}" data-inventory="{{this.product_inventory}}">{{this.product_name}}</option>
         {{/each}}
     </select>
 

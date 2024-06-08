@@ -6,8 +6,14 @@
 // Get the objects we need to modify
 let updateProductProductForm = document.getElementById('update-product-form');
 
+// Citation for the following function of autofill input after dropdown selection:
+// Date: 06-07-2024
+// Adapted from: Autofill input after selected select option Javascript DOM
+// Source URL: https://stackoverflow.com/questions/67231953/autofill-input-after-selected-select-option-javascript-dom
+
 let inputProduct = document.getElementById("input-product_id-update");
 let inputPrice = document.getElementById("input-price-product-update");
+let inputInventory = document.getElementById("input-inventory-product-update");
 
 // Add event listener to the product drop-down
 inputProduct.addEventListener("change", function () {
@@ -16,10 +22,13 @@ inputProduct.addEventListener("change", function () {
 
     // Get the price from the data attribute
     let price = selectedOption.getAttribute("data-price");
+    let inventory = selectedOption.getAttribute("data-inventory");
 
     // Update the price input field
     inputPrice.value = price;
+    inputInventory.value = inventory;
 });
+
 
 // Modify the objects we need
 updateProductProductForm.addEventListener("submit", function (e) {
