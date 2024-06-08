@@ -367,17 +367,52 @@ app.delete('/delete-product-ajax/', function(req,res,next){
             }
 })});
 
-app.delete('/delete-order-product-ajax/', function(req,res,next){
+
+app.delete('/delete-order-product-ajax/', function(req, res, next) {
     let data = req.body;
     let order_product_id = parseInt(data.order_product_id);
-    let deleteOrderProduct = `DELETE FROM Order_Products WHERE order_product_id = ?`;
-  
-          db.pool.query(deleteOrderProduct, [order_product_id], function(error, rows, fields){
-            if (error) {
+
+    // Retrieve the product_ordered_qt and product_id for the given order_product_id
+    let getProductDetails = `SELECT product_ordered_qt, product_id FROM Order_Products WHERE order_product_id = ?`;
+
+    db.pool.query(getProductDetails, [order_product_id], function(error, rows, fields) {
+        if (error) {
             console.log(error);
             res.sendStatus(400);
-            }
-})});
+            return;
+        }
+
+        if (rows.length > 0) {
+            let product_ordered_qt = rows[0].product_ordered_qt;
+            let product_id = rows[0].product_id;
+
+            // Update the product_inventory
+            let updateInventory = `UPDATE Products SET product_inventory = product_inventory + ? WHERE product_id = ?`;
+
+            db.pool.query(updateInventory, [product_ordered_qt, product_id], function(error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                    return;
+                }
+
+                // Delete the order product
+                let deleteOrderProduct = `DELETE FROM Order_Products WHERE order_product_id = ?`;
+
+                db.pool.query(deleteOrderProduct, [order_product_id], function(error, rows, fields) {
+                    if (error) {
+                        console.log(error);
+                        res.sendStatus(400);
+                        return;
+                    }
+                    res.sendStatus(204);
+                });
+            });
+        } else {
+            res.sendStatus(404); // Order product not found
+        }
+    });
+});
 
 /////////
 // PUT // - Update data 

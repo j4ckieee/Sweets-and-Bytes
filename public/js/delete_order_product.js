@@ -28,24 +28,18 @@ function deleteOrderProducts(order_product_id) {
 
     // Tell our AJAX request how to resolve
     xhttp.onreadystatechange = () => {
-        if (xhttp.readyState == 4 && xhttp.status == 204) {
-
-            // Add the new data to the table 
-            // PERSON ID IS WRONG BUT IT STOPS WORKING IF I CHANGE IT???????
-            // deleteRow(order_product_id);
-
-            window.location.reload();
+        if (xhttp.readyState == 4) {
+            if (xhttp.status == 204) {
+                // Reload the page to reflect changes
+                window.location.reload();
+            } else {
+                console.log("There was an error with the input.");
+            }
         }
-        else if (xhttp.readyState == 4 && xhttp.status != 204) {
-            console.log("There was an error with the input.")
-        }
-    }
-    // Send the request and wait for the response
+    };
+
+    // Send the request
     xhttp.send(JSON.stringify(data));
-
-    //doesnt wait for the ready state.
-    window.location.reload();
-
 }
 
 
