@@ -406,28 +406,91 @@ app.put('/put-customer-ajax', function(req,res,next){
   })});
 
 
-  app.put('/put-order-product-ajax', function(req,res,next){
+app.put('/put-order-product-ajax', function(req,res,next){
     let data = req.body;
-  
+
     let order = data.order;
     let product = data.product;
     let quantity = data.quantity;
-  
 
-    let queryUpdateOrderProduct = `Update Order_Products SET product_ordered_qt = ? WHERE order_id = ? and product_id = ?`;
-          // Run the 1st query
-          db.pool.query(queryUpdateOrderProduct, [quantity, order, product], function(error, rows, fields){
-              if (error) {
-  
-              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-              console.log(error);
-              res.sendStatus(400);
-              }
-              else {
-                res.send(rows);
+    let checkQuery = 
+    `SELECT Products.product_inventory, Order_Products.product_ordered_qt 
+    FROM Products
+    JOIN Order_Products ON Products.product_id = Order_Products.product_id 
+    WHERE Order_Products.order_id = '${data.order}' AND Order_Products.product_id = '${data.product}'`;
+    
+// Run the query to check the current product quantity
+    db.pool.query(checkQuery, function(error, rows, fields) {
+        // Check if there was an error
+        if (error) {
+            // Log the error to the terminal and send a 400 response
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            // Calculate the new product quantity after adding the order product
+            let currentInventory = rows[0].product_inventory;
+            let currentOrderedQuantity = rows[0].product_ordered_qt;
+            let newInventory = currentInventory + currentOrderedQuantity - data.quantity;
+
+            // Check if the new product quantity would be negative
+            if (newInventory >= 0) {
+                // If not negative, proceed with inserting the order product
+                // let insertQuery = `INSERT INTO Order_Products (order_id, product_id, product_ordered_qt) VALUES('${data.order_id}', '${data.product_id}', '${data.quantity}')`;
+                let updateQuery = `Update Order_Products SET product_ordered_qt = '${data.quantity}' WHERE order_id = '${data.order}' and product_id = '${data.product}'`;
+                
+                // Run the query to insert the new order product
+                db.pool.query(updateQuery, function(error, rows, fields) {
+                    // Check if there was an error
+                    if (error) {
+                        // Log the error to the terminal and send a 400 response
+                        console.log(error);
+                        res.sendStatus(400);
+                    } else {
+                        // If there was no error, update the product_quantity in the Products table
+                        let updateProductQuery = `UPDATE Products SET product_inventory = ${newInventory} WHERE product_id = '${data.product}'`;
+
+                        // Run the query to update the product_quantity
+                        db.pool.query(updateProductQuery, function(error, rows, fields) {
+                            // Check if there was an error
+                            if (error) {
+                                // Log the error to the terminal and send a 400 response
+                                console.log(error);
+                                res.sendStatus(400);
+                            } else {
+                                // If all went well, perform a SELECT to retrieve the updated data
+                                let selectQuery = `SELECT
+                                *,
+                                ((Order_Products.product_ordered_qt) * (Products.product_price)) as 'total'
+                                from Order_Products
+                                LEFT JOIN Orders ON Orders.order_id = Order_Products.order_id
+                                LEFT JOIN Products ON Order_Products.product_id = Products.product_id
+                                LEFT JOIN Customers ON Orders.customer_id = Customers.customer_id
+                                ORDER BY Orders.order_id ASC;
+                                `;
+
+                                // Run the query to retrieve the updated data
+                                db.pool.query(selectQuery, function(error, rows, fields) {
+                                    // Check if there was an error
+                                    if (error) {
+                                        // Log the error to the terminal and send a 400 response
+                                        console.log(error);
+                                        res.sendStatus(400);
+                                    } else {
+                                        // If all went well, send the results of the query back
+                                        res.send(rows);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            } else {
+                // If adding the order product would result in negative inventory, send a 400 response
+                res.status(400).send("Out of inventory");           
             }
-  
-  })});
+        }
+    });
+});
 
   app.put('/put-order-ajax', function(req, res, next){
     let data = req.body;

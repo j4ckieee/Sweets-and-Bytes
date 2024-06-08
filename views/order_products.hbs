@@ -48,6 +48,7 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
 <fieldset>
 <legend><h2>Add Product to Order</h2></legend>
 <p>Fill in the following form to add a product into an order.</p>
+<p>Will not allow changes to orders with NULL customer</p>
 <p>Note: Product will not be added to the order if the quantity exceeds the product's current inventory.</p>
 <form id="add-order-product-form" method="POST" action="/add-order-product-form">
     <label for="orderSelect">Order ID:</label>
@@ -84,6 +85,8 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
 <fieldset>
 <legend><h2>Update Product Order Quantity</h2></legend>
 <p>Fill in the following form to update the product quantity in an order.</p>
+<p>Will not allow changes to orders with NULL customer</p>
+<p>Note: New product inventory = current inventory + current ordered quantity - updated quantity. Order detail will not be updated if the New product inventory is less than Zero.</p>
 <form id="update-order-product-form">
     <label for="orderSelectUpdate">Order ID:</label>
     <select name="input-order-id" id="orderSelectUpdate">
