@@ -1,4 +1,4 @@
-// Citation for the following function:
+// Citation for the following page:
 // Date: 05-23-24
 // Adapted from: nodejs-starter-app
 // Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main
@@ -11,8 +11,7 @@ function deleteProduct(product_id) {
     // Adapted from: mdn web docs
     // Source URL: https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm
 
-    // Confirm window
-    let confirmDelete = window.confirm("Are you sure you want to delete this product from the inventory? \n\nNote: Product will not be deleted from inventory if there are already orders placed for it.");
+    let confirmDelete = window.confirm("Are you sure you want to delete this product from the inventory?");
     
     if (!confirmDelete) {
         return; 

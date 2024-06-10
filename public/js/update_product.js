@@ -1,4 +1,4 @@
-// Citation for the following function:
+// Citation for the page:
 // Date: 05-23-24
 // Adapted from: nodejs-starter-app
 // Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main
@@ -6,6 +6,10 @@
 // Get the objects we need to modify
 let updateProductProductForm = document.getElementById('update-product-form');
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 // Citation for the following function of autofill input after dropdown selection:
 // Date: 06-07-2024
 // Adapted from: Autofill input after selected select option Javascript DOM

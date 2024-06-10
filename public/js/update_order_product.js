@@ -1,4 +1,4 @@
-// Citation for the following function:
+// Citation for the following page:
 // Date: 05-23-24
 // Adapted from: nodejs-starter-app
 // Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main
@@ -44,6 +44,11 @@ updateOrderProductForm.addEventListener("submit", function (e) {
     xhttp.open("PUT", "/put-order-product-ajax", true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
+
+    // Citation for alert message:
+    // Date: 06-08-24
+    // Adapted from: w3 schools
+    // Source URL: https://www.w3schools.com/js/js_popup.asp
 
     // Tell our AJAX request how to resolve
     xhttp.onreadystatechange = () => {

@@ -1,4 +1,4 @@
-// Citation for the following function:
+// Citation for the following page:
 // Date: 05-23-24
 // Adapted from: nodejs-starter-app
 // Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main
@@ -81,9 +81,6 @@ addRowToTable = (data) => {
 
     // Create a row and 4 cells
     let row = document.createElement("TR");
-    //let idCell = document.createElement("TD");
-    // let firstNameCell = document.createElement("TD");
-    // let lastNameCell = document.createElement("TD");
     let fullNameCell = document.createElement("TD");
     let emailCell = document.createElement("TD");
     let phoneNumberCell = document.createElement("TD");
@@ -91,9 +88,6 @@ addRowToTable = (data) => {
     let deleteCell = document.createElement("TD");
 
     // Fill the cells with correct data
-    //idCell.innerText = newRow.id;
-    // firstNameCell.innerText = newRow.first_name;
-    // lastNameCell.innerText = newRow.last_name;
     fullNameCell.innerText = newRow.first_name + ' ' +  newRow.last_name;
     emailCell.innerText = newRow.email;
     phoneNumberCell.innerText = newRow.phone_number;
@@ -105,9 +99,6 @@ addRowToTable = (data) => {
     };
 
     // Add the cells to the row 
-    //row.appendChild(idCell);
-    // row.appendChild(firstNameCell);
-    // row.appendChild(lastNameCell);
     row.appendChild(fullNameCellCell);
     row.appendChild(emailCell);
     row.appendChild(phoneNumberCell);

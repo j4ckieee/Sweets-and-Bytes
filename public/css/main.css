@@ -1,19 +1,12 @@
-/* Citation for general page outline:
+/* Citation for general page structure:
    Date: 07-07-24
-   Adapted from: previous CS290 Web Development assignments
+   Adapted from: Jackie Truong's CS290 Web Development portfolio from Winter 2024
 */
 
-/* Citation for various CSS inputs:
-   Date: 07-07-24
-   Adapted from: W3schools CSS tutorials
-   Source URL: https://www.w3schools.com/css/default.asp
-   Source URL: https://www.w3schools.com/css/css_font_google.asp
-*/
 
 /*   ----- Imports  -----  */
 @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@700&family=Playfair+Display:wght@400..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
-
 
 
 /*  ----- Page layout -----  */
@@ -45,7 +38,6 @@ section {
 
 footer {
   text-align: center;
-  
 }
 
 
@@ -103,6 +95,12 @@ thead {
   color: black;  
 }
 
+/* Citation for alternating row colors:
+   Date: 07-07-24
+   Adapted from: Geeks for Geeks
+   Source URL: https://www.geeksforgeeks.org/how-to-set-alternate-table-row-color-using-css/
+*/
+
 tr:nth-child(even) {              /* Styles alternating rows */
   background-color: rgba(249, 189, 198, .24);
 }   
@@ -128,7 +126,7 @@ label {display: inline-block;     /* Form input label (ex: First Name) */
   font-size: 100%;
   margin-right: 4px;
 } 
-  
+
 
 button {
   font: "Playfair Display", serif;
@@ -144,7 +142,11 @@ input {
 }
 
 
-
+/* Citation for submit button:
+   Date: 07-07-24
+   Adapted from: W3schools CSS tutorials
+   Source URL: https://www.w3schools.com/css/tryit.asp?filename=trycss_form_button
+*/
 input[type="submit"] {            /* Styles the submit button: */
   font-size: 80%;
   border-radius: 6px;
@@ -152,6 +154,12 @@ input[type="submit"] {            /* Styles the submit button: */
   border-color: black;
 } 
 
+
+/* Citation for date input:
+   Date: 07-07-24
+   Adapted from: mdn web docs
+   Source URL: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date
+*/
 input[type="date"] {
   font-size: 80%;
   border-radius: 6px;

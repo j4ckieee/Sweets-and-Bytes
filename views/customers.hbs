@@ -1,4 +1,4 @@
-{{!-- Citation for the following function:
+{{!-- Citation for the following page:
 Date: 05-23-24
 Adapted from: nodejs-starter-app
 Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --}}
@@ -40,6 +40,16 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
 </table>
 <script src="./js/delete_customer.js"></script>
 
+{{!-- Citation for the phone number pattern:
+Date: 05-27-24
+Adapted from: nodejs-starter-app
+Source URL: hhttps://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/tel--}}
+
+{{!-- Citation for email pattern:
+Date: 05-27-24
+Adapted from: nodejs-starter-app
+Source URL: https://www.w3schools.com/tags/att_input_pattern.asp --}}
+
 
 {{! ========== Add Customer Form - Method 2 ===========}}
 <fieldset>
@@ -53,7 +63,7 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
     <input type="text" name="input-last_name" id="input-last_name" placeholder="Doe" required>
 
     <label for="input-email">Email:</label>
-    <input type="text" name="input-email" id="input-email" pattern="[^ @]+@[^ @]+.[a-z]+" placeholder="example@email.com" required>
+    <input type="email" name="input-email" id="input-email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" placeholder="example@email.com" required>
 
     <label for="input-phone_number">Phone Number: </label>
     <input type="text" name="input-phone_number" id="input-phone_number"  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" style="width: 110px;" placeholder="123-456-7890" required>
@@ -80,7 +90,7 @@ Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --
     </select>
 
     <label for="input-email-update">Email: </label>
-    <input type="text" name="input-email-update" id="input-email-update" pattern="[^ @]+@[^ @]+.[a-z]+" placeholder="example@email.com" required>
+    <input type="email" name="input-email-update" id="input-email-update" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" placeholder="example@email.com" required>
 
     <label for="input-phone_number-update">Phone Number: </label>
     <input type="tel" name="input-phone_number-update" id="input-phone_number-update" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" style="width: 110px;" placeholder="123-456-7890" required>

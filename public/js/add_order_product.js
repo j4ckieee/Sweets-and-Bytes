@@ -1,4 +1,4 @@
-// Citation for the following function:
+// Citation for the following page:
 // Date: 05-23-24
 // Adapted from: nodejs-starter-app
 // Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main
@@ -34,6 +34,11 @@ addOrderProductForm.addEventListener("submit", function (e) {
     xhttp.open("POST", "/add-order-product-ajax", true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
+    // Citation for alert message:
+    // Date: 06-08-24
+    // Adapted from: w3 schools
+    // Source URL: https://www.w3schools.com/js/js_popup.asp
+
     // Tell our AJAX request how to resolve
     xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -43,7 +48,11 @@ addOrderProductForm.addEventListener("submit", function (e) {
             // Check if the error message is "Out of inventory"
             if (xhttp.responseText === "Out of inventory") {
                 // Show the pop-up window with the error message
+<<<<<<< Updated upstream
                 alert("The update cannot be processed. There is not enough product inventory.");
+=======
+                alert("The product could not be added into the order. There is not enough product inventory.");
+>>>>>>> Stashed changes
             } else {
                 console.log("There was an error with the input.");
             }
@@ -53,8 +62,11 @@ addOrderProductForm.addEventListener("submit", function (e) {
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));
 });
+<<<<<<< Updated upstream
 
 // BELOW NEEDS TO BE UPDATED!!!!!!!
+=======
+>>>>>>> Stashed changes
 
 // Creates a single row from an Object representing a single record from 
 // bsg_people

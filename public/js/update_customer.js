@@ -1,4 +1,4 @@
-// Citation for the following function:
+// Citation for the following page:
 // Date: 05-23-24
 // Adapted from: nodejs-starter-app
 // Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main
@@ -99,7 +99,7 @@ function updateRow(data, customer_id){
             let email_td = updateRowIndex.getElementsByTagName("td")[3];
             let phone_td = updateRowIndex.getElementsByTagName("td")[4];
 
-            // below code does not work.
+            // 
             email_td.innerHTML = parsedData[0].emailValue; 
             phone_td.innerHTML = parsedData[0].phoneNumberValue; 
           

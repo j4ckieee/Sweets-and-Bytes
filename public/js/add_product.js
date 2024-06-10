@@ -1,4 +1,4 @@
-// Citation for the following function:
+// Citation for the following page:
 // Date: 05-23-24
 // Adapted from: nodejs-starter-app
 // Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main
@@ -99,7 +99,6 @@ addRowToTable = (data) => {
     };
 
     // Add the cells to the row 
-    //row.appendChild(idCell);
     row.appendChild(productNameCell);
     row.appendChild(productDescriptionCell);
     row.appendChild(productPriceCell);

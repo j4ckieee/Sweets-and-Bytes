@@ -1,7 +1,7 @@
-//     Citation for the following function:
-//     Date: 05-23-24
-//     Adapted from: nodejs-starter-app
-//     Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main --}}
+// Citation for the following page:
+// Date: 05-23-24
+// Adapted from: nodejs-starter-app
+// Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main
     
 
 /* -------------------------------*/
@@ -13,7 +13,7 @@ var app     = express();
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
-PORT        = 5555; 
+PORT        = 7777; 
 
 // Database
 var db = require('./database/db-connector')
@@ -24,10 +24,10 @@ app.engine('.hbs', engine({extname: ".hbs"}));
 app.set('view engine', '.hbs');                 
 
 
-// {{!-- Citation for the following function:
-//     Date: 06-03-24
-//     Adapted from: How do I get Month and Date of JavaScript in 2 digit format?
-//     Source URL: https://stackoverflow.com/questions/6040515/how-do-i-get-month-and-date-of-javascript-in-2-digit-format--}}
+// Citation for the following function:
+// Date: 06-03-24
+// Adapted from: How do I get Month and Date of JavaScript in 2 digit format?
+// Source URL: https://stackoverflow.com/questions/6040515/how-do-i-get-month-and-date-of-javascript-in-2-digit-format
     
 // Convert Date Format MM/DD/YYYY
 const hbs = exphbs.create({

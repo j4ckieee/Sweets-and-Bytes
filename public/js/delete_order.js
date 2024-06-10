@@ -1,4 +1,4 @@
-// Citation for the following function:
+// Citation for the following page:
 // Date: 05-23-24
 // Adapted from: nodejs-starter-app
 // Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main
@@ -8,6 +8,16 @@ function deleteOrder(order_id) {
     // Confirm deletion
     let confirmDelete = window.confirm("Are you sure you want to delete this order? \n\nNote: Orders will not be deleted if there are products in them.\nPlease make sure the subtotal is $0.00 before proceeding.");
 
+<<<<<<< Updated upstream
+=======
+    // Citation for confirm deletion:
+    // Date: 06-07-24
+    // Adapted from: mdn web docs
+    // Source URL: https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm
+  
+    let confirmDelete = window.confirm("Are you sure you want to delete this order?");
+
+>>>>>>> Stashed changes
     if (!confirmDelete) {
         return;
     }
